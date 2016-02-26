@@ -1,0 +1,119 @@
+The .NET Micro Framework Solution Wizard will create the 'test' solution in the directory:
+
+	G:\MicroFrameworkPK_v4_3\\Solutions\test
+
+The following is a description of the components of this solution.  Each solution consists of a set of projects which in turn have a set of features and libraries.
+
+    Solution:                          	 test
+    Author:                            	 test
+    Description:                       	 test
+    Processor:                         	 Windows
+    Debugger Port:                     	 COM_DEBUG
+
+
+Project test
+    Description:                       	 
+    Path:                              	 Solutions\test\TinyCLR
+
+Features:
+    Core:                              	 Core functionality (required)
+    Hardware:                          	 Core hardware component
+    NativeEventDispatcher:             	 Native event dispatching for interop
+    Stream:                            	 Stream component
+    FileSystem:                        	 File system
+    BlockStorage:                      	 Block storage support
+    DataStorage:                       	 Data storage (extended weak reference storage)
+    Graphics:                          	 Core graphics functionality
+    TinyCore:                          	 TinyCore graphics subsystem
+    TouchPanel:                        	 Touch panel support
+    Debugger:                          	 Visual Studio debugger support
+    SOCKET:                            	 Socket transport
+    Network (RTIP):                    	 Network core functionality for RTIP
+    SSL (RTIP):                        	 SSL support for networking
+    USB:                               	 Usb Transport
+    UsbClient:                         	 Usb client component
+    InterruptHandler:                  	 Support for interrupt handling
+    Ink:                               	 Inking support for touch panel
+    Serial:                            	 Serial transport
+    XML:                               	 Xml utilities component
+    PWM:                               	 PWM component
+    OneWire:                           	 OneWire feature
+    Interop Sample:                    	 Interop sample feature
+    SerialPort:                        	 Serial port component
+    Diagnostics:                       	 Diagnostic utilities
+    Gesture:                           	 Gesture support for touch panel
+    Crypto:                            	 Cryptographic functionality
+    I2C:                               	 I2C Support
+    SPI:                               	 SPI support
+    Serialization:                     	 Data serialization support
+    TimeService:                       	 Time Service support
+    MFUpdate:                          	 Micro Framework update utilities
+    WearLeveling:                      	 Block storage wear leveling
+
+Libraries:
+    crypto_openssl:                    	 Crypto Library from OpenSSL
+    OpenSSL_PKCS11_Crypto:             	 PKCS11 OpenSSL Crypto
+    Crypto:                            	 Cryptography library
+    PKCS11_Engine:                     	 PKCS11 Engine
+    SPOT_Update:                       	 Common interop library
+    MFUpdate_PAL:                      	 MFUpdate_PAL
+    Diagnostics:                       	 Diagnostic functionality
+    LargeBuffer_hal_test:              	 LargeBuffer test library
+    cpu_performancecounter_stubs:      	 Performance counter stub library
+    Debugger_full:                     	 Full Visual Studio debugging support
+    SPOT:                              	 Common interop library
+    SPOT_IO:                           	 Stream interop library
+    SPOT_Graphics:                     	 Graphics interop library
+    SPOT_Hardware:                     	 Hardware interop library
+    SPOT_Hardware_SerialPort:          	 SerialPort interop library
+    SPOT_Hardware_Usb:                 	 
+    SPOT_Hardware_PWM:                 	 PWM interop library
+    SPOT_Serialization:                	 Serialization interop library
+    SPOT_Net:                          	 Network interop library
+    System_Xml:                        	 Xml interop library
+    SPOT_Touch:                        	 Touch panel interop library
+    SPOT_Net_Security:                 	 SSL interop library
+    SPOT_TimeService:                  	 TimeService interop library
+    RPC_stub:                          	 Remote procedure call stub library
+    CLRStartup:                        	 Common CLR initialization library
+    Core:                              	 CLR core library
+    CorLib:                            	 Subset of mscorlib
+    Messaging:                         	 Core communication component
+    Debugger:                          	 Visual Studio debugging support
+    Graphics:                          	 Graphics subsystem library
+    Graphics_Jpeg:                     	 JPEG library for graphics subsystem
+    Graphics_Gif:                      	 GIF library for graphics subsystem
+    Graphics_Bmp:                      	 Bitmap support for graphics subsystem
+    Hardware:                          	 Core hardware functionality
+    HeapPersistence:                   	 Extended weak references data storage 
+    I2C:                               	 I2C support
+    InterruptHandler:                  	 Interrupt handler library
+    IOPort:                            	 Native event dispatcher (formerly IOPort)
+    Serialization:                     	 Binary serialization (proprietary format)
+    Stream:                            	 Generic stream functionality
+    WireProtocol:                      	 Device communication protocol
+    Xml:                               	 Native Xml functionality
+    CRC:                               	 CRC library
+    blockstorage_pal:                  	 Block storage library
+    BS_WearLeveling:                   	 Wear Leveling driver for block storage
+    graphics_pal:                      	 Graphics library
+    TouchPanel_pal:                    	 Touch panel driver
+    Watchdog_pal:                      	 Watchdog set of methods used by Watchdog feature
+    palevent_pal:                      	 palevent set of methods used by Gesture, Ink
+    Gesture_pal:                       	 Gesture set of methods used by Gesture, Ink
+    Ink_pal:                           	 Ink set of methods used by Ink, Ink
+    fs_pal:                            	 File system PAL Driver
+    FS_FAT:                            	 FAT file system 
+    config_pal:                        	 System configuration
+    SPOT_InteropSample:                	 Inter-op Sample
+    SimpleHeap:                        	 SimpleHeap unmanaged heap
+    Time_pal:                          	 Time set of methods used by Time, Time
+    TimeService_pal:                   	 Time set of methods used by Time, Time
+    timeservice_hal_generic:           	 Time Service hal library
+    diagnostics_pal:                   	 Diagnostics library
+    onewire_pal_stubs:                 	 OneWire stub driver
+    SPOT_Hardware_OneWire:             	 OneWire interop library
+    onewire_pal:                       	 Maxim Dallas 1-Wire and iButton driver
+    SecurityPkcs11:                    	 PKCS11
+    native_double_pal:                 	 Doubles Native PAL library
+    SPOT_Messaging:                    	 Messaging interop library

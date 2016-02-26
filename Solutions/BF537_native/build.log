@@ -1,0 +1,6 @@
+Microsoft (R) Build Engine バージョン 12.0.31101.0
+[Microsoft .NET Framework、バージョン 4.0.30319.18408]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+MSBUILD : error MSB1009: プロジェクト ファイルが存在しません。
+スイッチ: Solutions\BF537_os\dotnetmf.proj

@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AssemblyName>RX63N_HAL</AssemblyName>
+    <Size>
+    </Size>
+    <ProjectGuid>{2F103695-7777-4E51-8F86-344FB965933E}</ProjectGuid>
+    <Description>RX63N HAL</Description>
+    <Level>HAL</Level>
+    <LibraryFile>RX63N_HAL.$(LIB_EXT)</LibraryFile>
+    <ProjectPath>$(SPOCLIENT)\DeviceCode\Targets\Native\RX63N\DeviceCode\dotNetMF.proj</ProjectPath>
+    <ManifestFile>RX63N.$(LIB_EXT).manifest</ManifestFile>
+    <Groups>OS\RX63N</Groups>
+    <Documentation>
+    </Documentation>
+    <PlatformIndependent>False</PlatformIndependent>
+    <ProcessorSpecific>
+      <MFComponent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Template" Guid="{a169ed0f-7635-49f2-a74e-f69209485533}" xmlns="">
+        <VersionDependency xmlns="http://schemas.microsoft.com/netmf/InventoryFormat.xsd">
+          <Major>4</Major>
+          <Minor>0</Minor>
+          <Revision>0</Revision>
+          <Build>0</Build>
+          <Extra />
+          <Date>2011-08-11</Date>
+        </VersionDependency>
+        <ComponentType xmlns="http://schemas.microsoft.com/netmf/InventoryFormat.xsd">Processor</ComponentType>
+      </MFComponent>
+    </ProcessorSpecific>
+    <CustomFilter>
+    </CustomFilter>
+    <Required>False</Required>
+    <IgnoreDefaultLibPath>False</IgnoreDefaultLibPath>
+    <IsStub>False</IsStub>
+    <Directory>DeviceCode\Targets\Native\RX63N\DeviceCode</Directory>
+    <OutputType>Library</OutputType>
+    <PlatformIndependentBuild>false</PlatformIndependentBuild>
+    <Version>4.0.0.0</Version>
+  </PropertyGroup>
+  <Import Project="$(SPOCLIENT)\tools\targets\Microsoft.SPOT.System.Settings" />
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Include="startup.s" />
+<!--
+    <Compile Include="initialize.cpp" />
+-->
+    <Compile Include="hwsetup.cpp" />
+    <Compile Include="interrupt_handlers.c" />
+    <Compile Include="vector_table.c" />
+<!--
+    <Compile Include="various.cpp" />
+-->
+    <Compile Include="GlobalLock.cpp" />
+<!--
+    <Compile Include="cpu.cpp" />
+    <Compile Include="Configuration.cpp" />
+    <Compile Include="configSection.cpp" />
+-->
+  </ItemGroup>
+  <Import Project="$(SPOCLIENT)\tools\targets\Microsoft.SPOT.System.Targets" />
+</Project>

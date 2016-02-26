@@ -1,0 +1,56 @@
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectPath>$(SPOCLIENT)\DeviceCode\Targets\OS\EddyLinux\DeviceCode\socketsdriver\dotNetMF.proj</ProjectPath>
+    <AssemblyName>SocketDriver_PAL_EddyLinux</AssemblyName>
+    <Size>
+    </Size>
+    <ProjectGuid>{BD3BE13D-9EF0-46AA-AE56-6B83E81CFECE}</ProjectGuid>
+    <Description>Stub network driver</Description>
+    <Level>PAL</Level>
+    <LibraryFile>SocketDriver_PAL_EddyLinux.$(LIB_EXT)</LibraryFile>
+    <ManifestFile>SocketDriver_PAL_EddyLinux.$(LIB_EXT).manifest</ManifestFile>
+    <Groups>Network</Groups>
+    <LibraryCategory>
+      <MFComponent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SocketDriver_PAL" Guid="{AB747E68-221D-4cca-A42E-C8E7A39DBBC6}" ProjectPath="" Conditional="" xmlns="">
+        <VersionDependency xmlns="http://schemas.microsoft.com/netmf/InventoryFormat.xsd">
+          <Major>4</Major>
+          <Minor>0</Minor>
+          <Revision>0</Revision>
+          <Build>0</Build>
+          <Extra />
+          <Date>2008-08-13</Date>
+          <Author>Microsoft</Author>
+        </VersionDependency>
+        <ComponentType xmlns="http://schemas.microsoft.com/netmf/InventoryFormat.xsd">LibraryCategory</ComponentType>
+      </MFComponent>
+    </LibraryCategory>
+    <Documentation>
+    </Documentation>
+    <PlatformIndependent>False</PlatformIndependent>
+    <CustomFilter>
+    </CustomFilter>
+    <Required>False</Required>
+    <IgnoreDefaultLibPath>False</IgnoreDefaultLibPath>
+    <IsStub>False</IsStub>
+    <HasLibraryCategory>True</HasLibraryCategory>
+    <Directory>DeviceCode\Targets\OS\EddyLinux\DeviceCode\socketsdriver</Directory>
+    <PlatformIndependentBuild>false</PlatformIndependentBuild>
+    <Version>4.0.0.0</Version>
+  </PropertyGroup>
+  <Import Project="$(SPOCLIENT)\tools\targets\Microsoft.SPOT.System.Settings" />
+  <PropertyGroup>
+    <OutputType >Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <HFiles Include="EddyLinux_Sockets.h" />
+    <Compile Include="EddyLinux_Sockets_functions.cpp" />
+    <Compile Include="EddyLinux__Sockets.cpp.cpp" />
+    <IncludePaths Include="DeviceCode\Drivers\Ethernet\Loopback" />
+    <IncludePaths Include="DeviceCode\pal\net" />
+    <!-- ********************************************
+    <IncludePaths Include="DeviceCode\pal\rtip\stubs" />
+         ******************************************** -->
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(SPOCLIENT)\tools\targets\Microsoft.SPOT.System.Targets" />
+</Project>

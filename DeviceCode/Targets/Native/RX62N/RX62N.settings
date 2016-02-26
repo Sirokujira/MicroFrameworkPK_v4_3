@@ -1,0 +1,26 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Name>RX62N</Name>
+    <CpuName>RX62N</CpuName>
+    <DefaultISA>ARM</DefaultISA>
+    <Guid>{94FDD980-06BA-449c-A5B4-785674C425C6}</Guid>
+    <Description>
+    </Description>
+    <Documentation>
+    </Documentation>
+    <ProjectPath>$(SPOCLIENT)\devicecode\Targets\Native\RX62N\RX62N.settings</ProjectPath>
+    <PLATFORM_FAMILY>RX62N</PLATFORM_FAMILY>
+    <CustomFilter>RX62N</CustomFilter>
+    <INSTRUCTION_SET Condition="'$(INSTRUCTION_SET)'==''">RX62N</INSTRUCTION_SET>
+    <TARGETPROCESSOR>RX62N</TARGETPROCESSOR>
+    <TARGETCODEBASE>RX62N</TARGETCODEBASE>
+    <TARGETCODEBASETYPE>Native</TARGETCODEBASETYPE>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCC'">
+    <DEVICE_TYPE Condition="'$(DEVICE_TYPE)' == ''">RX62N</DEVICE_TYPE>
+    <BUILD_TOOL_GUID>{722B0D5D-1243-4557-913F-61FAB04E9209}</BUILD_TOOL_GUID>
+  </PropertyGroup>
+  <ItemGroup>
+    <IncludePaths Include="DeviceCode\Targets\Native\RX62N" />
+  </ItemGroup>
+</Project>

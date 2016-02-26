@@ -1,0 +1,19 @@
+Microsoft (R) Build Engine バージョン 12.0.31101.0
+[Microsoft .NET Framework、バージョン 4.0.30319.18408]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  BuildTasks -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Server\dll\Microsoft.SPOT.Tasks.dll
+  NativeBuildTasks -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Server\dll\Microsoft.SPOT.Tasks.NativeBuild.dll
+G:\MicroFrameworkPK_v4_3\Framework\Tools\CreateCLRDefines.proj(12,5): error : 値を Null にすることはできません。
+G:\MicroFrameworkPK_v4_3\Framework\Tools\CreateCLRDefines.proj(12,5): error : パラメーター名:path
+G:\MicroFrameworkPK_v4_3\clr\core\InteropAssembliesTable.proj(91,5): error MSB3491: 行をファイル "\\Solutions\BF537_native\TinyCLR\CLR_RT_InteropAssembliesTable.cpp" に書き込めませんでした。ネットワーク パスが見つかりません。
+G:\MicroFrameworkPK_v4_3\clr\core\InteropAssembliesTable.proj(91,5): error MSB3491: 
+  SpotCorLib -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Client\dll\mscorlib.dll
+  Core_Native -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Client\dll\Microsoft.SPOT.Native.dll
+  Core_Native_Hardware -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Client\dll\Microsoft.SPOT.Hardware.dll
+  Core_Native_Graphics -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Client\dll\Microsoft.SPOT.Graphics.dll
+  TinyCore -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Client\dll\Microsoft.SPOT.TinyCore.dll
+  Core_Native_Hardware_UART -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Client\dll\Microsoft.SPOT.Hardware.SerialPort.dll
+  Core_Native_Hardware_USB -> G:\MicroFrameworkPK_v4_3\BuildOutput\public\Release\Client\dll\Microsoft.SPOT.Hardware.Usb.dll
+G:\MicroFrameworkPK_v4_3\Framework\Tools\CreateCLRDefines.proj(12,5): error : 値を Null にすることはできません。
+G:\MicroFrameworkPK_v4_3\Framework\Tools\CreateCLRDefines.proj(12,5): error : パラメーター名:path

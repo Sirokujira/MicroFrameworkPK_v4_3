@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Author>Kentaro Sekimoto</Author>
+    <Description>GR SAKURA board by Renesas</Description>
+    <Documentation />
+    <PlatformGuid>{b8309fb2-0518-490c-ba9e-f2ced0b43ee5}</PlatformGuid>
+    <TARGETPLATFORM>GR_SAKURA</TARGETPLATFORM>
+    <PLATFORM>GR_SAKURA</PLATFORM>
+    <IsSolutionWizardVisible>True</IsSolutionWizardVisible>
+    <ENDIANNESS>le</ENDIANNESS>
+    <DEVICE_TYPE Condition="'$(DEVICE_TYPE)' == ''">RX63N</DEVICE_TYPE>
+    <INSTRUCTION_SET Condition="'$(INSTRUCTION_SET)' == ''">RX63N</INSTRUCTION_SET>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OEMSystemInfoString>GR_SAKURA by Kentaro Sekimoto</OEMSystemInfoString>
+  </PropertyGroup>
+  <ItemGroup>
+    <TinyCLR_Defines Include="PLATFORM_EMULATED_FLOATINGPOINT=1" />
+    <TinyCLR_Defines Include="TINYCLR_NO_IL_INLINE=1" />
+    <TinyCLR_Defines Include="TINYCLR_NO_APPDOMAINS=1" />
+    <TinyCLR_Defines Include="PLATFORM_NO_CLR_TRACE=1" />
+  </ItemGroup>   
+  <ItemGroup>
+    <IncludePaths Include="Solutions\GR_SAKURA" />
+  </ItemGroup>
+  <Import Project="$(SPOCLIENT)\devicecode\Targets\Native\RX63N\RX63N.settings" />
+</Project>

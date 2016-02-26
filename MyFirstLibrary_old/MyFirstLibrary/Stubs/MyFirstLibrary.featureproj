@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FeatureName>MyFirstLibrary</FeatureName>
+    <Guid>{f40bef95-56f4-4e52-8fbf-0eaf3ca725b0}</Guid>
+    <Description />
+    <Groups />
+  </PropertyGroup>
+  <ItemGroup>
+    <DriverLibs Include="MyFirstLibrary.$(LIB_EXT)" />
+    <InteropFeature Include="MyFirstLibrary" />
+    <MMP_DAT_CreateDatabase Include="$(BUILD_TREE_CLIENT)\pe\MyFirstLibrary.pe" />
+    <RequiredProjects Include="G:\MicroFrameworkPK_v4_3\MyFirstLibrary\MyFirstLibrary\MyFirstLibrary\Stubs\dotnetmf.proj" />
+  </ItemGroup>
+</Project>

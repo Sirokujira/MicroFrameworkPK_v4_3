@@ -1,0 +1,26 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Name>RX63N</Name>
+    <CpuName>RX63N</CpuName>
+    <DefaultISA>ARM</DefaultISA>
+    <Guid>{94FDD980-06BB-449c-A5B4-785674C425C6}</Guid>
+    <Description>
+    </Description>
+    <Documentation>
+    </Documentation>
+    <ProjectPath>$(SPOCLIENT)\devicecode\Targets\Native\RX63N\RX63N.settings</ProjectPath>
+    <PLATFORM_FAMILY>RX63N</PLATFORM_FAMILY>
+    <CustomFilter>RX63N</CustomFilter>
+    <INSTRUCTION_SET Condition="'$(INSTRUCTION_SET)'==''">RX63N</INSTRUCTION_SET>
+    <TARGETPROCESSOR>RX63N</TARGETPROCESSOR>
+    <TARGETCODEBASE>RX63N</TARGETCODEBASE>
+    <TARGETCODEBASETYPE>Native</TARGETCODEBASETYPE>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCC'">
+    <DEVICE_TYPE Condition="'$(DEVICE_TYPE)' == ''">RX63N</DEVICE_TYPE>
+    <BUILD_TOOL_GUID>{722B0D5D-1243-4557-913F-61FAB04E9209}</BUILD_TOOL_GUID>
+  </PropertyGroup>
+  <ItemGroup>
+    <IncludePaths Include="DeviceCode\Targets\Native\RX63N" />
+  </ItemGroup>
+</Project>

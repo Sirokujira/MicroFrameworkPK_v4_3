@@ -1,0 +1,27 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Name>EddyLinux</Name>
+    <CpuName>arm926EJ-S</CpuName>
+    <DefaultISA>lemonix</DefaultISA>
+    <Guid>{003AA87D-F9B0-49C8-9A4B-D66A75AD5E12}</Guid>
+    <Description>
+    </Description>
+    <Documentation>
+    </Documentation>
+    <ProjectPath>$(SPOCLIENT)\devicecode\Targets\OS\EddyLinux\EddyLinux.settings</ProjectPath>
+    <PLATFORM_FAMILY>ARM</PLATFORM_FAMILY>
+    <CustomFilter>ARM9;EDDY;LINUX</CustomFilter>
+    <INSTRUCTION_SET Condition="'$(INSTRUCTION_SET)'==''">ARM</INSTRUCTION_SET>
+    <TARGETPROCESSOR>LINUX</TARGETPROCESSOR>
+    <TARGETCODEBASE>EddyLinux</TARGETCODEBASE>
+    <TARGETCODEBASETYPE>OS</TARGETCODEBASETYPE>
+
+    <EDDYAPPS>C:\filesystem_2.1.1.1\src\Eddy_APPs</EDDYAPPS>
+    <CYGWINCDT>C:\cygwin\opt\lemonix\cdt</CYGWINCDT>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <IncludePaths Include="devicecode\Targets\OS\EddyLinux" />
+  </ItemGroup>
+</Project>

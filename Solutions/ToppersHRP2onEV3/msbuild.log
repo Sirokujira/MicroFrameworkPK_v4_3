@@ -1,0 +1,28 @@
+2015/12/21 13:01:43 にビルドを開始しました。
+プロジェクト "G:\MicroFrameworkPK_v4_3\tools\targets\Toppers.SPOT.System.GCC.targets" のターゲット "clean" をプロジェクト "G:\MicroFrameworkPK_v4_3\tools\targets\Toppers.SPOT.System.Targets" からのターゲット "Clean" でオーバーライドしています。
+プロジェクト "G:\MicroFrameworkPK_v4_3\tools\targets\Toppers.SPOT.System.GCC.targets" のターゲット "libkernel" をプロジェクト "G:\MicroFrameworkPK_v4_3\tools\targets\Toppers.SPOT.System.Targets" からのターゲット "libkernel" でオーバーライドしています。
+ノード 1 上のプロジェクト "G:\MicroFrameworkPK_v4_3\Solutions\ToppersHRP2onEV3\dotnetmf.proj" (module_cfg_create2 ターゲット)。
+ツール バージョン "4.0" でビルドしています。
+ファイル "G:\MicroFrameworkPK_v4_3\tools\targets\Toppers.SPOT.System.GCC.targets" 内にある、プロジェクト "G:\MicroFrameworkPK_v4_3\Solutions\ToppersHRP2onEV3\dotnetmf.proj" からのターゲット "module_cfg_create2" (エントリ ポイント):
+"Exec" タスクをアセンブリ "Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" から使用しています。
+タスク "Exec"
+  @ "G:\tmp\TOPPERS\gcc-arm-none-eabi-4_9-2015q3-20150921-win32\bin\arm-none-eabi-gcc.exe" -nostartfiles -fPIC -mno-pic-data-is-text-relative -nostdlib -std=gnu99 -fno-strict-aliasing -mcpu=arm926ej-s -mlittle-endian -D__TARGET_ARCH_ARM=5  -Wl,-e,0 -o cfg1_out cfg1_out.o 
+タスク "Exec" の実行が終了しました。
+タスク "Exec"
+  @"G:\tmp\TOPPERS\gcc-arm-none-eabi-4_9-2015q3-20150921-win32\bin\..\arm-none-eabi\bin\nm.exe" -n cfg1_out > cfg1_out.syms
+タスク "Exec" の実行が終了しました。
+タスク "Exec"
+  @"G:\tmp\TOPPERS\gcc-arm-none-eabi-4_9-2015q3-20150921-win32\bin\..\arm-none-eabi\bin\objcopy.exe" -O srec -S cfg1_out cfg1_out.srec
+タスク "Exec" の実行が終了しました。
+タスク "Exec"
+  @G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2/cfg/cfg/cfg.exe G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf\app.cfg --pass=2 --kernel=hrp2 -T G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2/target/ev3_gcc/dmloader/app/common/module.tf --api-table=G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2/target/ev3_gcc/dmloader\app\common/module_api.csv --cfg1-def-table=G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2/target/ev3_gcc/dmloader\app\common/module_def.csv --api-table=G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2/target/ev3_gcc/api/ev3api.csv -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2/target/ev3_gcc/api -I G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2/target/ev3_gcc/dmloader/app/common -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2 -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\arch -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\include -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\kernel -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\workspace\common -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\include -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\arch\arm_gcc\am1808 -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\arch\arm_gcc\common -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\api -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\api\include -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\common\include -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\TLSF-2.4.6\include -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\platform\include -IG:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\pil\include
+タスク "Exec" の実行が終了しました。
+プロジェクト "dotnetmf.proj" 内のターゲット "module_cfg_create2" のビルドが終了しました。
+プロジェクト "G:\MicroFrameworkPK_v4_3\Solutions\ToppersHRP2onEV3\dotnetmf.proj" (module_cfg_create2 ターゲット) のビルドが完了しました。
+
+
+ビルドに成功しました。
+    0 個の警告
+    0 エラー
+
+経過時間 00:00:01.19
