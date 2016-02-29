@@ -41,9 +41,9 @@ function InstallGCCCompiler()
     # Write-Output "GCCCompiler : ArchiverDecompressStart $zipPath"
     # $unzipDirObj.CopyHere($zipPathObj.Items())
     
-    $archivePath = "C:\\projects\\netmf-interpreter"
+    $archivePath = "C:\\projects\\gcc-arm-none-eabi"
     $zipFilePath = "C:\\projects\\netmf-interpreter\\gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
-    UnZipFile -ComputerName localhost -Path $zipFilePath -Destination $archivePath -Verbose
+    New-ZipExtract -source $zipFilePath -destination $archivePath -force -verbose
 }
 
 function InstallBuildTools()
@@ -56,22 +56,25 @@ function InstallBuildTools()
     # $shell = New-Object -ComObject Shell.Application
     # $archivePath = "C:\\projects"
     # $unzipDirObj = $shell.NameSpace($archivePath)
-    # $zipFilePath = "C:\\projects\\netmf-interpreter\\build_tools.zip"
+    # $zipFilePath = "C:\\projects\\netmf-interpreter\\build-tools.zip"
     # $zipPathObj = $sh.NameSpace($zipFilePath)
     # Write-Output "BuildTools : ArchiveDecompressStart $zipPath"
     # $unzipDirObj.CopyHere($zipPathObj.Items())
     
-    $archivePath = "C:\\projects"
-    $zipFilePath = "C:\\projects\\netmf-interpreter\\build_tools.zip"
-    UnZipFile -ComputerName localhost -Path $zipFilePath -Destination $archivePath -Verbose
+    $archivePath = "C:\\projects\\build-tools"
+    $zipFilePath = "C:\\projects\\netmf-interpreter\\build-tools.zip"
+    New-ZipExtract -source $zipFilePath -destination $archivePath -force -verbose
 }
 
 function main () 
 {
-    # Version 4.4
-    InstallNETMFSDK
+    # Version 4.3
     InstallGCCCompiler
-    InstallBuildTools
+
+    # Version 4.4
+    # InstallNETMFSDK
+    # InstallGCCCompiler
+    # InstallBuildTools
 }
 
 main
