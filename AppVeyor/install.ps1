@@ -41,8 +41,10 @@ function InstallGCCCompiler()
     # Write-Output "GCCCompiler : ArchiverDecompressStart $zipPath"
     # $unzipDirObj.CopyHere($zipPathObj.Items())
     
-    $archivePath = "C:\\projects\\gcc-arm-none-eabi"
-    $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
+    # $archivePath = "C:\\projects\\gcc-arm-none-eabi-5_2"
+    $archivePath = "C:\\projects\\gcc-arm-none-eabi-4_9"
+    # $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
+    $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\gcc-arm-none-eabi-4_9-2014q4-20141203-win32.zip"
     New-ZipExtract -source $zipFilePath -destination $archivePath -force -verbose
 }
 
