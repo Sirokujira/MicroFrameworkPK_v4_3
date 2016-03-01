@@ -34,15 +34,15 @@ function InstallGCCCompiler()
 
     # ZIPファイル展開(GCC)
     # $shell = New-Object -ComObject Shell.Application
-    # $archivePath = "C:\\projects\\MicroFrameworkPK_v4_3"
+    # $archivePath = "C:\\projects\\MicroFrameworkPK-v4-3"
     # $unzipDirObj = $sh.NameSpace($archivePath)
-    # $zipFilePath = "C:\\projects\\MicroFrameworkPK_v4_3\\gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
+    # $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
     # $zipPathObj = $sh.NameSpace($zipFilePath)
     # Write-Output "GCCCompiler : ArchiverDecompressStart $zipPath"
     # $unzipDirObj.CopyHere($zipPathObj.Items())
     
     $archivePath = "C:\\projects\\gcc-arm-none-eabi"
-    $zipFilePath = "C:\\projects\\MicroFrameworkPK_v4_3\\gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
+    $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
     New-ZipExtract -source $zipFilePath -destination $archivePath -force -verbose
 }
 
@@ -56,13 +56,13 @@ function InstallBuildTools()
     # $shell = New-Object -ComObject Shell.Application
     # $archivePath = "C:\\projects"
     # $unzipDirObj = $shell.NameSpace($archivePath)
-    # $zipFilePath = "C:\\projects\\MicroFrameworkPK_v4_3\\build-tools.zip"
+    # $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\build-tools.zip"
     # $zipPathObj = $sh.NameSpace($zipFilePath)
     # Write-Output "BuildTools : ArchiveDecompressStart $zipPath"
     # $unzipDirObj.CopyHere($zipPathObj.Items())
     
     $archivePath = "C:\\projects\\build-tools"
-    $zipFilePath = "C:\\projects\\MicroFrameworkPK_v4_3\\build-tools.zip"
+    $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\build-tools.zip"
     New-ZipExtract -source $zipFilePath -destination $archivePath -force -verbose
 }
 
