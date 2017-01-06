@@ -28,3 +28,12 @@ build_script:
 artifacts:
 - path: BuildOutput\ARM\GCC4.9\le\FLASH\release\ToppersHRP2onEV3\obj\DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf\app.exe
   name: Release
+
+deploy:
+- provider: GitHub
+  release: Toppers Binary
+  description: Toppers EV3 Binary
+  auth_token:
+    secure: F9O6KkyCSLNY+hsyILDf8bl0I9CBrK+xW7At+NsKmQ2FhqKxPqX5G9kwXl31oFRiX2XcWxbbwpR4csihd50oqHJ5SOqSR8WngGOa3IPOVaJFoNTbICysakL9ssnkQdjxdXDSUW88lUG4v7/e3EtppQSrI1rh2GQqXOyDpdgdVg2RJVG+8qOy9Q9I4kR+OlT/srY6UKELNPhhtLHY+fmvNTDW8fyo9TXXtIXsvSlf2etT5MMId6bWEV+SqYLYkvnWo2y6iM87zFSxxB5W+Xaxbq9wzr3YSQlAKHExy48WOyJNgcUEho73IJlfej7diud6gtQRAw1jMJoqI4XbBghPB/tpJ9BFHXipyBvQ5pteFcidXqVUlkKH3m8mduvtkPLqqtLTfEC5RFN99o6Tgb/l/y/2mHaC68iz3e2Gc/76M6zalB3wfwPFYJtgtC37OD6za4ms7yrz9sFwbEEeB72cqHqwF0P4XKDJGnl5RMMV6T1aGDd3NVI2DaimeTc+J8yBVTqOP2MbjvWNDWyuYrHtnm/Cx2JxkT4Bq/mU80thiEwS5tI/7YmWLm3qG5zRjF+ByeYgwJoOa/xgVAImyuISuFjCpqbqmsyednfmnUCXYRB7qz17I+Sjn/SRtP+2oQhllQKgdyhFfstaqBLTgFAL70abQoA+/JJsbS7BdfYlGw314D0W/OcgerbvbALVS+psvArx7D+yWq+wc+/FXzrC828OOetRmX/FtmiKYK3uW+3Jjz8O6vUcOrM0S7xh0OC5tVnvoV/Z3bIH0UzUAHzGRIqvaI9sVbfCV+yFaoPTC4qtNVIWtCl/SScASOtnt3FeINZeqWjLb3sC8b1+47zB3RxXeRDa95GHF9YE1vETNW+MpjxWbMmtJCSZ1K6PMu29N/ZB4OTEkbH060QnoFgOhQ==
+  artifact: Release
+
