@@ -25,3 +25,6 @@ build_script:
     MSbuild dotnetmf.proj /t:rebuild /p:flavor=release;memory=flash
     
 
+artifacts:
+- path: BuildOutput\ARM\GCC4.9\le\FLASH\release\ToppersHRP2onEV3\obj\DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf\app.exe
+  name: Release
