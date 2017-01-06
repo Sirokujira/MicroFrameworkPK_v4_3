@@ -177,8 +177,8 @@ void MFmain()
 	int size;
 	int ReturnValue;
 
-	uItron4_assembly = (char *) "TINYCLR.DAT";
-	// uItron4_assembly = (char *) "TINYCLR.afx";
+	// uItron4_assembly = (char *) "TINYCLR.DAT";
+	uItron4_assembly = (char *) "TINYCLR.afx";
 
 	// 引数チェック
 	// タイマ周りの設定
