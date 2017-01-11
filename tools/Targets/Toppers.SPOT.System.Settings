@@ -23,8 +23,6 @@
     <!-- http://www.ie.u-ryukyu.ac.jp/~e085739/c.makefile.tuts.html -->
     <!-- ./Configure Check -->
     <SD_DIR                 Condition="'$(SD_DIR)'==''"                 >$(_SD_DIR)</SD_DIR>
-    <!-- <SD_DIR                 Condition="'$(SD_DIR)'==''"                 >G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2</SD_DIR> -->
-    <!-- <SRCDIR>G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2</SRCDIR> -->
     <SRCDIR>$(SPOCLIENT)\DeviceCode\Targets\OS\Toppers\hrp2</SRCDIR>
     <!-- Directory is dotnetmf.proj property -->
     <!-- <SRCDIR>$(SPOCLIENT)\$(Directory)</SRCDIR> -->
