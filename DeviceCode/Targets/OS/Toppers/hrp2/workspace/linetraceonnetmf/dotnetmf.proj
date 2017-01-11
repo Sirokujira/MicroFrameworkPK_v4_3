@@ -179,5 +179,6 @@
     <None Include="..\..\syssvc\syslog.cfg" />
     <None Include="..\..\syssvc\test_svc.cfg" />
   </ItemGroup>
-  <Import Project="$(SPOCLIENT)\tools\targets\Toppers.SPOT.System.Targets" />
+  <!-- <Import Project="$(SPOCLIENT)\tools\targets\Toppers.SPOT.System.Targets" /> -->
+  <Import Project="$(SPOCLIENT)\tools\targets\Toppers.Spot.system.gcc.targets" />
 </Project>

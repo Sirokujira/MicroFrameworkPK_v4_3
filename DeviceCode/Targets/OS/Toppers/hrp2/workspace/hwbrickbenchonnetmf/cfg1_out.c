@@ -1573,38 +1573,29 @@ const char TOPPERS_cfg_valueof_module_254[] = "ev3api_speaker.o"; /* #include "a
 #ifndef TOPPERS_cfg_valueof_TDOM_APP_DEFINED
 #define TOPPERS_cfg_valueof_TDOM_APP_DEFINED 1
 
-#line 5 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/helloev3onnetmf/app.cfg"
+#line 5 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/hwbrickbenchOnnetmf/app.cfg"
 const unsigned_t TOPPERS_cfg_valueof_TDOM_APP = TDOM_APP;
 
 #endif
 #define TOPPERS_cfg_inside_of_TDOM_APP
 const unsigned_t TOPPERS_cfg_valueof_DOMAIN_255 = ( unsigned_t ) ( TDOM_APP );
-#line 6 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/helloev3onnetmf/app.cfg"
+#line 6 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/hwbrickbenchOnnetmf/app.cfg"
 const unsigned_t TOPPERS_cfg_static_api_255 = 255;
 #define MAIN_TASK	(<>)
 
-#line 6 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/helloev3onnetmf/app.cfg"
-const unsigned_t TOPPERS_cfg_valueof_tskatr_255 = ( unsigned_t )( TA_ACT ); const signed_t TOPPERS_cfg_valueof_itskpri_255 = ( signed_t )( TMIN_APP_TPRI - 1 ); const unsigned_t TOPPERS_cfg_valueof_stksz_255 = ( unsigned_t )( STACK_SIZE ); 
+#line 6 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/hwbrickbenchOnnetmf/app.cfg"
+const unsigned_t TOPPERS_cfg_valueof_tskatr_255 = ( unsigned_t )( TA_ACT ); const signed_t TOPPERS_cfg_valueof_itskpri_255 = ( signed_t )( TMIN_APP_TPRI + 1 ); const unsigned_t TOPPERS_cfg_valueof_stksz_255 = ( unsigned_t )( STACK_SIZE ); 
 #ifndef TOPPERS_cfg_inside_of_TDOM_APP
 
-#line 7 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/helloev3onnetmf/app.cfg"
+#line 7 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/hwbrickbenchOnnetmf/app.cfg"
 #error syntax error
 #endif
 #undef TOPPERS_cfg_inside_of_TDOM_APP
 
 
-#line 9 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/helloev3onnetmf/app.cfg"
+#line 9 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/hwbrickbenchOnnetmf/app.cfg"
 const unsigned_t TOPPERS_cfg_static_api_256 = 256;
 const char TOPPERS_cfg_valueof_module_256[] = "app.o"; 
-#line 10 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/helloev3onnetmf/app.cfg"
-const unsigned_t TOPPERS_cfg_static_api_257 = 257;
-const char TOPPERS_cfg_valueof_module_257[] = "cli_main.o"; 
-#line 11 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/helloev3onnetmf/app.cfg"
-const unsigned_t TOPPERS_cfg_static_api_258 = 258;
-const char TOPPERS_cfg_valueof_module_258[] = "cli_motor.o"; 
-#line 12 "G:/MicroFrameworkPK_v4_3/DeviceCode/Targets/OS/Toppers/hrp2/workspace/helloev3onnetmf/app.cfg"
-const unsigned_t TOPPERS_cfg_static_api_259 = 259;
-const char TOPPERS_cfg_valueof_module_259[] = "cli_sensor.o"; 
 #ifdef TOPPERS_cfg_inside_of_TDOM_KERNEL
 #error missing '}'
 #endif

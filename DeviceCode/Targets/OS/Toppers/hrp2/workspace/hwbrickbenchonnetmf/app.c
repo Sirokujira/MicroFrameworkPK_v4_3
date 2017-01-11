@@ -9,6 +9,7 @@
 #include "ev3api.h"
 #include "app.h"
 
+#define BUILD_MODULE
 #if defined(BUILD_MODULE)
 #include "module_cfg.h"
 #else
