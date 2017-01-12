@@ -12,7 +12,6 @@
     <!-- <RequiredProjects Include="NativeSample\NativeSample.proj" /> -->
 
     <!-- make dynamic loading Binary -->
-    <!-- <RequiredProjects Include="$(SPOCLIENT)\DeviceCode\Targets\OS\Toppers\hrp2\sample\dotnetmf.proj" /> -->
     <RequiredProjects Include="$(SPOCLIENT)\DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf\dotnetmf.proj" />
     <!-- <RequiredProjects Include="$(SPOCLIENT)\DeviceCode\Targets\OS\Toppers\hrp2\workspace\hwbrickbenchonnetmf\dotnetmf.proj" /> -->
   </ItemGroup>

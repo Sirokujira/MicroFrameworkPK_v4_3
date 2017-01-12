@@ -5,10 +5,10 @@ $       Toyohashi Open Platform for Embedded Real-Time Systems/
 $       High Reliable system Profile Kernel
 $
 $   Copyright (C) 2007 by TAKAGI Nobuhisa
-$   Copyright (C) 2007-2014 by Embedded and Real-Time Systems Laboratory
+$   Copyright (C) 2007-2015 by Embedded and Real-Time Systems Laboratory
 $               Graduate School of Information Science, Nagoya Univ., JAPAN
 $  
-$   上記著作権者は，以下の(1)縲鰀(4)の条件を満たす場合に限り，本ソフトウェ
+$   上記著作権者は，以下の(1)〜(4)の条件を満たす場合に限り，本ソフトウェ
 $   ア（本ソフトウェアを改変したものを含む．以下同じ）を使用・複製・改
 $   変・再配布（以下，利用と呼ぶ）することを無償で許諾する．
 $   (1) 本ソフトウェアをソースコードの形で利用する場合には，上記の著作
@@ -37,7 +37,7 @@ $   に対する適合性も含めて，いかなる保証も行わない．ま�
 $   アの利用により直接的または間接的に生じたいかなる損害に関しても，そ
 $   の責任を負わない．
 $
-$   $Id: kernel.tf 1019 2014-11-24 00:25:32Z ertl-hiro $
+$   $Id$
 $
 $ =====================================================================
 
@@ -45,161 +45,6 @@ $
 $  共通部の読込み
 $
 $INCLUDE "kernel/kernel_lib.tf"$
-
-$ =====================================================================
-$ AID_YYYの処理
-$ =====================================================================
-
-$num_atskid = 0$
-$FOREACH i ATSK.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(ATSK.DOMAIN[i])$
-		$ERROR ATSK.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_TSK")$$END$
-	$END$
-
-$	// notskが負の場合（E_PAR）
-	$IF ATSK.NOTSK[i] < 0$
-		$ERROR ATSK.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "notsk", ATSK.NOTSK[i], "AID_TSK")$$END$
-	$END$
-	$num_atskid = num_atskid + ATSK.NOTSK[i]$
-$END$
-$num_tskid = LENGTH(TSK.ID_LIST) + num_atskid$
-
-$num_asemid = 0$
-$FOREACH i ASEM.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(ASEM.DOMAIN[i])$
-		$ERROR ASEM.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_SEM")$$END$
-	$END$
-
-$	// nosemが負の場合（E_PAR）
-	$IF ASEM.NOSEM[i] < 0$
-		$ERROR ASEM.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "nosem", ASEM.NOSEM[i], "AID_SEM")$$END$
-	$END$
-	$num_asemid = num_asemid + ASEM.NOSEM[i]$
-$END$
-$num_semid = LENGTH(SEM.ID_LIST) + num_asemid$
-
-$num_aflgid = 0$
-$FOREACH i AFLG.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(AFLG.DOMAIN[i])$
-		$ERROR AFLG.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_FLG")$$END$
-	$END$
-
-$	// noflgが負の場合（E_PAR）
-	$IF AFLG.NOFLG[i] < 0$
-		$ERROR AFLG.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "noflg", AFLG.NOFLG[i], "AID_FLG")$$END$
-	$END$
-	$num_aflgid = num_aflgid + AFLG.NOFLG[i]$
-$END$
-$num_flgid = LENGTH(FLG.ID_LIST) + num_aflgid$
-
-$num_adtqid = 0$
-$FOREACH i ADTQ.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(ADTQ.DOMAIN[i])$
-		$ERROR ADTQ.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_DTQ")$$END$
-	$END$
-
-$	// nodtqが負の場合（E_PAR）
-	$IF ADTQ.NODTQ[i] < 0$
-		$ERROR ADTQ.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "nodtq", ADTQ.NODTQ[i], "AID_DTQ")$$END$
-	$END$
-	$num_adtqid = num_adtqid + ADTQ.NODTQ[i]$
-$END$
-$num_dtqid = LENGTH(DTQ.ID_LIST) + num_adtqid$
-
-$num_apdqid = 0$
-$FOREACH i APDQ.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(APDQ.DOMAIN[i])$
-		$ERROR APDQ.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_PDQ")$$END$
-	$END$
-
-$	// nopdqが負の場合（E_PAR）
-	$IF APDQ.NOPDQ[i] < 0$
-		$ERROR APDQ.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "nopdq", APDQ.NOPDQ[i], "AID_PDQ")$$END$
-	$END$
-	$num_apdqid = num_apdqid + APDQ.NOPDQ[i]$
-$END$
-$num_pdqid = LENGTH(PDQ.ID_LIST) + num_apdqid$
-
-$num_amtxid = 0$
-$FOREACH i AMTX.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(AMTX.DOMAIN[i])$
-		$ERROR AMTX.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_MTX")$$END$
-	$END$
-
-$	// nomtxが負の場合（E_PAR）
-	$IF AMTX.NOMTX[i] < 0$
-		$ERROR AMTX.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "nomtx", AMTX.NOMTX[i], "AID_MTX")$$END$
-	$END$
-	$num_amtxid = num_amtxid + AMTX.NOMTX[i]$
-$END$
-$num_mtxid = LENGTH(MTX.ID_LIST) + num_amtxid$
-
-$num_ampfid = 0$
-$FOREACH i AMPF.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(AMPF.DOMAIN[i])$
-		$ERROR AMPF.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_MPF")$$END$
-	$END$
-
-$	// nompfが負の場合（E_PAR）
-	$IF AMPF.NOMPF[i] < 0$
-		$ERROR AMPF.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "nompf", AMPF.NOMPF[i], "AID_MPF")$$END$
-	$END$
-	$num_ampfid = num_ampfid + AMPF.NOMPF[i]$
-$END$
-$num_mpfid = LENGTH(MPF.ID_LIST) + num_ampfid$
-
-$num_acycid = 0$
-$FOREACH i ACYC.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(ACYC.DOMAIN[i])$
-		$ERROR ACYC.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_CYC")$$END$
-	$END$
-
-$	// nocycが負の場合（E_PAR）
-	$IF ACYC.NOCYC[i] < 0$
-		$ERROR ACYC.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "nocyc", ACYC.NOCYC[i], "AID_CYC")$$END$
-	$END$
-	$num_acycid = num_acycid + ACYC.NOCYC[i]$
-$END$
-$num_cycid = LENGTH(CYC.ID_LIST) + num_acycid$
-
-$num_aalmid = 0$
-$FOREACH i AALM.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(AALM.DOMAIN[i])$
-		$ERROR AALM.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_ALM")$$END$
-	$END$
-
-$	// noalmが負の場合（E_PAR）
-	$IF AALM.NOALM[i] < 0$
-		$ERROR AALM.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "noalm", AALM.NOALM[i], "AID_ALM")$$END$
-	$END$
-	$num_aalmid = num_aalmid + AALM.NOALM[i]$
-$END$
-$num_almid = LENGTH(ALM.ID_LIST) + num_aalmid$
-
-$num_aisrid = 0$
-$FOREACH i AISR.ORDER_LIST$
-$	// 保護ドメインの囲みの中に記述されている（E_RSATR）
-	$IF LENGTH(AISR.DOMAIN[i])$
-		$ERROR AISR.TEXT_LINE[i]$E_RSATR: $FORMAT(_("%1% must be outside of protection domains"), "AID_ISR")$$END$
-	$END$
-
-$	// noisrが負の場合（E_PAR）
-	$IF AISR.NOISR[i] < 0$
-		$ERROR AISR.TEXT_LINE[i]$E_PAR: $FORMAT(_("illegal %1% `%2%\' in %3%"), "noisr", AISR.NOISR[i], "AID_ISR")$$END$
-	$END$
-	$num_aisrid = num_aisrid + AISR.NOISR[i]$
-$END$
-$num_isrid = num_aisrid$
-$num_isr = LENGTH(ISR.ORDER_LIST) + num_aisrid$
 
 $ =====================================================================
 $ kernel_cfg.hの生成
@@ -219,16 +64,15 @@ $FILE "kernel_cfg.h"$
 #define TOPPERS_KERNEL_CFG_H$NL$
 $NL$
 #define TNUM_DOMID	$LENGTH(DOM.ID_LIST)$$NL$
-#define TNUM_TSKID	$num_tskid$$NL$
-#define TNUM_SEMID	$num_semid$$NL$
-#define TNUM_FLGID	$num_flgid$$NL$
-#define TNUM_DTQID	$num_dtqid$$NL$
-#define TNUM_PDQID	$num_pdqid$$NL$
-#define TNUM_MTXID	$num_mtxid$$NL$
-#define TNUM_MPFID	$num_mpfid$$NL$
-#define TNUM_CYCID	$num_cycid$$NL$
-#define TNUM_ALMID	$num_almid$$NL$
-#define TNUM_ISRID	$num_isrid$$NL$
+#define TNUM_TSKID	$LENGTH(TSK.ID_LIST)$$NL$
+#define TNUM_SEMID	$LENGTH(SEM.ID_LIST)$$NL$
+#define TNUM_FLGID	$LENGTH(FLG.ID_LIST)$$NL$
+#define TNUM_DTQID	$LENGTH(DTQ.ID_LIST)$$NL$
+#define TNUM_PDQID	$LENGTH(PDQ.ID_LIST)$$NL$
+#define TNUM_MTXID	$LENGTH(MTX.ID_LIST)$$NL$
+#define TNUM_MPFID	$LENGTH(MPF.ID_LIST)$$NL$
+#define TNUM_CYCID	$LENGTH(CYC.ID_LIST)$$NL$
+#define TNUM_ALMID	$LENGTH(ALM.ID_LIST)$$NL$
 $NL$
 #define TMAX_FNCD	$tmax_fncd$$NL$
 $NL$
@@ -279,6 +123,14 @@ $FOREACH domid DOM.ID_LIST$
 $END$
 $DOMLIST_ALL = APPEND(TDOM_KERNEL, DOMLIST, TDOM_NONE)$
 
+$
+$  保護ドメイン毎のデフォルトのアクセス許可パターンの作成
+$
+$DEFAULT_ACPTN[TDOM_KERNEL] = VALUE("TACP_KERNEL", TACP_KERNEL)$
+$FOREACH domid DOM.ID_LIST$
+	$DEFAULT_ACPTN[domid] = VALUE(FORMAT("TACP(%1%)", domid), 1 << (domid - 1))$
+$END$
+$DEFAULT_ACPTN[TDOM_NONE] = VALUE("TACP_SHARED", TACP_SHARED)$
 
 $
 $  保護ドメイン毎のデフォルトのアクセス許可ベクタ（文字列）の作成
@@ -288,6 +140,15 @@ $FOREACH domid DOMLIST_ALL$
 											DEFAULT_ACPTN[domid])$
 $END$
 
+$
+$  保護ドメインのラベルの作成
+$	DOM.LABEL[domid]：保護ドメインのラベル
+$
+$DOM.LABEL[TDOM_KERNEL] = "kernel"$
+$FOREACH domid DOM.ID_LIST$
+	$DOM.LABEL[domid] = domid$
+$END$
+$DOM.LABEL[TDOM_NONE] = "shared"$
 
 $
 $  LMT_DOMの処理
@@ -358,6 +219,8 @@ $ MO_USTACK_LIST1：コンフィギュレータが割り付けるユーザスタ
 $ MO_USTACK_LIST2：先頭番地を指定されたユーザスタック領域のリスト
 $ =====================================================================
 
+$TOPPERS_ATTMOD = TOPPERS_ATTSEC + 1$
+$TOPPERS_MPFAREA = TOPPERS_ATTSEC + 2$
 $nummo = 0$
 $MO_USTACK_LIST1 = {}$
 $MO_USTACK_LIST2 = {}$
@@ -683,6 +546,11 @@ $			// メモリオブジェクト属性にTA_NOWRITEを設定する．
 	$ELSE$
 $		// LNK_SECの場合
 
+$		// 保護ドメインに所属している場合（E_RSATR）
+		$IF LENGTH(SEC.DOMAIN[sec])$
+			$ERROR SEC.TEXT_LINE[sec]$E_RSATR: $FORMAT(_("%1% `%2%\' belongs to a protection domain in %3%"), "section", UNESCSTR(SEC.SECTION[sec]), "LNK_SEC")$$END$
+		$END$
+
 $		// 配置するセクション情報の生成
 		$numls = numls + 1$
 		$LNKSEC.MEMREG[numls] = memreg$
@@ -833,6 +701,22 @@ $IF USE_EXTERNAL_ID$
 $END$
 
 $
+$  トレースログマクロのデフォルト定義
+$
+/*$NL$
+$SPC$*  Default Definitions of Trace Log Macros$NL$
+$SPC$*/$NL$
+$NL$
+#ifndef LOG_ISR_ENTER$NL$
+#define LOG_ISR_ENTER(intno)$NL$
+#endif /* LOG_ISR_ENTER */$NL$
+$NL$
+#ifndef LOG_ISR_LEAVE$NL$
+#define LOG_ISR_LEAVE(intno)$NL$
+#endif /* LOG_ISR_LEAVE */$NL$
+$NL$
+
+$
 $  保護ドメイン
 $
 $IF !USE_LATERPASS_DOMINIB$
@@ -858,18 +742,13 @@ $SPC$*  Task Management Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成されたタスクが1個以上存在することのチェック
+$ タスクが1個以上存在することのチェック
 $IF !LENGTH(TSK.ID_LIST)$
 	$ERROR$$FORMAT(_("no task is registered"))$$END$
 $END$
 
-$ 静的に生成されたタスクの数
-#define TNUM_STSKID	$LENGTH(TSK.ID_LIST)$$NL$
-$NL$
-
 $ タスクID番号の最大値
 const ID _kernel_tmax_tskid = (TMIN_TSKID + TNUM_TSKID - 1);$NL$
-const ID _kernel_tmax_stskid = (TMIN_TSKID + TNUM_STSKID - 1);$NL$
 $NL$
 
 $ エラーチェック
@@ -1100,7 +979,7 @@ $END$
 $NL$
 
 $ タスク初期化ブロックの生成（タスクは1個以上存在する）
-const TINIB _kernel_tinib_table[TNUM_STSKID] = {$NL$
+const TINIB _kernel_tinib_table[TNUM_TSKID] = {$NL$
 $JOINEACH tskid TSK.ID_LIST ",\n"$
 $	// 保護ドメイン初期化ブロックへのポインタ
 	$TAB${
@@ -1136,19 +1015,12 @@ $END$$NL$
 };$NL$
 $NL$
 
-$ 動的生成タスク用のタスク初期化ブロックの生成
-$IF num_atskid > 0$
-	TINIB _kernel_atinib_table[$num_atskid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(TINIB, _kernel_atinib_table);$NL$
-$END$$NL$
-
 $ タスク管理ブロックの生成
 TCB _kernel_tcb_table[TNUM_TSKID];$NL$
 $NL$
 
 $ タスク生成順序テーブルの生成
-const ID _kernel_torder_table[TNUM_STSKID] = {$NL$
+const ID _kernel_torder_table[TNUM_TSKID] = {$NL$
 $TAB$$JOINEACH tskid TSK.ORDER_LIST ", "$$tskid$$END$$NL$
 };$NL$
 $NL$
@@ -1161,13 +1033,8 @@ $SPC$*  Semaphore Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成されたセマフォの数
-#define TNUM_SSEMID	$LENGTH(SEM.ID_LIST)$$NL$
-$NL$
-
 $ セマフォID番号の最大値
 const ID _kernel_tmax_semid = (TMIN_SEMID + TNUM_SEMID - 1);$NL$
-const ID _kernel_tmax_ssemid = (TMIN_SEMID + TNUM_SSEMID - 1);$NL$
 $NL$
 
 $IF LENGTH(SEM.ID_LIST)$
@@ -1200,7 +1067,7 @@ $		// SAC_SEMがCRE_SEMと異なる保護ドメインに属する場合（E_RSAT
 	$END$	
 
 $	// セマフォ初期化ブロックの生成
-	const SEMINIB _kernel_seminib_table[TNUM_SSEMID] = {$NL$
+	const SEMINIB _kernel_seminib_table[TNUM_SEMID] = {$NL$
 	$JOINEACH semid SEM.ID_LIST ",\n"$
 		$TAB${ ($SEM.SEMATR[semid]$), ($SEM.ISEMCNT[semid]$), ($SEM.MAXSEM[semid]$),
 		$IF LENGTH(SEM.ACPTN1[semid])$
@@ -1211,21 +1078,12 @@ $	// セマフォ初期化ブロックの生成
 		}
 	$END$$NL$
 	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const SEMINIB, _kernel_seminib_table);$NL$
-$END$$NL$
+	$NL$
 
-$ 動的生成セマフォ用のセマフォ初期化ブロックの生成
-$IF num_asemid > 0$
-	SEMINIB _kernel_aseminib_table[$num_asemid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(SEMINIB, _kernel_aseminib_table);$NL$
-$END$$NL$
-
-$ セマフォ管理ブロックの生成
-$IF num_semid$
+$	// セマフォ管理ブロック
 	SEMCB _kernel_semcb_table[TNUM_SEMID];$NL$
 $ELSE$
+	TOPPERS_EMPTY_LABEL(const SEMINIB, _kernel_seminib_table);$NL$
 	TOPPERS_EMPTY_LABEL(SEMCB, _kernel_semcb_table);$NL$
 $END$$NL$
 
@@ -1237,13 +1095,8 @@ $SPC$*  Eventflag Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成されたイベントフラグの数
-#define TNUM_SFLGID	$LENGTH(FLG.ID_LIST)$$NL$
-$NL$
-
 $ イベントフラグID番号の最大値
 const ID _kernel_tmax_flgid = (TMIN_FLGID + TNUM_FLGID - 1);$NL$
-const ID _kernel_tmax_sflgid = (TMIN_FLGID + TNUM_SFLGID - 1);$NL$
 $NL$
 
 $IF LENGTH(FLG.ID_LIST)$
@@ -1271,7 +1124,7 @@ $		// SAC_FLGがCRE_FLGと異なる保護ドメインに属する場合（E_RSAT
 	$END$
 
 $	// イベントフラグ初期化ブロックの生成
-	const FLGINIB _kernel_flginib_table[TNUM_SFLGID] = {$NL$
+	const FLGINIB _kernel_flginib_table[TNUM_FLGID] = {$NL$
 	$JOINEACH flgid FLG.ID_LIST ",\n"$
 		$TAB${ ($FLG.FLGATR[flgid]$), ($FLG.IFLGPTN[flgid]$),
 		$IF LENGTH(FLG.ACPTN1[flgid])$
@@ -1282,21 +1135,12 @@ $	// イベントフラグ初期化ブロックの生成
 		}
 	$END$$NL$
 	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const FLGINIB, _kernel_flginib_table);$NL$
-$END$$NL$
+	$NL$
 
-$ 動的生成イベントフラグ用のイベントフラグ初期化ブロックの生成
-$IF num_aflgid > 0$
-	FLGINIB _kernel_aflginib_table[$num_aflgid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(FLGINIB, _kernel_aflginib_table);$NL$
-$END$$NL$
-
-$ イベントフラグ管理ブロックの生成
-$IF num_flgid$
+$	// イベントフラグ管理ブロック
 	FLGCB _kernel_flgcb_table[TNUM_FLGID];$NL$
 $ELSE$
+	TOPPERS_EMPTY_LABEL(const FLGINIB, _kernel_flginib_table);$NL$
 	TOPPERS_EMPTY_LABEL(FLGCB, _kernel_flgcb_table);$NL$
 $END$$NL$
 
@@ -1308,13 +1152,8 @@ $SPC$*  Dataqueue Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成されたデータキューの数
-#define TNUM_SDTQID	$LENGTH(DTQ.ID_LIST)$$NL$
-$NL$
-
 $ データキューID番号の最大値
 const ID _kernel_tmax_dtqid = (TMIN_DTQID + TNUM_DTQID - 1);$NL$
-const ID _kernel_tmax_sdtqid = (TMIN_DTQID + TNUM_SDTQID - 1);$NL$
 $NL$
 
 $IF LENGTH(DTQ.ID_LIST)$
@@ -1352,7 +1191,7 @@ $		// データキュー管理領域
 	$END$
 
 $	// データキュー初期化ブロックの生成
-	const DTQINIB _kernel_dtqinib_table[TNUM_SDTQID] = {$NL$
+	const DTQINIB _kernel_dtqinib_table[TNUM_DTQID] = {$NL$
 	$JOINEACH dtqid DTQ.ID_LIST ",\n"$
 		$TAB${ ($DTQ.DTQATR[dtqid]$), ($DTQ.DTQCNT[dtqid]$),
 		$IF DTQ.DTQCNT[dtqid]$
@@ -1368,21 +1207,12 @@ $	// データキュー初期化ブロックの生成
 		}
 	$END$$NL$
 	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const DTQINIB, _kernel_dtqinib_table);$NL$
-$END$$NL$
+	$NL$
 
-$ 動的生成データキュー用のデータキュー初期化ブロックの生成
-$IF num_adtqid > 0$
-	DTQINIB _kernel_adtqinib_table[$num_adtqid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(DTQINIB, _kernel_adtqinib_table);$NL$
-$END$$NL$
-
-$ データキュー管理ブロックの生成
-$IF num_dtqid$
+$	// データキュー管理ブロック
 	DTQCB _kernel_dtqcb_table[TNUM_DTQID];$NL$
 $ELSE$
+	TOPPERS_EMPTY_LABEL(const DTQINIB, _kernel_dtqinib_table);$NL$
 	TOPPERS_EMPTY_LABEL(DTQCB, _kernel_dtqcb_table);$NL$
 $END$$NL$
 
@@ -1394,13 +1224,8 @@ $SPC$*  Priority Dataqueue Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成された優先度データキューの数
-#define TNUM_SPDQID	$LENGTH(PDQ.ID_LIST)$$NL$
-$NL$
-
 $ 優先度データキューID番号の最大値
 const ID _kernel_tmax_pdqid = (TMIN_PDQID + TNUM_PDQID - 1);$NL$
-const ID _kernel_tmax_spdqid = (TMIN_PDQID + TNUM_SPDQID - 1);$NL$
 $NL$
 
 $IF LENGTH(PDQ.ID_LIST)$
@@ -1443,7 +1268,7 @@ $		// 優先度データキュー管理領域
 	$END$
 
 $	// 優先度データキュー初期化ブロックの生成
-	const PDQINIB _kernel_pdqinib_table[TNUM_SPDQID] = {$NL$
+	const PDQINIB _kernel_pdqinib_table[TNUM_PDQID] = {$NL$
 	$JOINEACH pdqid PDQ.ID_LIST ",\n"$
 		$TAB${ ($PDQ.PDQATR[pdqid]$), ($PDQ.PDQCNT[pdqid]$), ($PDQ.MAXDPRI[pdqid]$),
 		$IF PDQ.PDQCNT[pdqid]$
@@ -1459,21 +1284,12 @@ $	// 優先度データキュー初期化ブロックの生成
 	}
 	$END$$NL$
 	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const PDQINIB, _kernel_pdqinib_table);$NL$
-$END$$NL$
+	$NL$
 
-$ 動的生成優先度データキュー用の優先度データキュー初期化ブロックの生成
-$IF num_apdqid > 0$
-	PDQINIB _kernel_apdqinib_table[$num_apdqid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(PDQINIB, _kernel_apdqinib_table);$NL$
-$END$$NL$
-
-$ 優先度データキュー管理ブロックの生成
-$IF num_pdqid$
+$	// 優先度データキュー管理ブロック
 	PDQCB _kernel_pdqcb_table[TNUM_PDQID];$NL$
 $ELSE$
+	TOPPERS_EMPTY_LABEL(const PDQINIB, _kernel_pdqinib_table);$NL$
 	TOPPERS_EMPTY_LABEL(PDQCB, _kernel_pdqcb_table);$NL$
 $END$$NL$
 
@@ -1485,13 +1301,8 @@ $SPC$*  Mutex Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成されたミューテックスの数
-#define TNUM_SMTXID	$LENGTH(MTX.ID_LIST)$$NL$
-$NL$
-
 $ ミューテックスID番号の最大値
 const ID _kernel_tmax_mtxid = (TMIN_MTXID + TNUM_MTXID - 1);$NL$
-const ID _kernel_tmax_smtxid = (TMIN_MTXID + TNUM_SMTXID - 1);$NL$
 $NL$
 
 $IF LENGTH(MTX.ID_LIST)$
@@ -1524,7 +1335,7 @@ $		// SAC_MTXがCRE_MTXと異なる保護ドメインに属する場合（E_RSAT
 	$END$
 
 $	// ミューテックス初期化ブロックの生成
-	const MTXINIB _kernel_mtxinib_table[TNUM_SMTXID] = {$NL$
+	const MTXINIB _kernel_mtxinib_table[TNUM_MTXID] = {$NL$
 	$JOINEACH mtxid MTX.ID_LIST ",\n"$
 		$TAB${ ($MTX.MTXATR[mtxid]$), INT_PRIORITY($MTX.CEILPRI[mtxid]$),
 		$IF LENGTH(MTX.ACPTN1[mtxid])$
@@ -1535,21 +1346,12 @@ $	// ミューテックス初期化ブロックの生成
 		}
 	$END$$NL$
 	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const MTXINIB, _kernel_mtxinib_table);$NL$
-$END$$NL$
+	$NL$
 
-$ 動的生成ミューテックス用のミューテックス初期化ブロックの生成
-$IF num_amtxid > 0$
-	MTXINIB _kernel_amtxinib_table[$num_amtxid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(MTXINIB, _kernel_amtxinib_table);$NL$
-$END$$NL$
-
-$ ミューテックス管理ブロックの生成
-$IF num_mtxid$
+$	// ミューテックス管理ブロック
 	MTXCB _kernel_mtxcb_table[TNUM_MTXID];$NL$
 $ELSE$
+	TOPPERS_EMPTY_LABEL(const MTXINIB, _kernel_mtxinib_table);$NL$
 	TOPPERS_EMPTY_LABEL(MTXCB, _kernel_mtxcb_table);$NL$
 $END$$NL$
 
@@ -1561,13 +1363,8 @@ $SPC$*  Fixed-sized Memorypool Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成された固定長メモリプールの数
-#define TNUM_SMPFID	$LENGTH(MPF.ID_LIST)$$NL$
-$NL$
-
 $ 固定長メモリプールID番号の最大値
 const ID _kernel_tmax_mpfid = (TMIN_MPFID + TNUM_MPFID - 1);$NL$
-const ID _kernel_tmax_smpfid = (TMIN_MPFID + TNUM_SMPFID - 1);$NL$
 $NL$
 
 $IF LENGTH(MPF.ID_LIST)$
@@ -1641,7 +1438,7 @@ $		// 固定長メモリプール管理領域
 	$END$
 
 $	// 固定長メモリプール初期化ブロックの生成
-	const MPFINIB _kernel_mpfinib_table[TNUM_SMPFID] = {$NL$
+	const MPFINIB _kernel_mpfinib_table[TNUM_MPFID] = {$NL$
 	$JOINEACH mpfid MPF.ID_LIST ",\n"$
 		$TAB${ ($MPF.MPFATR[mpfid]$), ($MPF.BLKCNT[mpfid]$), ROUND_MPF_T($MPF.BLKSZ[mpfid]$),
 		$IF EQ(MPF.MPF[mpfid],"NULL")$
@@ -1658,21 +1455,12 @@ $	// 固定長メモリプール初期化ブロックの生成
 		}
 	$END$$NL$
 	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const MPFINIB, _kernel_mpfinib_table);$NL$
-$END$$NL$
+	$NL$
 
-$ 動的生成固定長メモリプール用の固定長メモリプール初期化ブロックの生成
-$IF num_ampfid > 0$
-	MPFINIB _kernel_ampfinib_table[$num_ampfid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(MPFINIB, _kernel_ampfinib_table);$NL$
-$END$$NL$
-
-$ 固定長メモリプール管理ブロックの生成
-$IF num_mpfid$
+$	// 固定長メモリプール管理ブロック
 	MPFCB _kernel_mpfcb_table[TNUM_MPFID];$NL$
 $ELSE$
+	TOPPERS_EMPTY_LABEL(const MPFINIB, _kernel_mpfinib_table);$NL$
 	TOPPERS_EMPTY_LABEL(MPFCB, _kernel_mpfcb_table);$NL$
 $END$$NL$
 
@@ -1684,13 +1472,8 @@ $SPC$*  Cyclic Handler Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成された周期ハンドラの数
-#define TNUM_SCYCID	$LENGTH(CYC.ID_LIST)$$NL$
-$NL$
-
 $ 周期ハンドラID番号の最大値
 const ID _kernel_tmax_cycid = (TMIN_CYCID + TNUM_CYCID - 1);$NL$
-const ID _kernel_tmax_scycid = (TMIN_CYCID + TNUM_SCYCID - 1);$NL$
 $NL$
 
 $IF LENGTH(CYC.ID_LIST)$
@@ -1730,7 +1513,7 @@ $		// SAC_CYCがCRE_CYCと異なる保護ドメインに属する場合（E_RSAT
 	$END$
 
 $	// 周期ハンドラ初期化ブロックの生成
-	const CYCINIB _kernel_cycinib_table[TNUM_SCYCID] = {$NL$
+	const CYCINIB _kernel_cycinib_table[TNUM_CYCID] = {$NL$
 	$JOINEACH cycid CYC.ID_LIST ",\n"$
 		$TAB${ ($CYC.CYCATR[cycid]$), (intptr_t)($CYC.EXINF[cycid]$), ($CYC.CYCHDR[cycid]$), ($CYC.CYCTIM[cycid]$), ($CYC.CYCPHS[cycid]$),
 		$IF LENGTH(CYC.ACPTN1[cycid])$
@@ -1741,21 +1524,12 @@ $	// 周期ハンドラ初期化ブロックの生成
 		}
 	$END$$NL$
 	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const CYCINIB, _kernel_cycinib_table);$NL$
-$END$$NL$
+	$NL$
 
-$ 動的生成周期ハンドラ用の周期ハンドラ初期化ブロックの生成
-$IF num_acycid > 0$
-	CYCINIB _kernel_acycinib_table[$num_acycid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(CYCINIB, _kernel_acycinib_table);$NL$
-$END$$NL$
-
-$ 周期ハンドラ管理ブロックの生成
-$IF num_cycid$
+$	// 周期ハンドラ管理ブロック
 	CYCCB _kernel_cyccb_table[TNUM_CYCID];$NL$
 $ELSE$
+	TOPPERS_EMPTY_LABEL(const CYCINIB, _kernel_cycinib_table);$NL$
 	TOPPERS_EMPTY_LABEL(CYCCB, _kernel_cyccb_table);$NL$
 $END$$NL$
 
@@ -1767,13 +1541,8 @@ $SPC$*  Alarm Handler Functions$NL$
 $SPC$*/$NL$
 $NL$
 
-$ 静的に生成されたアラームハンドラの数
-#define TNUM_SALMID	$LENGTH(ALM.ID_LIST)$$NL$
-$NL$
-
 $ アラームハンドラID番号の最大値
 const ID _kernel_tmax_almid = (TMIN_ALMID + TNUM_ALMID - 1);$NL$
-const ID _kernel_tmax_salmid = (TMIN_ALMID + TNUM_SALMID - 1);$NL$
 $NL$
 
 $IF LENGTH(ALM.ID_LIST)$
@@ -1798,7 +1567,7 @@ $		// SAC_ALMがCRE_ALMと異なる保護ドメインに属する場合（E_RSAT
 	$END$
 
 $	// アラームハンドラ初期化ブロックの生成
-	const ALMINIB _kernel_alminib_table[TNUM_SALMID] = {$NL$
+	const ALMINIB _kernel_alminib_table[TNUM_ALMID] = {$NL$
 	$JOINEACH almid ALM.ID_LIST ",\n"$
 		$TAB${ ($ALM.ALMATR[almid]$), (intptr_t)($ALM.EXINF[almid]$), ($ALM.ALMHDR[almid]$),
 		$IF LENGTH(ALM.ACPTN1[almid])$
@@ -1809,21 +1578,12 @@ $	// アラームハンドラ初期化ブロックの生成
 		}
 	$END$$NL$
 	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const ALMINIB, _kernel_alminib_table);$NL$
-$END$$NL$
+	$NL$
 
-$ 動的生成アラームハンドラ用のアラームハンドラ初期化ブロックの生成
-$IF num_aalmid > 0$
-	ALMINIB _kernel_aalminib_table[$num_aalmid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(ALMINIB, _kernel_aalminib_table);$NL$
-$END$$NL$
-
-$ アラームハンドラ管理ブロックの生成
-$IF num_almid$
+$	// アラームハンドラ管理ブロック
 	ALMCB _kernel_almcb_table[TNUM_ALMID];$NL$
 $ELSE$
+	TOPPERS_EMPTY_LABEL(const ALMINIB, _kernel_alminib_table);$NL$
 	TOPPERS_EMPTY_LABEL(ALMCB, _kernel_almcb_table);$NL$
 $END$$NL$
 
@@ -2034,7 +1794,7 @@ $					// TMIN_INTPRI以上である場合（E_OBJ）
 	$i = i + 1$
 $END$
 
-$ 割込みサービスルーチン（ISR）に関するエラーチェック
+$ 割込みサービスルーチン（ISR）に関するエラーチェックと割込みハンドラの生成
 $FOREACH order ISR.ORDER_LIST$
 $	// カーネルドメインに所属していない場合（E_RSATR）
 	$IF !LENGTH(ISR.DOMAIN[order]) || ISR.DOMAIN[order] != TDOM_KERNEL$
@@ -2086,102 +1846,34 @@ $			// よりも小さい場合（E_OBJ）
 				$ERROR INT.TEXT_LINE[intno]$E_OBJ: $FORMAT(_("%1% `%2%\' configured for %3% `%4%\' is higher than %5%"), "intpri", INT.INTPRI[intno], "intno", ISR.INTNO[order_for_error], "TMIN_INTPRI")$$END$
 			$END$
 		$END$
+
+$		// DEF_INH(inhno, { TA_NULL, _kernel_inthdr_<intno> } );
+		$INH.INHNO[inhno] = inhno$
+		$INH.INHATR[inhno] = VALUE("TA_NULL", 0)$
+		$INH.INTHDR[inhno] = CONCAT("_kernel_inthdr_", intno)$
+		$INH.ORDER_LIST = APPEND(INH.ORDER_LIST, inhno)$
+
+$		// ISR用の割込みハンドラ
+		void$NL$
+		_kernel_inthdr_$intno$(void)$NL$
+		{$NL$
+		$IF LENGTH(isr_order_list) > 1$
+			$TAB$PRI	saved_ipm;$NL$
+			$NL$
+			$TAB$i_begin_int($intno$);$NL$
+			$TAB$saved_ipm = i_get_ipm();$NL$
+		$ELSE$
+			$TAB$i_begin_int($intno$);$NL$
+		$END$
+$		// ISRを優先度順に呼び出す
+		$JOINEACH order SORT(isr_order_list, "ISR.ISRPRI") "\tif (i_sense_lock()) {\n\t\ti_unlock_cpu();\n\t}\n\ti_set_ipm(saved_ipm);\n"$
+			$TAB$LOG_ISR_ENTER($intno$);$NL$
+			$TAB$((ISR)($ISR.ISR[order]$))((intptr_t)($ISR.EXINF[order]$));$NL$
+			$TAB$LOG_ISR_LEAVE($intno$);$NL$
+		$END$
+		$TAB$i_end_int($intno$);$NL$
+		}$NL$
 	$END$
-$END$
-
-$ 割込みサービスルーチン（ISR）管理のデータ構造
-$intno_isr_list = {}$
-$FOREACH intno INTNO_ATTISR_VALID$
-	$inhno = INHNO[intno]$
-	$IF LENGTH(INT.INTNO[intno]) && !LENGTH(INH.INHNO[inhno])$
-		$intno_isr_list = APPEND(intno_isr_list, intno)$
-	$END$
-$END$
-
-$INTNO_ISR = {}$
-$i = 0$
-$FOREACH intno SORT(intno_isr_list, "INT.INTNO")$
-	$INTNO_ISR = APPEND(INTNO_ISR, intno)$
-	$ISR_QUEUE_HEADER[intno] = FORMAT("&(_kernel_isr_queue_table[%d])", i)$
-	$i = i + 1$
-$END$
-
-const uint_t _kernel_tnum_isr_queue = $LENGTH(INTNO_ISR)$;$NL$
-$NL$
-
-$IF LENGTH(INTNO_ISR)$
-	const ISR_ENTRY _kernel_isr_queue_list[$LENGTH(INTNO_ISR)$] = {$NL$
-	$JOINEACH intno INTNO_ISR ",\n"$
-		$TAB${ $intno$, $ISR_QUEUE_HEADER[intno]$ }
-	$END$$NL$
-	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(QUEUE, _kernel_isr_queue_table);$NL$
-$END$$NL$
-
-$IF LENGTH(INTNO_ISR)$
-	QUEUE _kernel_isr_queue_table[$LENGTH(INTNO_ISR)$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(QUEUE, _kernel_isr_queue_table);$NL$
-$END$$NL$
-
-$ 割込みサービスルーチン（ISR）呼出しのための割込みハンドラの生成
-$FOREACH intno INTNO_ISR$
-	$inhno = INHNO[intno]$
-
-$	// DEF_INH(inhno, { TA_NULL, _kernel_inthdr_<intno> } );
-	$INH.INHNO[inhno] = inhno$
-	$INH.INHATR[inhno] = VALUE("TA_NULL", 0)$
-	$INH.INTHDR[inhno] = CONCAT("_kernel_inthdr_", intno)$
-	$INH.ORDER_LIST = APPEND(INH.ORDER_LIST, inhno)$
-
-$	// ISR用の割込みハンドラ
-	void$NL$
-	_kernel_inthdr_$intno$(void)$NL$
-	{$NL$
-	$TAB$i_begin_int($intno$);$NL$
-	$TAB$_kernel_call_isr($ISR_QUEUE_HEADER[intno]$);$NL$
-	$TAB$i_end_int($intno$);$NL$
-	}$NL$
-	$NL$
-$END$
-
-$ 静的に生成された割込みサービスルーチンの数
-#define TNUM_SISR	$LENGTH(ISR.ORDER_LIST)$$NL$
-#define TNUM_ISR	$LENGTH(ISR.ORDER_LIST) + num_aisrid$$NL$
-$NL$
-
-$ 割込みサービスルーチンID番号の最大値
-const ID _kernel_tmax_isrid = (TMIN_ISRID + TNUM_ISRID - 1);$NL$
-const uint_t _kernel_tnum_sisr = TNUM_SISR;$NL$
-$NL$
-
-$ 割込みサービスルーチン初期化ブロックの生成
-$IF LENGTH(ISR.ORDER_LIST)$
-	const ISRINIB _kernel_sisrinib_table[TNUM_SISR] = {$NL$
-	$JOINEACH order ISR.ORDER_LIST ",\n"$
-		$TAB${ ($ISR.ISRATR[order]$), ($ISR.EXINF[order]$), ($ISR.INTNO[order]$), ($ISR_QUEUE_HEADER[ISR.INTNO[order]]$), ($ISR.ISR[order]$), ($ISR.ISRPRI[order]$) }
-	$END$$NL$
-	};$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(const ISRINIB, _kernel_sisrinib_table);$NL$
-$END$
-$NL$
-
-$ 動的生成割込みサービスルーチン用の割込みサービスルーチン初期化ブロッ
-$ クの生成
-$IF num_aisrid > 0$
-	ISRINIB _kernel_aisrinib_table[$num_aisrid$];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(ISRINIB, _kernel_aisrinib_table);$NL$
-$END$
-$NL$
-
-$ 割込みサービスルーチン管理ブロックの生成
-$IF LENGTH(ISR.ORDER_LIST) || num_aisrid > 0$
-	ISRCB _kernel_isrcb_table[TNUM_ISR];$NL$
-$ELSE$
-	TOPPERS_EMPTY_LABEL(ISRCB, _kernel_isrcb_table);$NL$
 $END$
 $NL$
 
@@ -2430,57 +2122,6 @@ STK_T *const	_kernel_istkpt = TOPPERS_ISTKPT(TOPPERS_ISTK, TOPPERS_ISTKSZ);$NL$
 $NL$
 
 $
-$  カーネルが割り付けるメモリ領域
-$
-/*$NL$
-$SPC$*  Memory Area Allocated by Kernel$NL$
-$SPC$*/$NL$
-$NL$
-
-$IF !LENGTH(KMM.ORDER_LIST)$
-$	// DEF_KMMがない場合のデフォルト値の設定
-	#define TOPPERS_KMMSZ		0$NL$
-	#define TOPPERS_KMM			NULL$NL$
-$ELSE$
-$	// カーネルドメインの囲みの中にない場合（E_RSATR）
-	$IF !LENGTH(KMM.DOMAIN[1]) || KMM.DOMAIN[1] != TDOM_KERNEL$
-		$ERROR KMM.TEXT_LINE[1]$E_RSATR: $FORMAT(_("%1% must be within the kernel domain"), "DEF_KMM")$$END$
-	$END$
-
-$	// 静的API「DEF_KMM」が複数ある（E_OBJ）
-	$IF LENGTH(KMM.ORDER_LIST) > 1$
-		$ERROR$E_OBJ: $FORMAT(_("too many %1%"), "DEF_KMM")$$END$
-	$END$
-
-$	// kmmszが0以下の場合（E_PAR）
-	$IF KMM.KMMSZ[1] <= 0$
-		$ERROR KMM.TEXT_LINE[1]$E_PAR: $FORMAT(_("%1% `%2%\' is zero in %3%"), "kmmsz", KMM.KMMSZ[1], "DEF_KMM")$$END$
-	$END$
-
-$ 	// kmmszがカーネルが割り付けるメモリ領域のサイズとして正しくない場合（E_PAR）
-	$IF !EQ(KMM.KMM[1], "NULL") && CHECK_MB_ALIGN
-							&& (KMM.KMMSZ[1] & (CHECK_MB_ALIGN - 1))$
-		$ERROR KMM.TEXT_LINE[1]$E_PAR: $FORMAT(_("%1% `%2%\' in %3% is not aligned"), "kmmsz", KMM.KMMSZ[1], "DEF_KMM")$$END$
-	$END$
-
-	$IF EQ(KMM.KMM[1], "NULL")$
-$		// カーネルが割り付けるメモリ領域の自動割付け
-		static MB_T					_kernel_memory[TOPPERS_COUNT_SZ($KMM.KMMSZ[1]$, sizeof(MB_T))];$NL$
-		#define TOPPERS_KMMSZ		TOPPERS_ROUND_SZ($KMM.KMMSZ[1]$, sizeof(MB_T))$NL$
-		#define TOPPERS_KMM			_kernel_memory$NL$
-	$ELSE$
-		#define TOPPERS_KMMSZ		($KMM.KMMSZ[1]$)$NL$
-		#define TOPPERS_KMM			(void *)($KMM.KMM[1]$)$NL$
-	$END$
-$END$
-$NL$
-
-$ カーネルが割り付けるメモリ領域
-const SIZE		_kernel_kmmsz = TOPPERS_KMMSZ;$NL$
-MB_T *const		_kernel_kmm = TOPPERS_KMM;$NL$
-$NL$
-
-$
 $  タイムイベント管理
 $
 /*$NL$
@@ -2501,17 +2142,16 @@ void$NL$
 _kernel_initialize_object(void)$NL$
 {$NL$
 $TAB$_kernel_initialize_task();$NL$
-$IF num_semid$$TAB$_kernel_initialize_semaphore();$NL$$END$
-$IF num_flgid$$TAB$_kernel_initialize_eventflag();$NL$$END$
-$IF num_dtqid$$TAB$_kernel_initialize_dataqueue();$NL$$END$
-$IF num_pdqid$$TAB$_kernel_initialize_pridataq();$NL$$END$
-$IF num_mtxid$$TAB$_kernel_initialize_mutex();$NL$$END$
-$IF num_mpfid$$TAB$_kernel_initialize_mempfix();$NL$$END$
-$IF num_cycid$$TAB$_kernel_initialize_cyclic();$NL$$END$
-$IF num_almid$$TAB$_kernel_initialize_alarm();$NL$$END$
+$IF LENGTH(SEM.ID_LIST)$$TAB$_kernel_initialize_semaphore();$NL$$END$
+$IF LENGTH(FLG.ID_LIST)$$TAB$_kernel_initialize_eventflag();$NL$$END$
+$IF LENGTH(DTQ.ID_LIST)$$TAB$_kernel_initialize_dataqueue();$NL$$END$
+$IF LENGTH(PDQ.ID_LIST)$$TAB$_kernel_initialize_pridataq();$NL$$END$
+$IF LENGTH(MTX.ID_LIST)$$TAB$_kernel_initialize_mutex();$NL$$END$
+$IF LENGTH(MPF.ID_LIST)$$TAB$_kernel_initialize_mempfix();$NL$$END$
+$IF LENGTH(CYC.ID_LIST)$$TAB$_kernel_initialize_cyclic();$NL$$END$
+$IF LENGTH(ALM.ID_LIST)$$TAB$_kernel_initialize_alarm();$NL$$END$
 $IF TOPPERS_SUPPORT_OVRHDR$$TAB$_kernel_initialize_overrun();$NL$$END$
 $TAB$_kernel_initialize_interrupt();$NL$
-$IF num_isr$$TAB$_kernel_initialize_isr();$NL$$END$
 $TAB$_kernel_initialize_exception();$NL$
 }$NL$
 $NL$
