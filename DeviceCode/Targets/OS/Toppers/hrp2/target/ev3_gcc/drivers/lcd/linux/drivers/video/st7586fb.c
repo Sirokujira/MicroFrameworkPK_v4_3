@@ -382,7 +382,9 @@ static struct fb_ops st7586fb_ops = {
 	.fb_ioctl       = st7586fb_ioctl
 };
 
-static struct fb_deferred_io st7586fb_defio = {
+// static struct fb_deferred_io st7586fb_defio = {
+// http://stackoverflow.com/questions/4215466/c-variable-has-incomplete-initializer
+static fb_deferred_io st7586fb_defio = {
 	.delay		= HZ / 20,
 	.deferred_io	= st7586fb_deferred_io,
 };
