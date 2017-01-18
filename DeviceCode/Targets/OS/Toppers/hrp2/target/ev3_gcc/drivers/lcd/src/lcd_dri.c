@@ -21,10 +21,6 @@ void initialize_lcd_font();
 #define virt_to_phys(x) (x)
 #define copy_from_user memcpy
 
-// linux kernel Build
-// http://www.poared.com/wordpress/?p=10
-// http://jp.kernelnewbies.org/InternalKernelDataTypes
-#define __KERNEL__
 
 /**
  * Reuse 'st7586fb.c' from LEGO MINDSTORMS EV3 source code

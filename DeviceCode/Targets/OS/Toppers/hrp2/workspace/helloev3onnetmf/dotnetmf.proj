@@ -321,7 +321,7 @@
         <CFiles Include="../../target/ev3_gcc/drivers/common/src/ev3_hacks.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/brick/src/ev3cyclic_dri.c" />
         <!-- ARMV5_MMU_DSCR1_PAGETABLE no define -->
-        <!-- <CFiles Include="../../target/ev3_gcc/platform/src/ev3exception.c" /> -->
+        <CFiles Include="../../target/ev3_gcc/platform/src/ev3exception.c" />
         <CFiles Include="../../target/ev3_gcc/platform/src/ev3main.c" />
         <CFiles Include="../../target/ev3_gcc/platform/src/ev3rt_config.c" />
         <!-- end -->

@@ -1,320 +1,329 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project  xmlns="http://schemas.microsoft.com/developer/msbuild/2003"  ToolsVersion="4.0">
 
-  <PropertyGroup>
-    <BuildToolName>GCC</BuildToolName>
-    <BuildToolGuid>{722B0D5D-1243-4557-913F-61FAB04E9209}</BuildToolGuid>
-    <Documentation></Documentation>
-    <ProcessorTypes>XScale;ARM7TDMI;ARM7TDMI-S;arm920t;arm926EJ-S</ProcessorTypes>
-    <ISAs>arm;thumb</ISAs>
-  </PropertyGroup>
+    <PropertyGroup>
+        <BuildToolName>GCC</BuildToolName>
+        <BuildToolGuid>{722B0D5D-1243-4557-913F-61FAB04E9209}</BuildToolGuid>
+        <Documentation></Documentation>
+        <ProcessorTypes>XScale;ARM7TDMI;ARM7TDMI-S;arm920t;arm926EJ-S</ProcessorTypes>
+        <ISAs>arm;thumb</ISAs>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCC'" >
-    <TARGETCURRENT>$(SPO_BUILD)\$(INSTRUCTION_SET)\$(TARGETLOCATION)\$(OLD_FLAVOR)\$(TARGETPLATFORM)\bin</TARGETCURRENT>
+    <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCC'" >
+        <TARGETCURRENT>$(SPO_BUILD)\$(INSTRUCTION_SET)\$(TARGETLOCATION)\$(OLD_FLAVOR)\$(TARGETPLATFORM)\bin</TARGETCURRENT>
+        
+        <!-- GNU Tools - Assumes that the Path is already set up to these tools (the default) -->
+        <CC>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</CC>
+        <TCC>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</TCC>
+        <CPP>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</CPP>
+        <CXX>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-g++.exe"</CXX>
+        <TCPP>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</TCPP>
+        <AS>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-as.exe"</AS>
+        <LINK>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-ld.exe"</LINK>
+        <AR>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-ar.exe"</AR>
+        <NM>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-nm.exe"</NM>
+        <FROMELF>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-objcopy.exe"</FROMELF>
+        <OBJDUMP>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-objdump.exe"</OBJDUMP>
+        <RANLIB>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-ranlib.exe"</RANLIB>
+        <CREATESYMDEF>$(TOOLS_DIR)\CreateSymdef.exe</CREATESYMDEF>
+        <CREATESYMDEF_ALT>$(SPOCLIENT)\TOOLS\BIN\CreateSymdef.exe</CREATESYMDEF_ALT>
+        
+        <!-- alternate location for tool binaries -->
+        <AS      Condition="!EXISTS('$(AS)')"     >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\as.exe"</AS>
+        <LINK    Condition="!EXISTS('$(LINK)')"   >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\ld.exe"</LINK>
+        <AR      Condition="!EXISTS('$(AR)')"     >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\ar.exe"</AR>
+        <NM      Condition="!EXISTS('$(NM)')"     >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\nm.exe"</NM>
+        <FROMELF Condition="!EXISTS('$(FROMELF)')">"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\objcopy.exe"</FROMELF>
+        <OBJDUMP Condition="!EXISTS('$(OBJDUMP)')">"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\objdump.exe"</OBJDUMP>
+        <RANLIB  Condition="!EXISTS('$(RANLIB)')" >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\ranlib.exe"</RANLIB>
+    </PropertyGroup>
 
-    <!-- GNU Tools - Assumes that the Path is already set up to these tools (the default) -->
-    <CC>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</CC>
-    <TCC>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</TCC>
-    <CPP>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</CPP>
-    <CXX>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-g++.exe"</CXX>
-    <TCPP>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</TCPP>
-    <AS>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-as.exe"</AS>
-    <LINK>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-ld.exe"</LINK>
-    <AR>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-ar.exe"</AR>
-    <NM>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-nm.exe"</NM>
-    <FROMELF>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-objcopy.exe"</FROMELF>
-    <OBJDUMP>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-objdump.exe"</OBJDUMP>
-    <RANLIB>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-ranlib.exe"</RANLIB>
-    <CREATESYMDEF>$(TOOLS_DIR)\CreateSymdef.exe</CREATESYMDEF>
-    <CREATESYMDEF_ALT>$(SPOCLIENT)\TOOLS\BIN\CreateSymdef.exe</CREATESYMDEF_ALT>
+    <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCCOP'" >
+        <TARGETCURRENT>$(SPO_BUILD)\$(INSTRUCTION_SET)\$(TARGETLOCATION)\$(OLD_FLAVOR)\$(TARGETPLATFORM)\bin</TARGETCURRENT>
+        
+        <!-- GNU Tools - Assumes that the Path is already set up to these tools (the default) -->
+        <CC>"$(GNU_TOOLS_BIN)\gcc.exe"</CC>
+        <TCC>"$(GNU_TOOLS_BIN)\gcc.exe"</TCC>
+        <CPP>"$(GNU_TOOLS_BIN)\gcc.exe"</CPP>
+        <TCPP>"$(GNU_TOOLS_BIN)\gcc.exe"</TCPP>
+        <AS>"$(GNU_TOOLS_BIN)\as.exe"</AS>
+        <LINK>"$(GNU_TOOLS_BIN)\ld.exe"</LINK>
+        <AR>"$(GNU_TOOLS_BIN)\ar.exe"</AR>
+        <NM>"$(GNU_TOOLS_BIN)\nm.exe"</NM>
+        <FROMELF>"$(GNU_TOOLS_BIN)\objcopy.exe"</FROMELF>
+        <OBJDUMP>"$(GNU_TOOLS_BIN)\objdump.exe"</OBJDUMP>
+        <RANLIB>"$(GNU_TOOLS_BIN)\ranlib.exe"</RANLIB>
+        <CREATESYMDEF>$(TOOLS_DIR)\CreateSymdef.exe</CREATESYMDEF>
+        <CREATESYMDEF_ALT>$(SPOCLIENT)\TOOLS\BIN\CreateSymdef.exe</CREATESYMDEF_ALT>
+    </PropertyGroup>
 
-    <!-- alternate location for tool binaries -->
-    <AS      Condition="!EXISTS('$(AS)')"     >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\as.exe"</AS>
-    <LINK    Condition="!EXISTS('$(LINK)')"   >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\ld.exe"</LINK>
-    <AR      Condition="!EXISTS('$(AR)')"     >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\ar.exe"</AR>
-    <NM      Condition="!EXISTS('$(NM)')"     >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\nm.exe"</NM>
-    <FROMELF Condition="!EXISTS('$(FROMELF)')">"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\objcopy.exe"</FROMELF>
-    <OBJDUMP Condition="!EXISTS('$(OBJDUMP)')">"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\objdump.exe"</OBJDUMP>
-    <RANLIB  Condition="!EXISTS('$(RANLIB)')" >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\ranlib.exe"</RANLIB>
-  </PropertyGroup>
-
-
-  <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCCOP'" >
-    <TARGETCURRENT>$(SPO_BUILD)\$(INSTRUCTION_SET)\$(TARGETLOCATION)\$(OLD_FLAVOR)\$(TARGETPLATFORM)\bin</TARGETCURRENT>
-    
-    <!-- GNU Tools - Assumes that the Path is already set up to these tools (the default) -->
-    <CC>"$(GNU_TOOLS_BIN)\gcc.exe"</CC>
-    <TCC>"$(GNU_TOOLS_BIN)\gcc.exe"</TCC>
-    <CPP>"$(GNU_TOOLS_BIN)\gcc.exe"</CPP>
-    <TCPP>"$(GNU_TOOLS_BIN)\gcc.exe"</TCPP>
-    <AS>"$(GNU_TOOLS_BIN)\as.exe"</AS>
-    <LINK>"$(GNU_TOOLS_BIN)\ld.exe"</LINK>
-    <AR>"$(GNU_TOOLS_BIN)\ar.exe"</AR>
-    <NM>"$(GNU_TOOLS_BIN)\nm.exe"</NM>
-    <FROMELF>"$(GNU_TOOLS_BIN)\objcopy.exe"</FROMELF>
-    <OBJDUMP>"$(GNU_TOOLS_BIN)\objdump.exe"</OBJDUMP>
-    <RANLIB>"$(GNU_TOOLS_BIN)\ranlib.exe"</RANLIB>
-    <CREATESYMDEF>$(TOOLS_DIR)\CreateSymdef.exe</CREATESYMDEF>
-    <CREATESYMDEF_ALT>$(SPOCLIENT)\TOOLS\BIN\CreateSymdef.exe</CREATESYMDEF_ALT>
-  </PropertyGroup>
-
-  <!-- based on cpu type, setup compiler-->
-  <PropertyGroup>
-    <!-- We need to convert the RVDS CPU type to its GCC equivalent if needed-->
-    <ARM_TYPE_FLAGS Condition="'$(DEVICE_TYPE)' == 'arm926EJ-S'">arm926ej-s</ARM_TYPE_FLAGS>
-    <ARM_TYPE_FLAGS Condition="'$(DEVICE_TYPE)' == 'ARM7TDMI'">arm7tdmi</ARM_TYPE_FLAGS>
-    <!-- <ARM_TYPE_FLAGS Condition="'$(ARM_TYPE_FLAGS)'==''">$(DEVICE_TYPE)</ARM_TYPE_FLAGS> -->
-    <ARM_TYPE_FLAGS Condition="'$(ARM_TYPE_FLAGS)'==''">arm926ej-s</ARM_TYPE_FLAGS>
-    
-    <POS_DEPENDENT></POS_DEPENDENT>
-    <POS_INDEPENDENT>-fpic</POS_INDEPENDENT>
-    <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) -mabi=aapcs -ffunction-sections -fomit-frame-pointer -mlong-calls -fdollars-in-identifiers -fshort-wchar -fno-exceptions  -funsigned-char -mstructure-size-boundary=8</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"          >$(CC_CPP_TARGETTYPE_FLAGS) -O3</CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"        >$(CC_CPP_TARGETTYPE_FLAGS) -g -O0 -femit-class-debug-always</CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -g -O0</CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -g1 -Os</CC_CPP_TARGETTYPE_FLAGS>
-    
-    <!-- Common Compile Options Define
-    COPTS := $(COPTS) -g 
-    ifndef OMIT_WARNING_ALL
-      COPTS := $(COPTS) -Wall
-    endif
-    ifndef OMIT_OPTIMIZATION
-      COPTS := $(COPTS) -O2
-    endif
-    -->
-    
-    <!-- <CC_FLAGS>$(CC_FLAGS)-xc </CC_FLAGS> -->
-    <CC_FLAGS>$(CC_FLAGS)-xc -std=gnu99</CC_FLAGS>
-    <CPP_FLAGS>$(CPP_FLAGS)-xc++ -Wno-invalid-offsetof -fcheck-new </CPP_FLAGS>
-    
-    <!-- add -->
-    <CFLAGS>-fPIC -mno-pic-data-is-text-relative -nostdlib -std=gnu99 -fno-strict-aliasing -mcpu=$(ARM_TYPE_FLAGS) -mlittle-endian -D__TARGET_ARCH_ARM=5</CFLAGS>
-    <!-- <CFLAGS>-fPIC -nostdlib -std=c99 -nostartfiles -fno-strict-aliasing -mcpu=arm926ej-s -mlittle-endian -D__TARGET_ARCH_ARM=5</CFLAGS> -->
-    <CXXFLAGS>-fPIC -mno-pic-data-is-text-relative -nostdlib -std=gnu++11 -fno-strict-aliasing -mcpu=$(ARM_TYPE_FLAGS) -mlittle-endian -D__TARGET_ARCH_ARM=5</CXXFLAGS>
-
-    <FLOATING_POINT_FLAG Condition="'$(PLATFORM_EMULATED_FLOATINGPOINT)'!='true'"> -mfloat-abi=soft </FLOATING_POINT_FLAG>
-    <FLOATING_POINT_FLAG Condition="'$(PLATFORM_EMULATED_FLOATINGPOINT)'=='true'"> </FLOATING_POINT_FLAG>
-
-    <AS_CC_CPP_COMMON_FLAGS Condition="'$(COMPILER_TOOL)'!='GCCOP'">$(AS_CC_CPP_COMMON_FLAGS) $(FLOATING_POINT_FLAG) </AS_CC_CPP_COMMON_FLAGS>
-    <AS_CC_CPP_COMMON_FLAGS>$(AS_CC_CPP_COMMON_FLAGS) -mcpu=$(ARM_TYPE_FLAGS)</AS_CC_CPP_COMMON_FLAGS>
-    <AS_CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='le'">$(AS_CC_CPP_COMMON_FLAGS) -mlittle-endian</AS_CC_CPP_COMMON_FLAGS>
-    <AS_CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='be'">$(AS_CC_CPP_COMMON_FLAGS) -mbig-endian</AS_CC_CPP_COMMON_FLAGS>
-  </PropertyGroup>
-
-  <!-- Assembler flags -->
-  <PropertyGroup>
-
-    <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"         >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=1</AS_TARGETTYPE_FLAGS>
-    <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"     >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 </AS_TARGETTYPE_FLAGS>
-    <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"       >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 -g</AS_TARGETTYPE_FLAGS>
-    <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'">$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 -g</AS_TARGETTYPE_FLAGS>
-
-    <!-- Adjust the compiler/assembler flags according to the settings -->
-    <AS_FLAGS Condition="'$(sampleprof)'=='true'" >$(AS_FLAGS) --defsym FIQ_SAMPLING_PROFILER=1</AS_FLAGS>
-    <AS_FLAGS Condition="'$(latencyprof)'=='true'">$(AS_FLAGS) --defsym FIQ_LATENCY_PROFILER=1</AS_FLAGS>
-    <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='arm'"     >$(AS_FLAGS) --defsym COMPILE_ARM=1</AS_FLAGS>
-    <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(COMPILER_TOOL)'=='GCCOP'">$(AS_FLAGS) --defsym COMPILE_THUMB=1 -mthumb</AS_FLAGS>
-    <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(COMPILER_TOOL)'!='GCCOP'">$(AS_FLAGS) --defsym COMPILE_THUMB=1 -mthumb-interwork</AS_FLAGS>
-    <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb2'"  >$(AS_FLAGS) --defsym COMPILE_THUMB2=1</AS_FLAGS>
-    <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb2fp'">$(AS_FLAGS) --defsym COMPILE_THUMB2=1</AS_FLAGS>
+    <!-- based on cpu type, setup compiler-->
+    <PropertyGroup>
+        <!-- We need to convert the RVDS CPU type to its GCC equivalent if needed-->
+        <ARM_TYPE_FLAGS Condition="'$(DEVICE_TYPE)' == 'arm926EJ-S'">arm926ej-s</ARM_TYPE_FLAGS>
+        <ARM_TYPE_FLAGS Condition="'$(DEVICE_TYPE)' == 'ARM7TDMI'">arm7tdmi</ARM_TYPE_FLAGS>
+        <!-- <ARM_TYPE_FLAGS Condition="'$(ARM_TYPE_FLAGS)'==''">$(DEVICE_TYPE)</ARM_TYPE_FLAGS> -->
+        <ARM_TYPE_FLAGS Condition="'$(ARM_TYPE_FLAGS)'==''">arm926ej-s</ARM_TYPE_FLAGS>
+        
+        <POS_DEPENDENT></POS_DEPENDENT>
+        <POS_INDEPENDENT>-fpic</POS_INDEPENDENT>
+        <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) -mabi=aapcs -ffunction-sections -fomit-frame-pointer -mlong-calls -fdollars-in-identifiers -fshort-wchar -fno-exceptions  -funsigned-char -mstructure-size-boundary=8</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"          >$(CC_CPP_TARGETTYPE_FLAGS) -O3</CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"        >$(CC_CPP_TARGETTYPE_FLAGS) -g -O0 -femit-class-debug-always</CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -g -O0</CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -g1 -Os</CC_CPP_TARGETTYPE_FLAGS>
+        
+        <!-- Common Compile Options Define
+        COPTS := $(COPTS) -g 
+        ifndef OMIT_WARNING_ALL
+          COPTS := $(COPTS) -Wall
+        endif
+        ifndef OMIT_OPTIMIZATION
+          COPTS := $(COPTS) -O2
+        endif
+        -->
+        
+        <!-- add -->
+        <!-- makefile flags -->
+        <!-- module/kernel_cfg.c compile flag use -->
+        <CFLAGS>-fPIC -mno-pic-data-is-text-relative -nostdlib -std=gnu99 -fno-strict-aliasing -mcpu=$(ARM_TYPE_FLAGS) -mlittle-endian -D__TARGET_ARCH_ARM=5</CFLAGS>
+        <CXXFLAGS>-fPIC -mno-pic-data-is-text-relative -nostdlib -std=gnu++11 -fno-strict-aliasing -mcpu=$(ARM_TYPE_FLAGS) -mlittle-endian -D__TARGET_ARCH_ARM=5</CXXFLAGS>
+        
+        <!-- http://stackoverflow.com/questions/24881/how-do-i-fix-for-loop-initial-declaration-used-outside-c99-mode-gcc-error -->
+        <!-- Toppers Custom -->
+        <CTOPPERS_EV3_WARNING_OFF_FLAGS>-Wimplicit-function-declaration</CTOPPERS_EV3_WARNING_OFF_FLAGS>
+        <!-- <CTOPPERS_EV3_FLAGS>-fPIC -mno-pic-data-is-text-relative -nostdlib -std=gnu99 -fno-strict-aliasing -D__TARGET_ARCH_ARM=5</CTOPPERS_EV3_FLAGS> -->
+        <CTOPPERS_EV3_FLAGS>-std=gnu99 -D__TARGET_ARCH_ARM=5 $(CTOPPERS_EV3_WARNING_OFF_FLAGS)</CTOPPERS_EV3_FLAGS>
+        
+        <!-- -std=gnu++11 ng -->
+        <CXXTOPPERS_EV3_WARNING_OFF_FLAGS></CXXTOPPERS_EV3_WARNING_OFF_FLAGS>
+        <!-- <CXXTOPPERS_EV3_FLAGS>-fPIC -mno-pic-data-is-text-relative -nostdlib -fno-strict-aliasing -D__TARGET_ARCH_ARM=5</CXXTOPPERS_EV3_FLAGS> -->
+        <CXXTOPPERS_EV3_FLAGS>-std=gnu++11 -D__TARGET_ARCH_ARM=5 $(CXXTOPPERS_EV3_WARNING_OFF_FLAGS)</CXXTOPPERS_EV3_FLAGS>
+        
+        <!-- kernel -->
+        <USE_CFG_PASS3>mem use</USE_CFG_PASS3>
+        
+        <!-- <CC_FLAGS>$(CC_FLAGS)-xc </CC_FLAGS> -->
+        <!-- <CPP_FLAGS>$(CPP_FLAGS)-xc++ -Wno-invalid-offsetof -fcheck-new </CPP_FLAGS> -->
+        <!-- Toppers Add -->
+        <CC_FLAGS>$(CC_FLAGS)-xc $(CTOPPERS_EV3_FLAGS)</CC_FLAGS>
+        <CPP_FLAGS>$(CPP_FLAGS)-xc++ -Wno-invalid-offsetof -fcheck-new $(CXXTOPPERS_EV3_FLAGS)</CPP_FLAGS>
+        
+        <FLOATING_POINT_FLAG Condition="'$(PLATFORM_EMULATED_FLOATINGPOINT)'!='true'"> -mfloat-abi=soft </FLOATING_POINT_FLAG>
+        <FLOATING_POINT_FLAG Condition="'$(PLATFORM_EMULATED_FLOATINGPOINT)'=='true'"> </FLOATING_POINT_FLAG>
+        
+        <AS_CC_CPP_COMMON_FLAGS Condition="'$(COMPILER_TOOL)'!='GCCOP'">$(AS_CC_CPP_COMMON_FLAGS) $(FLOATING_POINT_FLAG) </AS_CC_CPP_COMMON_FLAGS>
+        <AS_CC_CPP_COMMON_FLAGS>$(AS_CC_CPP_COMMON_FLAGS) -mcpu=$(ARM_TYPE_FLAGS)</AS_CC_CPP_COMMON_FLAGS>
+        <AS_CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='le'">$(AS_CC_CPP_COMMON_FLAGS) -mlittle-endian</AS_CC_CPP_COMMON_FLAGS>
+        <AS_CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='be'">$(AS_CC_CPP_COMMON_FLAGS) -mbig-endian</AS_CC_CPP_COMMON_FLAGS>
+    </PropertyGroup>
 
     <!-- Assembler flags -->
-    <!-- TODO: There are no string macros in the GDD assembler, so this must be done another way
-      TargetLocation     SETS $(TARGETLOCATION)
-      // pedantic matching of letter case with old makefiles
-      TargetType         SETS $(OLD_FLAVOR)
-      TargetModel        SETS $(TARGETPLATFORM)
-      TargetPlatformName SETS PLATFORM_ARM_$(TARGETPLATFORM)
-      CompilerVersion    SETS $(COMPILER_TOOL_VERSION)
-      TargetPlatformProcessor SETS PLATFORM_ARM_$(TARGETPROCESSOR)
-     -->
-    <!-- Used by FirstEntry.s in liu of defining TargetPlatformProcessor & TargetPlatformName -->
-    <AS_FLAGS>$(AS_FLAGS) --defsym PLATFORM_ARM_$(TARGETPROCESSOR)=1</AS_FLAGS>
-    <AS_FLAGS>$(AS_FLAGS) --defsym PLATFORM_ARM_$(TARGETPLATFORM)=1</AS_FLAGS>
+    <PropertyGroup>
+        
+        <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"         >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=1</AS_TARGETTYPE_FLAGS>
+        <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"     >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 </AS_TARGETTYPE_FLAGS>
+        <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"       >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 -g</AS_TARGETTYPE_FLAGS>
+        <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'">$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 -g</AS_TARGETTYPE_FLAGS>
+        
+        <!-- Adjust the compiler/assembler flags according to the settings -->
+        <AS_FLAGS Condition="'$(sampleprof)'=='true'" >$(AS_FLAGS) --defsym FIQ_SAMPLING_PROFILER=1</AS_FLAGS>
+        <AS_FLAGS Condition="'$(latencyprof)'=='true'">$(AS_FLAGS) --defsym FIQ_LATENCY_PROFILER=1</AS_FLAGS>
+        <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='arm'"     >$(AS_FLAGS) --defsym COMPILE_ARM=1</AS_FLAGS>
+        <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(COMPILER_TOOL)'=='GCCOP'">$(AS_FLAGS) --defsym COMPILE_THUMB=1 -mthumb</AS_FLAGS>
+        <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(COMPILER_TOOL)'!='GCCOP'">$(AS_FLAGS) --defsym COMPILE_THUMB=1 -mthumb-interwork</AS_FLAGS>
+        <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb2'"  >$(AS_FLAGS) --defsym COMPILE_THUMB2=1</AS_FLAGS>
+        <AS_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb2fp'">$(AS_FLAGS) --defsym COMPILE_THUMB2=1</AS_FLAGS>
+        
+        <!-- Assembler flags -->
+        <!-- TODO: There are no string macros in the GDD assembler, so this must be done another way
+          TargetLocation     SETS $(TARGETLOCATION)
+          // pedantic matching of letter case with old makefiles
+          TargetType         SETS $(OLD_FLAVOR)
+          TargetModel        SETS $(TARGETPLATFORM)
+          TargetPlatformName SETS PLATFORM_ARM_$(TARGETPLATFORM)
+          CompilerVersion    SETS $(COMPILER_TOOL_VERSION)
+          TargetPlatformProcessor SETS PLATFORM_ARM_$(TARGETPROCESSOR)
+         -->
+        <!-- Used by FirstEntry.s in liu of defining TargetPlatformProcessor & TargetPlatformName -->
+        <AS_FLAGS>$(AS_FLAGS) --defsym PLATFORM_ARM_$(TARGETPROCESSOR)=1</AS_FLAGS>
+        <AS_FLAGS>$(AS_FLAGS) --defsym PLATFORM_ARM_$(TARGETPLATFORM)=1</AS_FLAGS>
+        
+        <AS_FLAGS Condition="'$(reducesize)'=='true'">$(AS_FLAGS) --defsym HAL_REDUCESIZE=1</AS_FLAGS>
+        <AS_FLAGS>$(AS_FLAGS) --defsym TARGETLOCATION_$(TARGETLOCATION)=1 $(AS_CC_CPP_COMMON_FLAGS) $(AS_TARGETTYPE_FLAGS) $(AS_INCS)</AS_FLAGS>
+        <AS_FLAGS>$(AS_FLAGS) @(AS_Defines->'--defsym %(filename)',' ')</AS_FLAGS>
+        
+        <AS_SUBDIR>GNU_S</AS_SUBDIR>
+    </PropertyGroup>
 
-    <AS_FLAGS Condition="'$(reducesize)'=='true'">$(AS_FLAGS) --defsym HAL_REDUCESIZE=1</AS_FLAGS>
+    <!-- common cc/cpp flags -->
+    <PropertyGroup>
+        <!-- CPP/CC flags depands on the target build -->
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"          >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_RTM -finline-functions</CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"        >$(CC_CPP_TARGETTYPE_FLAGS) -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -DNDEBUG</CC_CPP_TARGETTYPE_FLAGS>
+        <!--
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"          >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DBUILD_RTM -finline-functions</CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"        >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
+        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DNDEBUG</CC_CPP_TARGETTYPE_FLAGS>
+        -->
+        <CPP_FLAGS Condition="'$(FLAVOR)'=='Release'">$(CPP_FLAGS) -fno-default-inline</CPP_FLAGS>
+        
+        <CC_CPP_COMMON_FLAGS Condition="'$(TCP_IP_STACK)'=='LWIP'">$(CC_CPP_COMMON_FLAGS) -DTCPIP_LWIP</CC_CPP_COMMON_FLAGS>
+        
+        <CC_CPP_COMMON_FLAGS Condition="'$(reducesize)'=='true'" >$(CC_CPP_COMMON_FLAGS) -DHAL_REDUCESIZE</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(timewarp)'=='true'"   >$(CC_CPP_COMMON_FLAGS) -DHAL_TIMEWARP</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(profile)'=='true'"    >$(CC_CPP_COMMON_FLAGS) -DARM_PROFILE_ACTIVE</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(FLAVOR)'!='RTM'"    >$(CC_CPP_COMMON_FLAGS) -DTINYCLR_ENABLE_SOURCELEVELDEBUGGING </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(sampleprof)'=='true'" >$(CC_CPP_COMMON_FLAGS) -DFIQ_SAMPLING_PROFILER </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(latencyprof)'=='true'">$(CC_CPP_COMMON_FLAGS) -DFIQ_LATENCY_PROFILER </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='arm'"     >$(CC_CPP_COMMON_FLAGS) -DCOMPILE_ARM </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(COMPILER_TOOL)'=='GCCOP'"   >$(CC_CPP_COMMON_FLAGS) -DCOMPILE_THUMB </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(COMPILER_TOOL)'!='GCCOP'"   >$(CC_CPP_COMMON_FLAGS) -mthumb-interwork -DCOMPILE_THUMB </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb2'"  >$(CC_CPP_COMMON_FLAGS) -DCOMPILE_THUMB2 </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb2fp'">$(CC_CPP_COMMON_FLAGS) -DCOMPILE_THUMB2 </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(ARMBUILD_ONLY)'!='true' "   >$(CC_CPP_COMMON_FLAGS) -mthumb </CC_CPP_COMMON_FLAGS>
+        
+        <CC_CPP_COMMON_FLAGS Condition="'$(FLAVOR)'=='Instrumented' and '$(NATIVE_PROFILE_CLR)'!=''">$(CC_CPP_COMMON_FLAGS) -DNATIVE_PROFILE_CLR=$(NATIVE_PROFILE_CLR)</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(FLAVOR)'=='Instrumented' and '$(NATIVE_PROFILE_PAL)'!=''">$(CC_CPP_COMMON_FLAGS) -DNATIVE_PROFILE_PAL=$(NATIVE_PROFILE_PAL)</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(FLAVOR)'=='Instrumented' and '$(NATIVE_PROFILE_HAL)'!=''">$(CC_CPP_COMMON_FLAGS) -DNATIVE_PROFILE_HAL=$(NATIVE_PROFILE_HAL)</CC_CPP_COMMON_FLAGS>
+        
+        <!-- BUILD VERSIONS -->
+        <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) -DVERSION_MAJOR=$(MajorVersion) -DVERSION_MINOR=$(MinorVersion) -DVERSION_BUILD=$(BuildNumber) -DVERSION_REVISION=$(RevisionNumber) -DOEMSYSTEMINFOSTRING="\"$(OemSystemInfoString)\""</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) -DPLATFORM_ARM_$(TARGETPROCESSOR) -DPLATFORM_ARM_$(TARGETPLATFORM) -DTARGETLOCATION_$(TARGETLOCATION)</CC_CPP_COMMON_FLAGS>
+        
+        <CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='le'">$(CC_CPP_COMMON_FLAGS) -DLITTLE_ENDIAN</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='be'">$(CC_CPP_COMMON_FLAGS) -DBIG_ENDIAN</CC_CPP_COMMON_FLAGS>
+        
+        <CC_CPP_COMMON_FLAGS Condition="'$(PATCH_BUILD)'=='Active'">$(CC_CPP_COMMON_FLAGS) -DPATCH_BUILD</CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(OS_PLATFORM)'=='true'">$(CC_CPP_COMMON_FLAGS) -DPLATFORM_ARM_OS_PORT</CC_CPP_COMMON_FLAGS>
+        
+        <CC_CPP_COMMON_FLAGS Condition="'$(COMPILER_TOOL)'=='GCC'"   >$(CC_CPP_COMMON_FLAGS) -DGCC </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(COMPILER_TOOL)'=='GCCOP'" >$(CC_CPP_COMMON_FLAGS) -DGCCOP -D__ELIPS_COMPONENT_GENERATE_=true </CC_CPP_COMMON_FLAGS>
+        <CC_CPP_COMMON_FLAGS Condition="'$(COMPILER_TOOL_VERSION_NUM)'&lt;'4.4'"   >$(CC_CPP_COMMON_FLAGS) -DGCC_OLD_ARG_LIST </CC_CPP_COMMON_FLAGS>
+        
+        <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) @(TinyCLR_Defines->'-D%(filename)',' ')</CC_CPP_COMMON_FLAGS>
+        
+        <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) @(CC_CPP_Defines->'-D%(filename)',' ')</CC_CPP_COMMON_FLAGS>
+        
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(CLRROOT)\$(Directory)</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\DeviceCode\include</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\DeviceCode\Cores\arm</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\Support\Include  </CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\crypto\inc </CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Include</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\CorLib</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\SPOT</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\SPOT_Hardware</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\SPOT_Graphics</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\SPOT_Net</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) -I$(ARMINC)</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) @(IncludePaths->'-I$(CLRROOT)\%(relativedir)%(filename)',' ')</CC_CPP_INCS>
+        <CC_CPP_INCS>$(CC_CPP_INCS) @(DirectIncludePaths->'-I%(FullPath)',' ')</CC_CPP_INCS>
+        
+        <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) $(AS_CC_CPP_COMMON_FLAGS) $(CC_CPP_TARGETTYPE_FLAGS) $(CC_CPP_INCS) $(ExtraFlags)</CC_CPP_COMMON_FLAGS>
+    </PropertyGroup>
 
-    <AS_FLAGS>$(AS_FLAGS) --defsym TARGETLOCATION_$(TARGETLOCATION)=1 $(AS_CC_CPP_COMMON_FLAGS) $(AS_TARGETTYPE_FLAGS) $(AS_INCS)</AS_FLAGS>
+    <!-- AS flags -->
+    <PropertyGroup>
+        <AS_FLAGS>$(AS_FLAGS) $(AS_CC_CPP_COMMON_FLAGS) $(ExtraASFlags)</AS_FLAGS>
+    </PropertyGroup>
 
-    <AS_FLAGS>$(AS_FLAGS) @(AS_Defines->'--defsym %(filename)',' ')</AS_FLAGS>
+    <!-- CC flags -->
+    <PropertyGroup>
+        <CC_FLAGS>$(CC_FLAGS) $(CC_CPP_COMMON_FLAGS) $(ExtraCCFlags)</CC_FLAGS>
+    </PropertyGroup>
 
-    <AS_SUBDIR>GNU_S</AS_SUBDIR>
-  </PropertyGroup>
+    <!-- CPP flags -->
+    <PropertyGroup>
+        <CPP_FLAGS>$(CPP_FLAGS) $(CC_CPP_COMMON_FLAGS) $(ExtraCPPFlags) -Wabi </CPP_FLAGS>
+        <CPP_FLAGS Condition="'$(FLAVOR)'=='Debug'">$(CPP_FLAGS) -fno-default-inline</CPP_FLAGS>
+    </PropertyGroup>
 
-  <!-- common cc/cpp flags -->
-  <PropertyGroup>
-    <!-- CPP/CC flags depands on the target build -->
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"          >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_RTM -finline-functions</CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"        >$(CC_CPP_TARGETTYPE_FLAGS) -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -DNDEBUG</CC_CPP_TARGETTYPE_FLAGS>
-    <!--
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"          >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DBUILD_RTM -finline-functions</CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"        >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
-    <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DNDEBUG</CC_CPP_TARGETTYPE_FLAGS>
-    -->
-    <CPP_FLAGS Condition="'$(FLAVOR)'=='Release'">$(CPP_FLAGS) -fno-default-inline</CPP_FLAGS>
+    <!-- other flags -->
+    <PropertyGroup>
+        <ARFLAGS>$(ARFLAGS) -rcs</ARFLAGS>
+        
+        <LINK_FLAGS>$(LINK_FLAGS) -static --gc-sections --no-warn-mismatch --library-path=$(LIB_DIR) --library-path=$(PLATFORM_INDEPENDENT_LIB_DIR)  </LINK_FLAGS>
+        
+        <!-- 
+            We need to allow multiple symbol definition in thumb mode because the ARM compatibility library interfere with GCC
+            which prevents from linking properly. 
+        -->
+        <LINK_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb'">$(LINK_FLAGS) --allow-multiple-definition</LINK_FLAGS>
+    </PropertyGroup>
 
-    <CC_CPP_COMMON_FLAGS Condition="'$(TCP_IP_STACK)'=='LWIP'">$(CC_CPP_COMMON_FLAGS) -DTCPIP_LWIP</CC_CPP_COMMON_FLAGS>
+    <PropertyGroup>
+        <EXEName>$(BIN_DIR)\$(AssemblyName)</EXEName>
 
-    <CC_CPP_COMMON_FLAGS Condition="'$(reducesize)'=='true'" >$(CC_CPP_COMMON_FLAGS) -DHAL_REDUCESIZE</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(timewarp)'=='true'"   >$(CC_CPP_COMMON_FLAGS) -DHAL_TIMEWARP</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(profile)'=='true'"    >$(CC_CPP_COMMON_FLAGS) -DARM_PROFILE_ACTIVE</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(FLAVOR)'!='RTM'"    >$(CC_CPP_COMMON_FLAGS) -DTINYCLR_ENABLE_SOURCELEVELDEBUGGING </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(sampleprof)'=='true'" >$(CC_CPP_COMMON_FLAGS) -DFIQ_SAMPLING_PROFILER </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(latencyprof)'=='true'">$(CC_CPP_COMMON_FLAGS) -DFIQ_LATENCY_PROFILER </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='arm'"     >$(CC_CPP_COMMON_FLAGS) -DCOMPILE_ARM </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(COMPILER_TOOL)'=='GCCOP'"   >$(CC_CPP_COMMON_FLAGS) -DCOMPILE_THUMB </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(COMPILER_TOOL)'!='GCCOP'"   >$(CC_CPP_COMMON_FLAGS) -mthumb-interwork -DCOMPILE_THUMB </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb2'"  >$(CC_CPP_COMMON_FLAGS) -DCOMPILE_THUMB2 </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb2fp'">$(CC_CPP_COMMON_FLAGS) -DCOMPILE_THUMB2 </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(ARMBUILD_ONLY)'!='true' "   >$(CC_CPP_COMMON_FLAGS) -mthumb </CC_CPP_COMMON_FLAGS>
+        <TargetRule Condition="'$(OutputType)'=='Library'">ArmBuildLib</TargetRule>
+        <TargetRule Condition="'$(OutputType)'=='Executable'">BuildAXF</TargetRule>
+        <TargetRule Condition="'$(OutputType)'=='Configure'">BuildAXF</TargetRule>
 
-    <CC_CPP_COMMON_FLAGS Condition="'$(FLAVOR)'=='Instrumented' and '$(NATIVE_PROFILE_CLR)'!=''">$(CC_CPP_COMMON_FLAGS) -DNATIVE_PROFILE_CLR=$(NATIVE_PROFILE_CLR)</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(FLAVOR)'=='Instrumented' and '$(NATIVE_PROFILE_PAL)'!=''">$(CC_CPP_COMMON_FLAGS) -DNATIVE_PROFILE_PAL=$(NATIVE_PROFILE_PAL)</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(FLAVOR)'=='Instrumented' and '$(NATIVE_PROFILE_HAL)'!=''">$(CC_CPP_COMMON_FLAGS) -DNATIVE_PROFILE_HAL=$(NATIVE_PROFILE_HAL)</CC_CPP_COMMON_FLAGS>
-
-    <!-- BUILD VERSIONS -->
-    <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) -DVERSION_MAJOR=$(MajorVersion) -DVERSION_MINOR=$(MinorVersion) -DVERSION_BUILD=$(BuildNumber) -DVERSION_REVISION=$(RevisionNumber) -DOEMSYSTEMINFOSTRING="\"$(OemSystemInfoString)\""</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) -DPLATFORM_ARM_$(TARGETPROCESSOR) -DPLATFORM_ARM_$(TARGETPLATFORM) -DTARGETLOCATION_$(TARGETLOCATION)</CC_CPP_COMMON_FLAGS>
-
-    <CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='le'">$(CC_CPP_COMMON_FLAGS) -DLITTLE_ENDIAN</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='be'">$(CC_CPP_COMMON_FLAGS) -DBIG_ENDIAN</CC_CPP_COMMON_FLAGS>
-
-    <CC_CPP_COMMON_FLAGS Condition="'$(PATCH_BUILD)'=='Active'">$(CC_CPP_COMMON_FLAGS) -DPATCH_BUILD</CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(OS_PLATFORM)'=='true'">$(CC_CPP_COMMON_FLAGS) -DPLATFORM_ARM_OS_PORT</CC_CPP_COMMON_FLAGS>
-
-    <CC_CPP_COMMON_FLAGS Condition="'$(COMPILER_TOOL)'=='GCC'"   >$(CC_CPP_COMMON_FLAGS) -DGCC </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(COMPILER_TOOL)'=='GCCOP'" >$(CC_CPP_COMMON_FLAGS) -DGCCOP -D__ELIPS_COMPONENT_GENERATE_=true </CC_CPP_COMMON_FLAGS>
-    <CC_CPP_COMMON_FLAGS Condition="'$(COMPILER_TOOL_VERSION_NUM)'&lt;'4.4'"   >$(CC_CPP_COMMON_FLAGS) -DGCC_OLD_ARG_LIST </CC_CPP_COMMON_FLAGS>
-
-    <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) @(TinyCLR_Defines->'-D%(filename)',' ')</CC_CPP_COMMON_FLAGS>
-
-    <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) @(CC_CPP_Defines->'-D%(filename)',' ')</CC_CPP_COMMON_FLAGS>
-
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(CLRROOT)\$(Directory)</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\DeviceCode\include</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\DeviceCode\Cores\arm</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\Support\Include  </CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\crypto\inc </CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Include</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\CorLib</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\SPOT</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\SPOT_Hardware</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\SPOT_Graphics</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(SPO_SDK)\CLR\Libraries\SPOT_Net</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) -I$(ARMINC)</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) @(IncludePaths->'-I$(CLRROOT)\%(relativedir)%(filename)',' ')</CC_CPP_INCS>
-    <CC_CPP_INCS>$(CC_CPP_INCS) @(DirectIncludePaths->'-I%(FullPath)',' ')</CC_CPP_INCS>
-
-    <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) $(AS_CC_CPP_COMMON_FLAGS) $(CC_CPP_TARGETTYPE_FLAGS) $(CC_CPP_INCS) $(ExtraFlags)</CC_CPP_COMMON_FLAGS>
-  </PropertyGroup>
-
-  <!-- AS flags -->
-  <PropertyGroup>
-    <AS_FLAGS>$(AS_FLAGS) $(AS_CC_CPP_COMMON_FLAGS) $(ExtraASFlags)</AS_FLAGS>
-  </PropertyGroup>
-
-  <!-- CC flags -->
-  <PropertyGroup>
-    <CC_FLAGS>$(CC_FLAGS) $(CC_CPP_COMMON_FLAGS) $(ExtraCCFlags)</CC_FLAGS>
-  </PropertyGroup>
-
-  <!-- CPP flags -->
-  <PropertyGroup>
-    <CPP_FLAGS>$(CPP_FLAGS) $(CC_CPP_COMMON_FLAGS) $(ExtraCPPFlags) -Wabi </CPP_FLAGS>
-    <CPP_FLAGS Condition="'$(FLAVOR)'=='Debug'">$(CPP_FLAGS) -fno-default-inline</CPP_FLAGS>
-  </PropertyGroup>
-
-  <!-- other flags -->
-  <PropertyGroup>
-    <ARFLAGS>$(ARFLAGS) -rcs</ARFLAGS>
-
-    <LINK_FLAGS>$(LINK_FLAGS) -static --gc-sections --no-warn-mismatch --library-path=$(LIB_DIR) --library-path=$(PLATFORM_INDEPENDENT_LIB_DIR)  </LINK_FLAGS>
+        <!-- AddRule -->
+        <TargetRule Condition="'$(OutputType)'=='DynamicLoading'">ArmBuildLib2</TargetRule>
+        <TargetRule Condition="'$(OutputType)'=='Kernel'">ArmBuildLib3</TargetRule>
+    </PropertyGroup>
     
-    <!-- 
-        We need to allow multiple symbol definition in thumb mode because the ARM compatibility library interfere with GCC
-        which prevents from linking properly. 
-    -->
-    <LINK_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb'">$(LINK_FLAGS) --allow-multiple-definition</LINK_FLAGS>
-  </PropertyGroup>
-   
-
-  <PropertyGroup>
-    <EXEName>$(BIN_DIR)\$(AssemblyName)</EXEName>
-
-    <TargetRule Condition="'$(OutputType)'=='Library'">ArmBuildLib</TargetRule>
-    <TargetRule Condition="'$(OutputType)'=='Executable'">BuildAXF</TargetRule>
-    <TargetRule Condition="'$(OutputType)'=='Configure'">BuildAXF</TargetRule>
-
-    <!-- AddRule -->
-    <TargetRule Condition="'$(OutputType)'=='DynamicLoading'">ArmBuildLib2</TargetRule>
-    <TargetRule Condition="'$(OutputType)'=='Kernel'">ArmBuildLib3</TargetRule>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCC'" >
-    <GNU_LIB_DIR     Condition="'$(INSTRUCTION_SET)'=='arm'">$(GNU_TOOLS)\$(GNU_TARGET)\lib</GNU_LIB_DIR>
-    <GNU_LIBGCC_DIR  Condition="'$(INSTRUCTION_SET)'=='arm'">$(GNU_TOOLS)\lib\gcc\$(GNU_TARGET)\$(GNU_VERSION)</GNU_LIBGCC_DIR>
-    <ExtraLibs       Condition="'$(INSTRUCTION_SET)'=='arm'"></ExtraLibs>
-
-    <!-- instead include the Thumb libc.a and libgcc.a... we include the ARM mode one, if include the THUMB libs, the linker failed to resolve the branch function address and function branch to unknown address-->
-    <!-- this is happened at the libgcc.a, e.g ldivmod function, helper function address are not found -->
-    <GNU_LIB_DIR     Condition="'$(INSTRUCTION_SET)'=='thumb'">$(GNU_TOOLS)\$(GNU_TARGET)\lib\thumb</GNU_LIB_DIR>
-    <GNU_LIBGCC_DIR  Condition="'$(INSTRUCTION_SET)'=='thumb'">$(GNU_TOOLS)\lib\gcc\$(GNU_TARGET)\$(GNU_VERSION)\thumb</GNU_LIBGCC_DIR>
-    <!-- adding the extra lib if the CLR is compiled in RVDS, whenever we have libs from RVDS, we need this -->
-    <ExtraLibs       Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(ENDIANNESS)'=='be'">$(SPOCLIENT)\tools\ads_v3_1\Lib\armlib\h_t.b $(SPOCLIENT)\tools\ads_v3_1\Lib\armlib\c_t.b</ExtraLibs>
-    <ExtraLibs       Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(ENDIANNESS)'=='le'">$(SPOCLIENT)\tools\ads_v3_1\Lib\armlib\h_t.l $(SPOCLIENT)\tools\ads_v3_1\Lib\armlib\c_t.l</ExtraLibs>
-
-    <LIBGCC >libgcc.a</LIBGCC>
-    <LIBCGCC>libc.a</LIBCGCC>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCCOP'" >
-    <ENABLE_FASTCOMPILE Condition="'$(FLAVOR)'=='Debug'">false</ENABLE_FASTCOMPILE>
-    <GNU_LIB_DIR     Condition="'$(INSTRUCTION_SET)'=='arm'">$(GNU_TOOLS)\lib</GNU_LIB_DIR>
-    <GNU_LIBGCC_DIR  Condition="'$(INSTRUCTION_SET)'=='arm'">$(GNU_TOOLS)\lib</GNU_LIBGCC_DIR>
-    <ExtraLibs       Condition="'$(INSTRUCTION_SET)'=='arm'"></ExtraLibs>
-    <LIBGCC          Condition="'$(INSTRUCTION_SET)'=='arm'">libgccale.a</LIBGCC>
+    <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCC'" >
+        <GNU_LIB_DIR     Condition="'$(INSTRUCTION_SET)'=='arm'">$(GNU_TOOLS)\$(GNU_TARGET)\lib</GNU_LIB_DIR>
+        <GNU_LIBGCC_DIR  Condition="'$(INSTRUCTION_SET)'=='arm'">$(GNU_TOOLS)\lib\gcc\$(GNU_TARGET)\$(GNU_VERSION)</GNU_LIBGCC_DIR>
+        <ExtraLibs       Condition="'$(INSTRUCTION_SET)'=='arm'"></ExtraLibs>
+        
+        <!-- instead include the Thumb libc.a and libgcc.a... we include the ARM mode one, if include the THUMB libs, the linker failed to resolve the branch function address and function branch to unknown address-->
+        <!-- this is happened at the libgcc.a, e.g ldivmod function, helper function address are not found -->
+        <GNU_LIB_DIR     Condition="'$(INSTRUCTION_SET)'=='thumb'">$(GNU_TOOLS)\$(GNU_TARGET)\lib\thumb</GNU_LIB_DIR>
+        <GNU_LIBGCC_DIR  Condition="'$(INSTRUCTION_SET)'=='thumb'">$(GNU_TOOLS)\lib\gcc\$(GNU_TARGET)\$(GNU_VERSION)\thumb</GNU_LIBGCC_DIR>
+        <!-- adding the extra lib if the CLR is compiled in RVDS, whenever we have libs from RVDS, we need this -->
+        <ExtraLibs       Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(ENDIANNESS)'=='be'">$(SPOCLIENT)\tools\ads_v3_1\Lib\armlib\h_t.b $(SPOCLIENT)\tools\ads_v3_1\Lib\armlib\c_t.b</ExtraLibs>
+        <ExtraLibs       Condition="'$(INSTRUCTION_SET)'=='thumb' and '$(ENDIANNESS)'=='le'">$(SPOCLIENT)\tools\ads_v3_1\Lib\armlib\h_t.l $(SPOCLIENT)\tools\ads_v3_1\Lib\armlib\c_t.l</ExtraLibs>
+        
+        <LIBGCC >libgcc.a</LIBGCC>
+        <LIBCGCC>libc.a</LIBCGCC>
+        </PropertyGroup>
     
-    <GNU_LIB_DIR     Condition="'$(INSTRUCTION_SET)'=='thumb'">$(GNU_TOOLS)\lib</GNU_LIB_DIR>
-    <GNU_LIBGCC_DIR  Condition="'$(INSTRUCTION_SET)'=='thumb'">$(GNU_TOOLS)\lib</GNU_LIBGCC_DIR>
-    <LIBGCC          Condition="'$(INSTRUCTION_SET)'=='thumb'">libgcctle.a</LIBGCC>
-    <LIBCGCC>libc.a</LIBCGCC>
+    <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCCOP'" >
+        <ENABLE_FASTCOMPILE Condition="'$(FLAVOR)'=='Debug'">false</ENABLE_FASTCOMPILE>
+        <GNU_LIB_DIR     Condition="'$(INSTRUCTION_SET)'=='arm'">$(GNU_TOOLS)\lib</GNU_LIB_DIR>
+        <GNU_LIBGCC_DIR  Condition="'$(INSTRUCTION_SET)'=='arm'">$(GNU_TOOLS)\lib</GNU_LIBGCC_DIR>
+        <ExtraLibs       Condition="'$(INSTRUCTION_SET)'=='arm'"></ExtraLibs>
+        <LIBGCC          Condition="'$(INSTRUCTION_SET)'=='arm'">libgccale.a</LIBGCC>
+        
+        <GNU_LIB_DIR     Condition="'$(INSTRUCTION_SET)'=='thumb'">$(GNU_TOOLS)\lib</GNU_LIB_DIR>
+        <GNU_LIBGCC_DIR  Condition="'$(INSTRUCTION_SET)'=='thumb'">$(GNU_TOOLS)\lib</GNU_LIBGCC_DIR>
+        <LIBGCC          Condition="'$(INSTRUCTION_SET)'=='thumb'">libgcctle.a</LIBGCC>
+        <LIBCGCC>libc.a</LIBCGCC>
+        </PropertyGroup>
 
-  </PropertyGroup>
+    <!-- item group  -->
+    <ItemGroup>
+        <MakeAXFInputs Include="$(MakeAXFInputs)"/>
+        <FastCompileFile Condition="'$(ENABLE_FASTCOMPILE)'=='true'" Include="@(FastCompileCFile)"/>
+        <FastCompileFile Condition="'$(ENABLE_FASTCOMPILE)'=='true'" Include="@(FastCompileCPPFile)"/>
+    </ItemGroup>
 
+    <ItemGroup Condition="'$(OutputType)'=='Executable'">
+        <!-- use the tools\make\scatterfile_definition.xml, otherwise has to state the scatterfile at the dotNetMF.proj-->
+        <EXEScatterFileDefinition Condition="'$(EXEScatterFileDefinition)'==''" Include="$(SPO_SDK)\tools\make\scatterfile_definition.xml"/>
+        <EXEScatterFileDefinition Condition="'$(EXEScatterFileDefinition)'!=''" Include="$(EXEScatterFileDefinition)"/>
+        
+        <EXEScatterFile Include="$(BIN_DIR)\$(AssemblyName)_scatterfile.ldf"/>
+        <EXEIncludePaths Include="$(ARMINC)"/>
+    </ItemGroup>
 
-  <!-- item group  -->
-  <ItemGroup>
-    <MakeAXFInputs Include="$(MakeAXFInputs)"/>
-    <FastCompileFile Condition="'$(ENABLE_FASTCOMPILE)'=='true'" Include="@(FastCompileCFile)"/>
-    <FastCompileFile Condition="'$(ENABLE_FASTCOMPILE)'=='true'" Include="@(FastCompileCPPFile)"/>
-  </ItemGroup>
+    <!-- stubs function for all build in OP's GCC, as those functions are not included in their tool-chain -->
+    <ItemGroup Condition="'$(COMPILER_TOOL)'=='GCCOP' and '$(OutputType)'=='Executable' and EXISTS('$(SPOCLIENT)\DeviceCode\Drivers\Stubs\TempForGCC\dotNetMF.proj')">
+        <RequiredProjects Include="$(SPOCLIENT)\DeviceCode\Drivers\Stubs\TempForGCC\dotNetMF.proj" />
+        <DriverLibs Include="Gcc_hal.$(LIB_EXT)" />
+    </ItemGroup>
 
-
-  <ItemGroup Condition="'$(OutputType)'=='Executable'">
-    <!-- use the tools\make\scatterfile_definition.xml, otherwise has to state the scatterfile at the dotNetMF.proj-->
-
-    <EXEScatterFileDefinition Condition="'$(EXEScatterFileDefinition)'==''" Include="$(SPO_SDK)\tools\make\scatterfile_definition.xml"/>
-    <EXEScatterFileDefinition Condition="'$(EXEScatterFileDefinition)'!=''" Include="$(EXEScatterFileDefinition)"/>
-
-    <EXEScatterFile Include="$(BIN_DIR)\$(AssemblyName)_scatterfile.ldf"/>
-    <EXEIncludePaths Include="$(ARMINC)"/>
-  </ItemGroup>
-
- <!-- stubs function for all build in OP's GCC, as those functions are not included in their tool-chain -->
-  <ItemGroup Condition="'$(COMPILER_TOOL)'=='GCCOP' and '$(OutputType)'=='Executable' and EXISTS('$(SPOCLIENT)\DeviceCode\Drivers\Stubs\TempForGCC\dotNetMF.proj')">
-    <RequiredProjects Include="$(SPOCLIENT)\DeviceCode\Drivers\Stubs\TempForGCC\dotNetMF.proj" />
-    <DriverLibs Include="Gcc_hal.$(LIB_EXT)" />
-  </ItemGroup>
-
-  <!-- target group for compile,assembler,linker, librarian, loader -->
-  <Target Name="ArmCompileCPP" Condition="'@(CPPFiles)'!='' or '@(FastCompileCPPFile)'!=''" Inputs="@(FastCompileCPPFile);@(CPPFiles);@(HFiles)" Outputs="@(ObjFiles)">
-    <Exec Condition="Exists('%(FastCompileCPPFile.FullPath)') and '@(FastCompileCPPFile)'!='' and '$(ENABLE_FASTCOMPILE)'=='true'" Command="$(ADS_WRAPPER) $(CPP) $(CPP_FLAGS) $(POS_DEPENDENT) -o $(OBJ_DIR)\%(FastCompileCPPFile.Filename).$(OBJ_EXT) -c %(FastCompileCPPFile.FullPath) "/>
-    <Exec Condition="Exists('%(CPPFiles.FullPath)')           and '@(CPPFiles)'!=''and ('$(ENABLE_FASTCOMPILE)'!='true' or '@(FastCompileCPPFile)'=='')" Command="$(ADS_WRAPPER) $(CPP) $(CPP_FLAGS) $(POS_DEPENDENT) -o $(OBJ_DIR)\%(CPPFiles.Filename).$(OBJ_EXT) -c %(CPPFiles.FullPath)  "/>
-  </Target>
+    <!-- target group for compile,assembler,linker, librarian, loader -->
+    <Target Name="ArmCompileCPP" Condition="'@(CPPFiles)'!='' or '@(FastCompileCPPFile)'!=''" Inputs="@(FastCompileCPPFile);@(CPPFiles);@(HFiles)" Outputs="@(ObjFiles)">
+        <Exec Condition="Exists('%(FastCompileCPPFile.FullPath)') and '@(FastCompileCPPFile)'!='' and '$(ENABLE_FASTCOMPILE)'=='true'" Command="$(ADS_WRAPPER) $(CPP) $(CPP_FLAGS) $(POS_DEPENDENT) -o $(OBJ_DIR)\%(FastCompileCPPFile.Filename).$(OBJ_EXT) -c %(FastCompileCPPFile.FullPath) "/>
+        <Exec Condition="Exists('%(CPPFiles.FullPath)')           and '@(CPPFiles)'!=''and ('$(ENABLE_FASTCOMPILE)'!='true' or '@(FastCompileCPPFile)'=='')" Command="$(ADS_WRAPPER) $(CPP) $(CPP_FLAGS) $(POS_DEPENDENT) -o $(OBJ_DIR)\%(CPPFiles.Filename).$(OBJ_EXT) -c %(CPPFiles.FullPath)  "/>
+    </Target>
 
     <Target Name="ArmCompileC" Condition="'@(CFiles)'!='' or '@(FastCompileCFile)'==''" Inputs="@(FastCompileCFile);@(CFiles)" Outputs="@(ObjFiles)">
         <Exec Condition="Exists('%(FastCompileCFile.FullPath)') and  '@(FastCompileCFile)'!='' and '$(ENABLE_FASTCOMPILE)'=='true'" Command="$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o$(OBJ_DIR)\%(FastCompileCFile.Filename).$(OBJ_EXT) -c %(FastCompileCFile.FullPath) "/>
@@ -363,7 +372,7 @@
     </Target>
 
     <!-- Kernel -->
-    <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;kernel_cfg1;kernel_cfg2;kernel_mem_nousePass3;$(ExtraTargets);">
+    <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;kernel_cfg1;kernel_cfg2;kernel_cfg3;$(ExtraTargets);">
     <!-- <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;$(ExtraTargets);"> -->
         <!-- base hello ev3 -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app $(KERNELOBJS) $(NETMF_DEVICE_OBJ) app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
@@ -372,7 +381,7 @@
         <!-- All -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app analog_dri.obj app.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj kernel_mem.obj kernel_mem2.obj kernel_mem3.obj l2cap.obj l2cap_signaling.obj lcd_dri.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
         <!-- delete build error file -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app analog_dri.obj app.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj kernel_mem.obj kernel_mem2.obj kernel_mem3.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj unicode.obj utils.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app analog_dri.obj app.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj kernel_mem.obj kernel_mem2.obj kernel_mem3.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj  unicode.obj utils.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" />
     </Target>
 
     <Target Name="module_cfg1">
@@ -380,12 +389,12 @@
         <!-- <Exec Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" /> -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" /> -->
         <Exec Command="@$(CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" />
-
+        
         <!-- $(CFGLINK) $(CFLAGS) -nostartfiles cfg1_out.c -o cfg1_out.o -->
         <!-- <Exec Command="$(ADS_WRAPPER) $(CC) $(CC_FLAGS) -nostartfiles cfg1_out.c -o cfg1_out.o $(CFG1COMPILEINCLUDE)" /> -->
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         <!-- <Exec Command="$(ADS_WRAPPER) $(CC) $(CFLAGS) -o$(OBJ_DIR)\cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
-
+        
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" />
@@ -393,7 +402,7 @@
 
     <Target Name="kernel_cfg1">
         <Exec Command="@$(CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_KERNEL_TABS) $(APPL_CFG)" />
-    
+        
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
@@ -416,21 +425,6 @@
     </Target>
 
     <!-- dynamicLoader no use? -->
-    <Target Name="app_cfg2">
-        <!-- CFG2_OUT_SRCS := kernel_cfg.h kernel_cfg.c kernel_mem2.c $(CFG2_OUT_SRCS) -->
-        <!-- $(CFG2_OUT_SRCS): $(MODCFG) $(START_OBJS) cfg1_out.o $(END_OBJS) $(HIDDEN_OBJS) -->
-        <!-- not same InputFolder and OutputFolder is error -->
-        <!-- <Exec Command="@$(LINK) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) $(SRCDIR)\workspace\helloev3onnetmf\cfg1_out.o $(END_OBJS) "/> -->
-        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) $(SRCDIR)\workspace\helloev3onnetmf\cfg1_out.o $(END_OBJS) "/> -->
-        <!-- NG parameter -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) -nostartfiles $(CFLAGS) $(CFG1_OUT_LDFLAGS) -Wl,-e,0 -o $(CFG1_OUT) cfg1_out.o" /> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) -nostartfiles $(CFLAGS) $(CFG1_OUT_LDFLAGS) -Wl,-e,0 -o $(CFG1_OUT) cfg1_out.o module_cfg.o ev3api.o ev3api_battery.o ev3api_brick.o ev3api_cfg.o ev3api_fs.o ev3api_lcd.o ev3api_motor.o ev3api_newlib.o ev3api_sensor.o ev3api_speaker.o strerror.o t_perror.o tlsf.o vasyslog.o $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(NM) -n $(CFG1_OUT) > cfg1_out.syms "/>
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(FROMELF) -O srec -S $(CFG1_OUT) cfg1_out.srec "/>
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=hrp2 $(CFGINCLUDE) -T $(KERNELDIR)/kernel/kernel.tf $(CFG_TABS)"/>
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch -r kernel_cfg.c kernel_cfg.timestamp" />
-    </Target>
-
     <Target Name="module_cfg2">
         <!-- CFG_OUT_SRCS := module_cfg.h module_cfg.c -->
         <!-- $(CFG_OUT_SRCS): $(MODCFG) -->
@@ -469,36 +463,35 @@
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) -nostartfiles -O2 $(CFLAGS) $(CFG1COMPILEINCLUDE) -DBUILD_MODULE -Wl,-Ttext,0x00000000 -Wl,-e,0 -o module_cfg.o module_cfg.c" /> -->
     </Target>
 
-    <Target Name="module_cfg_create2">
-        <!-- NG parameter -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) -DBUILD_DEBUG -O2 -Wall -std=gnu99 -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
-
-        <!-- ok -->
-        <Exec Command="@$(ADS_WRAPPER) $(CC) -nostartfiles $(CFLAGS) $(CFG1_OUT_LDFLAGS) -Wl,-e,0 -o $(CFG1_OUT) cfg1_out.o " />
-        <Exec Command="@$(NM) -n $(CFG1_OUT) > cfg1_out.syms" />
-        <Exec Command="@$(FROMELF) -O srec -S $(CFG1_OUT) cfg1_out.srec" />
-        <Exec Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=hrp2 --template-file=$(LOADERDIR)/app/common/module.tf $(CFG_TABS) -I$(TARGETDIR)/api -I $(LOADERDIR)/app/common $(CFGINCLUDE)" />
-    </Target>
-
     <!-- Use Pass3 -->
-    <Target Name="cfg3" >
-    <!--
-    <Choose>
-      <When Condition="'$(USE_CFG_PASS3)'!=''">
-        kernel_mem_usePass3
-        kernel_mem_usePass4
-      </When>
-      <When Condition="'$(USE_CFG_PASS3)'==''">
-        kernel_mem_nousePass3
-      </When>
-    </Choose>
-    -->
+    <!-- 
+    <Target Name="kernel_cfg3" >
+        <Choose>
+            <When Condition="'$(USE_CFG_PASS3)'!=''">
+                kernel_mem_usePass3
+                kernel_mem_usePass4
+            </When>
+            <When Condition="'$(USE_CFG_PASS3)'==''">
+                kernel_mem_nousePass3
+            </When>
+        </Choose>
     </Target>
-
+    -->
+    
+    <Target Name="kernel_cfg3" Condition="'$(USE_CFG_PASS3)'!=''" DependsOnTargets="kernel_mem_usePass3;kernel_mem_usePass4;">
+    </Target>
+    
+    <!-- override
+    <Target Name="kernel_cfg3" Condition="'$(USE_CFG_PASS3)'==''" DependsOnTargets="kernel_mem_nousePass3;">
+    </Target>
+    -->
+    
     <Target Name="kernel_mem_usePass3">
         <!-- kernel_mem3.c: $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) -->
         <!-- <Exec Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG2_OUT) $(START_OBJS) $(APPL_OBJS) $(MRUBY_LIB) $(SYSSVC_OBJS) $(CFG2_OBJS) $(ALL_LIBS)  $(END_OBJS)" /> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o cfg2_out log_output.obj t_perror.obj strerror.obj banner.obj syslog.obj serial.obj logtask.obj kernel_cfg.obj kernel_mem2.obj" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o cfg2_out log_output.obj t_perror.obj strerror.obj banner.obj syslog.obj serial.obj logtask.obj kernel_cfg.obj kernel_mem2.obj" /> -->
+        <!-- delete obj (kernel_cfg.obj kernel_mem2.obj) -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj                kernel_mem2.obj                 l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj" />
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG2_OUT) > cfg2_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
@@ -509,26 +502,27 @@
     </Target>
     <Target Name="kernel_mem_usePass4">
         <!-- kernel_mem.c: $(APPL_CFG) kernel_cfg.timestamp $(ALL3_OBJS) $(LIBS_DEP) -->
-        <Exec Command="$(LINK) $(CFLAGS) $(CFG3_OUT_LDFLAGS) -o $(CFG3_OUT) $(START_OBJS) $(APPL_OBJS) $(MRUBY_LIB) $(SYSSVC_OBJS) $(CFG3_OBJS) $(ALL_LIBS) -lm $(END_OBJS) "/>
-        <Exec Command="$(NM) -n $(CFG3_OUT) > cfg3_out.syms" />
-        <Exec Command="$(OBJCOPY) -O srec -S $(CFG3_OUT) cfg3_out.srec" />
-        <Exec Command="rm -f $(LDSCRIPT)" />
-        <Exec Command="$(CFG) --pass 4 --kernel hrp2 $(INCLUDES) --rom-image cfg3_out.srec --symbol-table cfg3_out.syms -T $(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL3_OBJS) $(LIBS_DEP) "/>
-        <Exec Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem3\.o/kernel_mem\.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT); fi" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CFLAGS) $(CFG3_OUT_LDFLAGS) -o $(CFG3_OUT) $(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG3_OBJS) $(ALL_LIBS) -lm $(END_OBJS) "/>
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG3_OUT) > cfg3_out.syms" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG3_OUT) cfg3_out.srec" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass 4 --kernel hrp2 $(INCLUDES) --rom-image=cfg3_out.srec --symbol-table=cfg3_out.syms -T $(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL3_OBJS) $(LIBS_DEP) "/>
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem3\.obj/kernel_mem\.obj/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT); fi" />
     </Target>
     <Target Name="kernel_mem_nousePass3">
         <!-- kernel_mem.c: $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) -->
         <!-- <Exec Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG2_OUT) $(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG2_OBJS) $(ALL_LIBS) $(END_OBJS)" /> -->
         <!-- FLAG -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o cfg2_out kernel_cfg.obj kernel_mem2.obj" /> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out kernel_cfg.obj kernel_mem2.obj" />
+        <!-- delete lcd_dri.obj kernel_cfg.obj kernel_mem2.obj -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj" />
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG2_OUT) > cfg2_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch cfg3_out.tf" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass 4 --kernel hrp2 $(INCLUDES) --rom-image cfg2_out.srec --symbol-table cfg2_out.syms -T $(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) "/>
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem2\.o/kernel_mem\.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT); fi" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem2\.obj/kernel_mem\.obj/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT); fi" />
     </Target>
 
     <!-- OFFSET_TF = $(COREDIR)/core_offset.tf -->
