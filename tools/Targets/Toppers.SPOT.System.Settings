@@ -103,6 +103,8 @@
         <CFG3_COBJS>kernel_cfg.obj kernel_mem3.obj $(CFG3_COBJS)</CFG3_COBJS>
         <CFG3_ASMOBJS>$(CFG3_ASMOBJS)</CFG3_ASMOBJS>
         <CFG3_OBJS>$(CFG3_ASMOBJS) $(CFG3_COBJS)</CFG3_OBJS>
+
+        <TOPPERS_KERNEL_OBJS>cyclic.obj dataqueue.obj eventflag.obj exception.obj interrupt.obj mem_manage.obj memory.obj mempfix.obj mutex.obj overrun.obj pridataq.obj semaphore.obj startup.obj svc_table.obj sys_manage.obj task.obj task_except.obj task_manage.obj task_refer.obj task_sync.obj time_event.obj time_manage.obj wait.obj</TOPPERS_KERNEL_OBJS>
 
         <!-- mruby -->
         <!--

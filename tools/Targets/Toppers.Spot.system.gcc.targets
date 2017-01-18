@@ -93,12 +93,12 @@
         <!-- Toppers Custom -->
         <CTOPPERS_EV3_WARNING_OFF_FLAGS>-Wimplicit-function-declaration</CTOPPERS_EV3_WARNING_OFF_FLAGS>
         <!-- <CTOPPERS_EV3_FLAGS>-fPIC -mno-pic-data-is-text-relative -nostdlib -std=gnu99 -fno-strict-aliasing -D__TARGET_ARCH_ARM=5</CTOPPERS_EV3_FLAGS> -->
-        <CTOPPERS_EV3_FLAGS>-std=gnu99 -D__TARGET_ARCH_ARM=5 $(CTOPPERS_EV3_WARNING_OFF_FLAGS)</CTOPPERS_EV3_FLAGS>
+        <CTOPPERS_EV3_FLAGS>-std=gnu99 -Dgcc -D__TARGET_ARCH_ARM=5 $(CTOPPERS_EV3_WARNING_OFF_FLAGS)</CTOPPERS_EV3_FLAGS>
         
         <!-- -std=gnu++11 ng -->
         <CXXTOPPERS_EV3_WARNING_OFF_FLAGS></CXXTOPPERS_EV3_WARNING_OFF_FLAGS>
         <!-- <CXXTOPPERS_EV3_FLAGS>-fPIC -mno-pic-data-is-text-relative -nostdlib -fno-strict-aliasing -D__TARGET_ARCH_ARM=5</CXXTOPPERS_EV3_FLAGS> -->
-        <CXXTOPPERS_EV3_FLAGS>-std=gnu++11 -D__TARGET_ARCH_ARM=5 $(CXXTOPPERS_EV3_WARNING_OFF_FLAGS)</CXXTOPPERS_EV3_FLAGS>
+        <CXXTOPPERS_EV3_FLAGS>-std=gnu++11 -Dgcc -D__TARGET_ARCH_ARM=5 $(CXXTOPPERS_EV3_WARNING_OFF_FLAGS)</CXXTOPPERS_EV3_FLAGS>
         
         <!-- kernel -->
         <USE_CFG_PASS3>mem use</USE_CFG_PASS3>
@@ -372,16 +372,14 @@
     </Target>
 
     <!-- Kernel -->
-    <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;kernel_cfg1;kernel_cfg2;kernel_cfg3;$(ExtraTargets);">
+    <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;kernel_cfg1;kernel_cfg2;libkernel;kernel_cfg3;$(ExtraTargets);">
     <!-- <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;$(ExtraTargets);"> -->
         <!-- base hello ev3 -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app $(KERNELOBJS) $(NETMF_DEVICE_OBJ) app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app $(KERNELOBJS) $(KERNEL_LIB_OBJS) $(NETMF_DEVICE_OBJ) app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj $(SYSSVC_COBJS) $(APPL_COBJS) $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
-        <!-- <Exec Command="$(LINK) -o app analog_dri.o app.o banner.o bluetooth_dri.o bluetooth_init_cc2560_2.44.o bluetooth_spp_slave.o brick_dri.o bt_control_cc256x.o btstack_memory.o cfg1_out.o cli_main.o cli_motor.o cli_sensor.o console_dri.o console_menu.o cp15.o diskio.o driver_debug.o driver_interface_brick.o driver_interface_filesys.o driver_interface_sound.o edma.o ev3_hacks.o ev3cyclic_dri.o ev3exception.o ev3main.o ev3rt_config.o fatfs_dri.o fatfs_syscall.o ff.o gpio_dri.o hci.o hci_cmds.o hci_dump.o hci_transport_h4_dma.o hires_alarm.o hires_cyclic.o kernel_cfg.o kernel_mem.o kernel_mem2.o kernel_mem3.o l2cap.o l2cap_signaling.o lcd_dri.o lcd_font.o lcd_spi.o linked_list.o log_output.o logtask.o sdp.o sdp_client.o sdp_parser.o sdp_query_rfcomm.o sdp_util.o serial.o serial_mod.o soc_cache.o soc_edma.o sound_dri.o spi.o start.o strerror.o suart_api.o suart_utils.o syslog.o t_perror.o tl16c550.o tlsf.o uart.o uart_dri.o unicode.o utils.o vasyslog.o $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
         <!-- All -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app analog_dri.obj app.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj kernel_mem.obj kernel_mem2.obj kernel_mem3.obj l2cap.obj l2cap_signaling.obj lcd_dri.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
         <!-- delete build error file -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app analog_dri.obj app.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj kernel_mem.obj kernel_mem2.obj kernel_mem3.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj  unicode.obj utils.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app analog_dri.obj app.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj kernel_mem.obj kernel_mem2.obj kernel_mem3.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj  unicode.obj utils.obj vasyslog.obj $(TOPPERS_KERNEL_OBJS) $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a libkernel.a" />
     </Target>
 
     <Target Name="module_cfg1">
@@ -390,6 +388,8 @@
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" /> -->
         <Exec Command="@$(CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" />
         
+        <!-- warning : cannot find entry symbol _start; -->
+        <!-- http://www.embedded.jp/pipermail/linux/2003-December/000018.html -->
         <!-- $(CFGLINK) $(CFLAGS) -nostartfiles cfg1_out.c -o cfg1_out.o -->
         <!-- <Exec Command="$(ADS_WRAPPER) $(CC) $(CC_FLAGS) -nostartfiles cfg1_out.c -o cfg1_out.o $(CFG1COMPILEINCLUDE)" /> -->
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
@@ -410,11 +410,11 @@
     </Target>
 
     <Target Name="kernel_cfg2">
-        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj $(END_OBJS) "/> -->
-        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj t_perror.o strerror.o vasyslog.o tlsf.o"/> -->
+        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj $(END_OBJS) "/> -->
+        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj t_perror.o strerror.o vasyslog.o tlsf.o"/> -->
         <!-- NG other obj file use -->
-        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj"/> -->
-        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj $(APPL_COBJS)"/> -->
+        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj"/> -->
+        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj $(APPL_COBJS)"/> -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj $(APPL_COBJS)"/> -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj t_perror.obj strerror.obj vasyslog.obj"/>
         
@@ -422,6 +422,9 @@
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(FROMELF) -O srec -S $(CFG1_OUT) cfg1_out.srec "/>
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=hrp2 --template-file=$(TARGETDIR)/target.tf $(CFG_KERNEL_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)"/>
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch -r kernel_cfg.c kernel_cfg.timestamp" />
+        
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o kernel_cfg.obj -c kernel_cfg.c $(CFG1COMPILEINCLUDE)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o kernel_mem2.obj -c kernel_mem2.c $(CFG1COMPILEINCLUDE)" />
     </Target>
 
     <!-- dynamicLoader no use? -->
@@ -486,53 +489,59 @@
     </Target>
     -->
     
+    <Target Name="kernel_offset">
+        <!-- offset.h: $(APPL_CFG) kernel_cfg.timestamp -->
+        <!-- $(CFGINCLUDE) module base -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass=3 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg1_out.srec --symbol-table=cfg1_out.syms -T=$(KERNELDIR)/arch/arm_gcc/common/core_offset.tf $(CFG_TABS)" />
+    </Target>
+    
     <Target Name="kernel_mem_usePass3">
         <!-- kernel_mem3.c: $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) -->
         <!-- <Exec Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG2_OUT) $(START_OBJS) $(APPL_OBJS) $(MRUBY_LIB) $(SYSSVC_OBJS) $(CFG2_OBJS) $(ALL_LIBS)  $(END_OBJS)" /> -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o cfg2_out log_output.obj t_perror.obj strerror.obj banner.obj syslog.obj serial.obj logtask.obj kernel_cfg.obj kernel_mem2.obj" /> -->
-        <!-- delete obj (kernel_cfg.obj kernel_mem2.obj) -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj                kernel_mem2.obj                 l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj" />
+        <!-- delete obj (lcd_dri.obj cli_main.obj cli_motor.obj cli_sensor.obj ) -->
+        <!-- Add library (must : libkernel.a) -->
+        <!-- https://www.toppers.jp/TOPPERS-USERS/2013-September/003954.html -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out chip_timer.obj $(TOPPERS_KERNEL_OBJS) kernel_cfg.obj kernel_mem2.obj analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj memory_pool.obj minIni.obj mmcsd.obj mmcsd_dri.obj mmcsd_rw.obj mmcsdlib.obj motor_dri.obj newlib_dri.obj pru.obj pru_suart.obj psc.obj remote_device_db_memory.obj rfcomm.obj run_loop.obj run_loop_toppers.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj mmcsd_proto.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out kernel_cfg.obj kernel_mem2.obj cfg1_out.obj analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj chip_timer.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj memory_pool.obj minIni.obj mmcsd.obj mmcsd_dri.obj mmcsd_rw.obj mmcsdlib.obj motor_dri.obj newlib_dri.obj pru.obj pru_suart.obj psc.obj remote_device_db_memory.obj rfcomm.obj run_loop.obj run_loop_toppers.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj mmcsd_proto.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a libkernel.a" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out kernel_cfg.obj kernel_mem2.obj cfg1_out.obj analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj chip_timer.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj memory_pool.obj minIni.obj mmcsd.obj mmcsd_dri.obj mmcsd_rw.obj mmcsdlib.obj motor_dri.obj newlib_dri.obj pru.obj pru_suart.obj psc.obj remote_device_db_memory.obj rfcomm.obj run_loop.obj run_loop_toppers.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj mmcsd_proto.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a libkernel.a" />
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG2_OUT) > cfg2_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(CFG3_OUT_LDSCRIPT)" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass 3 --kernel hrp2 $(INCLUDES) --rom-image cfg2_out.srec --symbol-table cfg2_out.syms -T $(TARGETDIR)/target_opt.tf $(CFG_TABS) $(APPL_CFG) $(PROJDIR)\kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP)" />
         
-        <Exec Command= "if ! [ -f $(CFG3_OUT_LDSCRIPT) ]; then sed s/kernel_mem2\.o/kernel_mem3\.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT); fi" />
+        <Exec Command= "if ! [ -f $(CFG3_OUT_LDSCRIPT) ]; then sed s/kernel_mem2\.obj/kernel_mem3\.obj/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT); fi" />
     </Target>
     <Target Name="kernel_mem_usePass4">
         <!-- kernel_mem.c: $(APPL_CFG) kernel_cfg.timestamp $(ALL3_OBJS) $(LIBS_DEP) -->
+        <!-- kernel_cfg.obj kernel_mem3.obj -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CFLAGS) $(CFG3_OUT_LDFLAGS) -o $(CFG3_OUT) $(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG3_OBJS) $(ALL_LIBS) -lm $(END_OBJS) "/>
+        
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG3_OUT) > cfg3_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG3_OUT) cfg3_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass 4 --kernel hrp2 $(INCLUDES) --rom-image=cfg3_out.srec --symbol-table=cfg3_out.syms -T $(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL3_OBJS) $(LIBS_DEP) "/>
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass=4 --kernel=hrp2 $(INCLUDES) --rom-image=cfg3_out.srec --symbol-table=cfg3_out.syms -T=$(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL3_OBJS) $(LIBS_DEP) "/>
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem3\.obj/kernel_mem\.obj/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT); fi" />
+        
+        <!-- kernel_mem3.c compile? -->
     </Target>
+    
     <Target Name="kernel_mem_nousePass3">
         <!-- kernel_mem.c: $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) -->
         <!-- <Exec Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG2_OUT) $(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG2_OBJS) $(ALL_LIBS) $(END_OBJS)" /> -->
         <!-- FLAG -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CFLAGS) $(CFG2_OUT_LDFLAGS) -o cfg2_out kernel_cfg.obj kernel_mem2.obj" /> -->
-        <!-- delete lcd_dri.obj kernel_cfg.obj kernel_mem2.obj -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out kernel_cfg.obj kernel_mem2.obj analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj memory_pool.obj minIni.obj mmcsd.obj mmcsd_dri.obj mmcsd_rw.obj mmcsdlib.obj motor_dri.obj newlib_dri.obj pru.obj pru_suart.obj psc.obj remote_device_db_memory.obj rfcomm.obj run_loop.obj run_loop_toppers.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj mmcsd_proto.obj $(TOPPERS_KERNEL_OBJS) $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\ibkernel.a" />
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG2_OUT) > cfg2_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch cfg3_out.tf" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass 4 --kernel hrp2 $(INCLUDES) --rom-image cfg2_out.srec --symbol-table cfg2_out.syms -T $(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) "/>
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass=4 --kernel=hrp2 $(INCLUDES) --rom-image=cfg2_out.srec --symbol-table=cfg2_out.syms -T=$(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) "/>
+        
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem2\.obj/kernel_mem\.obj/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT); fi" />
-    </Target>
-
-    <!-- OFFSET_TF = $(COREDIR)/core_offset.tf -->
-    <!-- COREDIR = G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\arch\arm_gcc\common -->
-    <Target Name="kernel_offset">
-        <!-- ifdef OFFSET_TF -->
-        <!-- offset.h: $(APPL_CFG) kernel_cfg.timestamp -->
-        <Exec Command="@$(CFG) $(APPL_CFG) --pass=3 --kernel=hrp2 $(CFGINCLUDE) --rom-image cfg1_out.srec --symbol-table cfg1_out.syms -T G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\arch\arm_gcc\common/core_offset.tf $(CFG_TABS)" />
-        <!-- offset.h: makeoffset.s $(SRCDIR)/utils/genoffset -->
-        <!-- <Exec Command="$(PERL) $(SRCDIR)/utils/genoffset makeoffset.s &gt; offset.h" /> -->
+        
+        <!-- kernel_mem3.c compile? -->
     </Target>
 
     <!-- $(CFG2_OUT_SRCS): kernel_cfg.timestamp -->
@@ -638,12 +647,16 @@
         <Message Text="file selected @(AllSigFiles)"/>
     </Target>
 
-    <!-- Lernel Library File Create -->
+    <!-- Kernel Library File Create -->
+    <!-- <Target Name="libkernel" DependsOnTargets="kernel_offset"> -->
     <Target Name="libkernel">
         <!-- libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS) -->
-        <Exec Command="rm -f libkernel.a" />
-        <Exec Command="$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)" />
-        <Exec Command="$(RANLIB) libkernel.a" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f libkernel.a" />
+        
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)" />
+        <!-- <Exec Command="$(AR) -rcs libkernel.a $(TOPPERS_KERNEL_OBJS)" /> -->
+        
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(RANLIB) libkernel.a" />
     </Target>
 
     <!-- BinaryFile Create -->

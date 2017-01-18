@@ -170,13 +170,16 @@
         <CFiles Include="../../library/t_perror.c" />
         <CFiles Include="../../library/vasyslog.c" />
         
+        <!-- service -->
         <CFiles Include="../../syssvc/logtask.c" />
-        
         <CFiles Include="../../syssvc/syslog.c" />
         <CFiles Include="../../syssvc/test_svc.c" />
+        
+        <!-- ? -->
+        <CFiles Include="../../target/ev3_gcc/target_serial.c" />
         <CFiles Include="../../target/ev3_gcc/TLSF-2.4.6/src/tlsf.c" />
         
-        <!-- -->
+        <!-- EV3 APIs -->
         <CFiles Include="../../target/ev3_gcc/api/src/ev3api.c" />
         <CFiles Include="../../target/ev3_gcc/api/src/ev3api_battery.c" />
         <CFiles Include="../../target/ev3_gcc/api/src/ev3api_brick.c" />
@@ -190,11 +193,11 @@
         <!-- netmf on OS -->
         <HFiles Include="../../DeviceCode/include/tinyhal.h" />
         <HFiles Include="../../DeviceCode/uItron4API.h" />
+        <CFiles Include="../../DeviceCode/uIron4API.c" />
         <CPPFiles Include="../../DeviceCode/configuration.cpp" />
         <CPPFiles Include="../../DeviceCode/cpu.cpp" />
         <CPPFiles Include="../../DeviceCode/GlobalLock.cpp" />
         <CPPFiles Include="../../DeviceCode/Various_uIron4.cpp" />
-        <CFiles Include="../../DeviceCode/uIron4API.c" />
         
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/include" />
@@ -251,9 +254,11 @@
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/memory_pool.c" />
         <CFiles Include="../../target/ev3_gcc/platform/src/minIni.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/fatfs/starterware_c6748_mmcsd/src/mmcsd.c" />
-        <CFiles Include="../../target/ev3_gcc/drivers/fatfs/starterware_c6748_mmcsd/src/mmcsd_dri.c" />
+        <CFiles Include="../../target/ev3_gcc/drivers/fatfs/src/mmcsd_dri.c" />
+        
         <!-- Unsupported Compiler error -->
-        <!-- <CFiles Include="../../target/ev3_gcc/drivers/fatfs/starterware_c6748_mmcsd/src/mmcsd_proto.c" /> -->
+        <!-- define -Dgcc -->
+        <CFiles Include="../../target/ev3_gcc/drivers/fatfs/starterware_c6748_mmcsd/src/mmcsd_proto.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/fatfs/starterware_c6748_mmcsd/src/mmcsd_rw.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/fatfs/starterware_c6748_mmcsd/src/mmcsdlib.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/motor/src/motor_dri.c" />
@@ -265,7 +270,7 @@
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/src/remote_device_db_memory.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/rfcomm.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/run_loop.c" />
-        <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/src/run_loop_toppers..c" />
+        <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/src/run_loop_toppers.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/sdp.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/sdp_client.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/sdp_parser.c" />
@@ -275,40 +280,49 @@
         <CFiles Include="../../target/ev3_gcc/drivers/soc/src/soc_edma.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/sound/src/sound_dri.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/soc/AM1808_StarterWare_1_00_03_03/drivers/spi.c" />
-        <CFiles Include="../../target/ev3_gcc/kernel/startup.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/sensor/uart/d_uart/Linuxmod_AM1808/pru-firmware-05-31-2011-1423-v3.0/pru/hal/uart/src/suart_api.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/sensor/uart/d_uart/Linuxmod_AM1808/pru-firmware-05-31-2011-1423-v3.0/pru/hal/uart/src/suart_utils.c" />
-        <CFiles Include="../../kernel/cyclic.c" />
-        <CFiles Include="../../kernel/dataqueue.c" />
-        <CFiles Include="../../kernel/eventflag.c" />
-        <CFiles Include="../../kernel/exception.c" />
-        <CFiles Include="../../kernel/interrupt.c" />
-        <CFiles Include="../../kernel/mem_manage.c" />
-        <CFiles Include="../../kernel/memory.c" />
-        <CFiles Include="../../kernel/mempfix.c" />
-        <CFiles Include="../../kernel/mutex.c" />
-        <CFiles Include="../../kernel/overrun.c" />
-        <CFiles Include="../../kernel/pridataq.c" />
-        <CFiles Include="../../kernel/semaphore.c" />
-        <CFiles Include="../../kernel/startup.c" />
-        <CFiles Include="../../kernel/svc_table.c" />
-        <CFiles Include="../../kernel/sys_manage.c" />
-        <CFiles Include="../../kernel/task.c" />
-        <CFiles Include="../../kernel/task_except.c" />
-        <CFiles Include="../../kernel/task_manage.c" />
-        <CFiles Include="../../kernel/task_refer.c" />
-        <CFiles Include="../../kernel/task_sync.c" />
-        <CFiles Include="../../kernel/time_event.c" />
-        <CFiles Include="../../kernel/time_manage.c" />
-        <CFiles Include="../../kernel/wait.c" />
-        <CFiles Include="../../syssvc/serial.c" />
-        <HFiles Include="../../syssvc/serial.h" />
+        
+        <!-- 
+            kernel objects (must libkernel.a make objects)
+            alarm.obj cyclic.obj dataqueue.obj eventflag.obj exception.obj interrupt.obj mem_manage.obj memory.obj mempfix.obj mutex.obj overrun.obj pridataq.obj semaphore.obj startup.obj svc_table.obj sys_manage.obj task.obj task_except.obj task_manage.obj task_refer.obj task_sync.obj time_event.obj time_manage.obj wait.obj
+        -->
+        <CFiles Include="../../target/ev3_gcc/kernel/alarm.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/cyclic.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/dataqueue.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/eventflag.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/exception.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/interrupt.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/mem_manage.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/memory.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/mempfix.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/mutex.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/overrun.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/pridataq.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/semaphore.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/startup.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/svc_table.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/sys_manage.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/task.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/task_except.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/task_manage.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/task_refer.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/task_sync.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/time_event.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/time_manage.c" />
+        <CFiles Include="../../target/ev3_gcc/kernel/wait.c" />
+        
+        <!-- kernel mod -->
+        <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/kernel_mod/include" />
         <CFiles Include="../../target/ev3_gcc/kernel_mod/src/serial_mod.c" />
         
+        <CFiles Include="../../syssvc/serial.c" />
+        <HFiles Include="../../syssvc/serial.h" />
         <CFiles Include="../../syssvc/banner.c" />
         <HFiles Include="../../syssvc/banner.h" />
         <CFiles Include="../../arch/arm_gcc/am1808/tl16c550.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/soc/AM1808_StarterWare_1_00_03_03/drivers/uart.c" />
+        
         <!-- error -->
         <!-- add header -->
         <!-- __attribute__((noinline))(- -no_inline) -->
@@ -324,6 +338,10 @@
         <CFiles Include="../../target/ev3_gcc/platform/src/ev3exception.c" />
         <CFiles Include="../../target/ev3_gcc/platform/src/ev3main.c" />
         <CFiles Include="../../target/ev3_gcc/platform/src/ev3rt_config.c" />
+        
+        <!-- Add2 -->
+        <!-- <CFiles Include="../../arch/arm_gcc/am1808/chip_timer.c" /> -->
+        <CFiles Include="../../target/ev3_gcc/am1808/chip_timer.c" />
         <!-- end -->
         
         <!-- App Dir -->
