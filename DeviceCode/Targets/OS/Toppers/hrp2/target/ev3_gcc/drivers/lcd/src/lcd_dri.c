@@ -9,6 +9,8 @@
 #include <t_syslog.h>
 #include <string.h>
 #include "gpio_dri.h"
+// NG
+// #include "lcd_dri.h"
 #include <asm-generic/ioctl.h>
 struct mutex {};
 struct delayed_work {};

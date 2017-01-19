@@ -26,7 +26,15 @@
 #include <linux/delay.h>
 #include <linux/uaccess.h>
 
+typedef uint8_t u8;
+typedef uint16_t u16;
+typedef uint32_t u32;
+typedef bool_t   bool;
+// #include <asm-generic/int-ll64.h>
+// #include "driver_common.h"
+
 #include <video/st7586fb.h>
+
 
 static struct st7586_function st7586_cfg_script[] = {
 	{ ST7586_START, ST7586_START},
