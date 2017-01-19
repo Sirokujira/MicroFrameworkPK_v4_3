@@ -245,7 +245,7 @@
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/l2cap.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/l2cap_signaling.c" />
         <!-- build NG -->
-        <CFiles Include="../../target/ev3_gcc/drivers/lcd/src/lcd_dri.c" />
+        <!-- <CFiles Include="../../target/ev3_gcc/drivers/lcd/src/lcd_dri.c" /> -->
         <CFiles Include="../../target/ev3_gcc/drivers/lcd/src/lcd_font.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/lcd/src/lcd_spi.c" />
         

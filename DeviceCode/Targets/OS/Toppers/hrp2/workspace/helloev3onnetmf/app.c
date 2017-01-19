@@ -172,7 +172,7 @@ void main_task(intptr_t unused) {
 
 	// MFMain 
 	// NETMF ‹N“®
-	MFmain();
+	// MFmain();
 
 	/**
 	 *

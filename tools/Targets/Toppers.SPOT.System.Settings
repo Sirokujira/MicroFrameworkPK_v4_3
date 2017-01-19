@@ -17,6 +17,7 @@
         <RevisionNumber         Condition="'$(RevisionNumber)'==''"         >$(_RevisionNumber)</RevisionNumber>
         <SignBuild              Condition="'$(SignBuild)'==''"              >$(_SignBuild)</SignBuild>
     </PropertyGroup>
+    
     <PropertyGroup>
         <!-- Toppers Depends -->
         <!-- makefile : http://minus9d.hatenablog.com/entry/20140203/1391436293 -->
@@ -105,6 +106,9 @@
         <CFG3_OBJS>$(CFG3_ASMOBJS) $(CFG3_COBJS)</CFG3_OBJS>
 
         <TOPPERS_KERNEL_OBJS>cyclic.obj dataqueue.obj eventflag.obj exception.obj interrupt.obj mem_manage.obj memory.obj mempfix.obj mutex.obj overrun.obj pridataq.obj semaphore.obj startup.obj svc_table.obj sys_manage.obj task.obj task_except.obj task_manage.obj task_refer.obj task_sync.obj time_event.obj time_manage.obj wait.obj</TOPPERS_KERNEL_OBJS>
+
+        <TOPPERS_BUILD_LIBS>$(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a</TOPPERS_BUILD_LIBS>
+        <TOPPERS_KERNEL_LIBS>$(TOPPERS_BUILD_LIBS) libkernel.a</TOPPERS_KERNEL_LIBS>
 
         <!-- mruby -->
         <!--
