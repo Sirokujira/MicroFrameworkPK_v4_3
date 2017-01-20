@@ -203,6 +203,9 @@
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/kernel" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/arch" />
         
+        <HFiles Include="../../arch/arm_gcc/common/kernel_rename.h" />
+        <HFiles Include="../../arch/arm_gcc/common/core_rename.h" />
+                
         <!-- kernel用 -->
         <!-- start -->
         <!-- kernel object lists
@@ -245,7 +248,9 @@
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/l2cap.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/bluetooth/btstack/src/l2cap_signaling.c" />
         <!-- build NG -->
-        <!-- <CFiles Include="../../target/ev3_gcc/drivers/lcd/src/lcd_dri.c" /> -->
+        <!-- error: unknown type name struct etc. -->
+        <!-- CDEFS += -DCONFIG_FB_DEFERRED_IO -D__KERNEL__ -->
+        <CFiles Include="../../target/ev3_gcc/drivers/lcd/src/lcd_dri.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/lcd/src/lcd_font.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/lcd/src/lcd_spi.c" />
         
@@ -254,6 +259,10 @@
         <CFiles Include="../../target/ev3_gcc/platform/src/minIni.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/fatfs/starterware_c6748_mmcsd/src/mmcsd.c" />
         <CFiles Include="../../target/ev3_gcc/drivers/fatfs/src/mmcsd_dri.c" />
+        
+        <!-- Assembly -->
+        <!-- <AssemblyFiles Include="../../target/ev3_gcc/am1808/chip_support.S" /> -->
+        <!-- <AssemblyFiles Include="../../arch/arm_gcc/common/start.S" /> -->
         
         <!-- Unsupported Compiler error -->
         <!-- define -Dgcc -->
@@ -310,6 +319,7 @@
         <CFiles Include="../../target/ev3_gcc/kernel/time_event.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/time_manage.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/wait.c" />
+        <HFiles Include="../../target/ev3_gcc/kernel/kernel_impl.h" />
         
         <!-- kernel mod -->
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/kernel_mod/include" />
@@ -335,12 +345,22 @@
         <CFiles Include="../../target/ev3_gcc/drivers/brick/src/ev3cyclic_dri.c" />
         <!-- ARMV5_MMU_DSCR1_PAGETABLE no define -->
         <CFiles Include="../../target/ev3_gcc/platform/src/ev3exception.c" />
+        
+        <!-- use assemble(core_support.S) -->
+        <CFiles Include="../../arch/arm_gcc/common/core_config.c" />
+        <!-- <AssemblyFiles Include="../../arch/arm_gcc/common/core_support.S" /> -->
+        
+        <!-- no use -->
+        <!-- <CFiles Include="../../arch/arm_gcc/common/gic.c" /> -->
+        <!-- <AssemblyFiles Include="../../arch/arm_gcc/common/gic_support.S" /> -->
+        
         <CFiles Include="../../target/ev3_gcc/platform/src/ev3main.c" />
         <CFiles Include="../../target/ev3_gcc/platform/src/ev3rt_config.c" />
         
         <!-- Add2 -->
         <!-- <CFiles Include="../../arch/arm_gcc/am1808/chip_timer.c" /> -->
         <CFiles Include="../../target/ev3_gcc/am1808/chip_timer.c" />
+        <CFiles Include="../../target/ev3_gcc/am1808/chip_config.c" />
         <!-- end -->
         
         <!-- App Dir -->

@@ -189,7 +189,7 @@ void MFmain()
 	// }
 
 	// Assembly IOs
-	// 左デバイス?, 右メモリ領域?
+	// メモリ上に TinyClr_Dat_Start 関数の実体を展開する?
 	size = uItron4_loadAssembly(uItron4_assembly, TinyClr_Dat_Start);
 	if (size <= 0)
 	{

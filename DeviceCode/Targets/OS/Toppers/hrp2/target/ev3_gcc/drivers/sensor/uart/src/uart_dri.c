@@ -12,13 +12,6 @@
 #include "driver_debug.h"
 //#include "ev3api.h"
 
-// noinline_for_stack instead.  For documentaiton reasons.
-// #define noinline_for_stack noinline
-// http://d.hatena.ne.jp/higepon/20060923/1159005733
-// http://infocenter.arm.com/help/topic/com.arm.doc.dui0491bj/CIAGHFBA.html
-#define noinline_for_stack __attribute__ ((noinline))
-// #include "compiler.h"
-
 //#define DEBUG
 //#define HIGHDEBUG
 //#define DEBUG_D_UART_ERROR
