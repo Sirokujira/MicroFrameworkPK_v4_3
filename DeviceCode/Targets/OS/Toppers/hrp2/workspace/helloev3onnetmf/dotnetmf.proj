@@ -74,21 +74,25 @@
     </ItemDefinitionGroup>
     <ItemGroup>
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2" />
+        <!-- Common -->
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/include" />
-        <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/kernel" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/arch" />
+        <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/arch/arm_gcc/am1808" />
         
         <!-- App Dir -->
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/workspace/common" />
         <!-- Kernel Dir -->
-        <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/arch/arm_gcc/am1808" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/arch/arm_gcc/common" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc" />
+        <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/kernel" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/api/include" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/drivers/common/include" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/TLSF-2.4.6/include" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/platform/include" />
         <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/pil/include" />
+        
+        <!-- Assemble inc -->
+        <IncludePaths Include="DeviceCode/Targets/OS/Toppers/hrp2/target/ev3_gcc/am1808" />
         
         <!-- No such file or directory -->
         <!-- common/module_common.h -->
@@ -261,8 +265,8 @@
         <CFiles Include="../../target/ev3_gcc/drivers/fatfs/src/mmcsd_dri.c" />
         
         <!-- Assembly -->
-        <!-- <AssemblyFiles Include="../../target/ev3_gcc/am1808/chip_support.S" /> -->
-        <!-- <AssemblyFiles Include="../../arch/arm_gcc/common/start.S" /> -->
+        <AssemblyFiles Include="../../target/ev3_gcc/am1808/chip_support.S" />
+        <AssemblyFiles Include="../../arch/arm_gcc/common/start.S" />
         
         <!-- Unsupported Compiler error -->
         <!-- define -Dgcc -->
@@ -311,12 +315,15 @@
         <CFiles Include="../../target/ev3_gcc/kernel/startup.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/svc_table.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/sys_manage.c" />
+        <!-- use task build defines -->
+        <!-- <HFiles Include="../../target/ev3_gcc/kernel/allfunc.h" /> -->
         <CFiles Include="../../target/ev3_gcc/kernel/task.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/task_except.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/task_manage.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/task_refer.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/task_sync.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/time_event.c" />
+        <HFiles Include="../../target/ev3_gcc/kernel/time_event.h" />
         <CFiles Include="../../target/ev3_gcc/kernel/time_manage.c" />
         <CFiles Include="../../target/ev3_gcc/kernel/wait.c" />
         <HFiles Include="../../target/ev3_gcc/kernel/kernel_impl.h" />
@@ -348,7 +355,7 @@
         
         <!-- use assemble(core_support.S) -->
         <CFiles Include="../../arch/arm_gcc/common/core_config.c" />
-        <!-- <AssemblyFiles Include="../../arch/arm_gcc/common/core_support.S" /> -->
+        <AssemblyFiles Include="../../arch/arm_gcc/common/core_support.S" />
         
         <!-- no use -->
         <!-- <CFiles Include="../../arch/arm_gcc/common/gic.c" /> -->
@@ -370,8 +377,7 @@
         
         <!-- BUILD_MODULE -->
         <!-- <CFiles Include="module_cfg.c" /> -->
-        <!-- <HFiles Include="module_cfg.h" /> -->
-        
+        <!-- <HFiles Include="module_cfg.h" /> -->        
         <!-- BUILD_Kernel -->
         <CFiles Include="kernel_cfg.c" />
         <!-- <CFiles Include="kernel_mem.c" /> -->
