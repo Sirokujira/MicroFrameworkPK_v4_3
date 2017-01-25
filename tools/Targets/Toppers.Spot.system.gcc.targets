@@ -8,7 +8,7 @@
         <ProcessorTypes>XScale;ARM7TDMI;ARM7TDMI-S;arm920t;arm926EJ-S</ProcessorTypes>
         <ISAs>arm;thumb</ISAs>
     </PropertyGroup>
-
+    
     <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCC'" >
         <TARGETCURRENT>$(SPO_BUILD)\$(INSTRUCTION_SET)\$(TARGETLOCATION)\$(OLD_FLAVOR)\$(TARGETPLATFORM)\bin</TARGETCURRENT>
         
@@ -37,7 +37,7 @@
         <OBJDUMP Condition="!EXISTS('$(OBJDUMP)')">"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\objdump.exe"</OBJDUMP>
         <RANLIB  Condition="!EXISTS('$(RANLIB)')" >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\ranlib.exe"</RANLIB>
     </PropertyGroup>
-
+    
     <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCCOP'" >
         <TARGETCURRENT>$(SPO_BUILD)\$(INSTRUCTION_SET)\$(TARGETLOCATION)\$(OLD_FLAVOR)\$(TARGETPLATFORM)\bin</TARGETCURRENT>
         
@@ -56,7 +56,7 @@
         <CREATESYMDEF>$(TOOLS_DIR)\CreateSymdef.exe</CREATESYMDEF>
         <CREATESYMDEF_ALT>$(SPOCLIENT)\TOOLS\BIN\CreateSymdef.exe</CREATESYMDEF_ALT>
     </PropertyGroup>
-
+    
     <!-- based on cpu type, setup compiler-->
     <PropertyGroup>
         <!-- We need to convert the RVDS CPU type to its GCC equivalent if needed-->
@@ -95,7 +95,8 @@
         <!-- <CTOPPERS_EV3_FLAGS>-std=gnu99 -Dgcc -D__TARGET_ARCH_ARM=5 $(CTOPPERS_EV3_WARNING_OFF_FLAGS)</CTOPPERS_EV3_FLAGS> --> 
         <!-- lcd build -->
         <!-- kernel/task.c build flag : -DALLFUNC -->
-        <CTOPPERS_EV3_FLAGS>-std=gnu99 -DBUILD_EV3_PLATFORM -DCONFIG_FB_DEFERRED_IO -D__KERNEL__ -DSUPPORT_XLOG_SYS -Dgcc -DALLFUNC -D__TARGET_ARCH_ARM=5 $(CTOPPERS_EV3_WARNING_OFF_FLAGS)</CTOPPERS_EV3_FLAGS>
+        <!-- target_config.c build flag : -DBUILD_EV3_PLATFORM -->
+        <CTOPPERS_EV3_FLAGS>-g -std=gnu99 -DBUILD_EV3_PLATFORM -DCONFIG_FB_DEFERRED_IO -D__KERNEL__ -DSUPPORT_XLOG_SYS -Dgcc -DALLFUNC -D__TARGET_ARCH_ARM=5 $(CTOPPERS_EV3_WARNING_OFF_FLAGS)</CTOPPERS_EV3_FLAGS>
         
         <!-- 
             # kernel define
@@ -127,12 +128,12 @@
         <AS_CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='le'">$(AS_CC_CPP_COMMON_FLAGS) -mlittle-endian</AS_CC_CPP_COMMON_FLAGS>
         <AS_CC_CPP_COMMON_FLAGS Condition="'$(ENDIANNESS)'=='be'">$(AS_CC_CPP_COMMON_FLAGS) -mbig-endian</AS_CC_CPP_COMMON_FLAGS>
     </PropertyGroup>
-
+    
     <!-- Assembler flags -->
     <PropertyGroup>
         
         <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"         >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=1</AS_TARGETTYPE_FLAGS>
-        <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"     >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 </AS_TARGETTYPE_FLAGS>
+        <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"     >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0</AS_TARGETTYPE_FLAGS>
         <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"       >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 -g</AS_TARGETTYPE_FLAGS>
         <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'">$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 -g</AS_TARGETTYPE_FLAGS>
         
@@ -165,7 +166,7 @@
         
         <AS_SUBDIR>GNU_S</AS_SUBDIR>
     </PropertyGroup>
-
+    
     <!-- common cc/cpp flags -->
     <PropertyGroup>
         <!-- CPP/CC flags depands on the target build -->
@@ -235,23 +236,23 @@
         
         <CC_CPP_COMMON_FLAGS>$(CC_CPP_COMMON_FLAGS) $(AS_CC_CPP_COMMON_FLAGS) $(CC_CPP_TARGETTYPE_FLAGS) $(CC_CPP_INCS) $(ExtraFlags)</CC_CPP_COMMON_FLAGS>
     </PropertyGroup>
-
+    
     <!-- AS flags -->
     <PropertyGroup>
         <AS_FLAGS>$(AS_FLAGS) $(AS_CC_CPP_COMMON_FLAGS) $(ExtraASFlags)</AS_FLAGS>
     </PropertyGroup>
-
+    
     <!-- CC flags -->
     <PropertyGroup>
         <CC_FLAGS>$(CC_FLAGS) $(CC_CPP_COMMON_FLAGS) $(ExtraCCFlags)</CC_FLAGS>
     </PropertyGroup>
-
+    
     <!-- CPP flags -->
     <PropertyGroup>
         <CPP_FLAGS>$(CPP_FLAGS) $(CC_CPP_COMMON_FLAGS) $(ExtraCPPFlags) -Wabi </CPP_FLAGS>
         <CPP_FLAGS Condition="'$(FLAVOR)'=='Debug'">$(CPP_FLAGS) -fno-default-inline</CPP_FLAGS>
     </PropertyGroup>
-
+    
     <!-- other flags -->
     <PropertyGroup>
         <ARFLAGS>$(ARFLAGS) -rcs</ARFLAGS>
@@ -264,14 +265,14 @@
         -->
         <LINK_FLAGS Condition="'$(INSTRUCTION_SET)'=='thumb'">$(LINK_FLAGS) --allow-multiple-definition</LINK_FLAGS>
     </PropertyGroup>
-
+    
     <PropertyGroup>
         <EXEName>$(BIN_DIR)\$(AssemblyName)</EXEName>
-
+    
         <TargetRule Condition="'$(OutputType)'=='Library'">ArmBuildLib</TargetRule>
         <TargetRule Condition="'$(OutputType)'=='Executable'">BuildAXF</TargetRule>
         <TargetRule Condition="'$(OutputType)'=='Configure'">BuildAXF</TargetRule>
-
+    
         <!-- AddRule -->
         <TargetRule Condition="'$(OutputType)'=='DynamicLoading'">ArmBuildLib2</TargetRule>
         <TargetRule Condition="'$(OutputType)'=='Kernel'">ArmBuildLib3</TargetRule>
@@ -306,14 +307,14 @@
         <LIBGCC          Condition="'$(INSTRUCTION_SET)'=='thumb'">libgcctle.a</LIBGCC>
         <LIBCGCC>libc.a</LIBCGCC>
     </PropertyGroup>
-
+    
     <!-- item group  -->
     <ItemGroup>
         <MakeAXFInputs Include="$(MakeAXFInputs)"/>
         <FastCompileFile Condition="'$(ENABLE_FASTCOMPILE)'=='true'" Include="@(FastCompileCFile)"/>
         <FastCompileFile Condition="'$(ENABLE_FASTCOMPILE)'=='true'" Include="@(FastCompileCPPFile)"/>
     </ItemGroup>
-
+    
     <ItemGroup Condition="'$(OutputType)'=='Executable'">
         <!-- use the tools\make\scatterfile_definition.xml, otherwise has to state the scatterfile at the dotNetMF.proj-->
         <EXEScatterFileDefinition Condition="'$(EXEScatterFileDefinition)'==''" Include="$(SPO_SDK)\tools\make\scatterfile_definition.xml"/>
@@ -322,130 +323,141 @@
         <EXEScatterFile Include="$(BIN_DIR)\$(AssemblyName)_scatterfile.ldf"/>
         <EXEIncludePaths Include="$(ARMINC)"/>
     </ItemGroup>
-
+    
     <!-- stubs function for all build in OP's GCC, as those functions are not included in their tool-chain -->
     <ItemGroup Condition="'$(COMPILER_TOOL)'=='GCCOP' and '$(OutputType)'=='Executable' and EXISTS('$(SPOCLIENT)\DeviceCode\Drivers\Stubs\TempForGCC\dotNetMF.proj')">
         <RequiredProjects Include="$(SPOCLIENT)\DeviceCode\Drivers\Stubs\TempForGCC\dotNetMF.proj" />
         <DriverLibs Include="Gcc_hal.$(LIB_EXT)" />
     </ItemGroup>
-
+    
     <!-- target group for compile,assembler,linker, librarian, loader -->
     <Target Name="ArmCompileCPP" Condition="'@(CPPFiles)'!='' or '@(FastCompileCPPFile)'!=''" Inputs="@(FastCompileCPPFile);@(CPPFiles);@(HFiles)" Outputs="@(ObjFiles)">
         <Exec Condition="Exists('%(FastCompileCPPFile.FullPath)') and '@(FastCompileCPPFile)'!='' and '$(ENABLE_FASTCOMPILE)'=='true'" Command="$(ADS_WRAPPER) $(CPP) $(CPP_FLAGS) $(POS_DEPENDENT) -o $(OBJ_DIR)\%(FastCompileCPPFile.Filename).$(OBJ_EXT) -c %(FastCompileCPPFile.FullPath) "/>
         <Exec Condition="Exists('%(CPPFiles.FullPath)')           and '@(CPPFiles)'!=''and ('$(ENABLE_FASTCOMPILE)'!='true' or '@(FastCompileCPPFile)'=='')" Command="$(ADS_WRAPPER) $(CPP) $(CPP_FLAGS) $(POS_DEPENDENT) -o $(OBJ_DIR)\%(CPPFiles.Filename).$(OBJ_EXT) -c %(CPPFiles.FullPath)  "/>
     </Target>
-
+    
     <Target Name="ArmCompileC" Condition="'@(CFiles)'!='' or '@(FastCompileCFile)'==''" Inputs="@(FastCompileCFile);@(CFiles)" Outputs="@(ObjFiles)">
         <Exec Condition="Exists('%(FastCompileCFile.FullPath)') and  '@(FastCompileCFile)'!='' and '$(ENABLE_FASTCOMPILE)'=='true'" Command="$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o$(OBJ_DIR)\%(FastCompileCFile.Filename).$(OBJ_EXT) -c %(FastCompileCFile.FullPath) "/>
         <Exec Condition="Exists('%(CFiles.FullPath)')           and  '@(CFiles)'!=''and ('$(ENABLE_FASTCOMPILE)'!='true' or '@(FastCompileCFile)'=='')" Command="$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o$(OBJ_DIR)\%(CFiles.Filename).$(OBJ_EXT) -c %(CFiles.FullPath) "/>
     </Target>
-
+    
     <!-- Toppers Source Code build -->
     <Target Name="ArmCompileC2" Condition="'@(CFiles)'!='' or '@(FastCompileCFile)'==''" Inputs="@(FastCompileCFile);@(CFiles)" Outputs="@(ObjFiles)">
         <Exec Condition="Exists('%(FastCompileCFile.FullPath)') and  '@(FastCompileCFile)'!='' and '$(ENABLE_FASTCOMPILE)'=='true'" Command="$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CC_CPP_INCS) $(POS_DEPENDENT) -o$(OBJ_DIR)\%(FastCompileCFile.Filename).$(OBJ_EXT) -c %(FastCompileCFile.FullPath) "/>
-        <Exec Condition="Exists('%(CFiles.FullPath)')           and  '@(CFiles)'!=''and ('$(ENABLE_FASTCOMPILE)'!='true' or '@(FastCompileCFile)'=='')" Command="$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CC_CPP_INCS) -o$(OBJ_DIR)\%(CFiles.Filename).$(OBJ_EXT) -c %(CFiles.FullPath) "/>
+        <!-- <Exec Condition="Exists('%(CFiles.FullPath)')           and  '@(CFiles)'!=''and ('$(ENABLE_FASTCOMPILE)'!='true' or '@(FastCompileCFile)'=='')" Command="$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CC_CPP_INCS) -o$(OBJ_DIR)\%(CFiles.Filename).$(OBJ_EXT) -c %(CFiles.FullPath) "/> -->
+        <Exec Condition="Exists('%(CFiles.FullPath)')           and  '@(CFiles)'!=''and ('$(ENABLE_FASTCOMPILE)'!='true' or '@(FastCompileCFile)'=='')" Command="$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CC_CPP_INCS) -o$(OBJ_DIR)\%(CFiles.Filename).o -c %(CFiles.FullPath) "/>
     </Target>
-
-
+    
     <Target Name="ArmAssemble" Condition="'@(AssemblyFiles)'!=''" Inputs="@(AssemblyFiles)" Outputs="@(AssemblyFiles->'$(OBJ_DIR)\%(FileName).$(OBJ_EXT)')">
         <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="del /q  $(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT)" ContinueOnError="true" />
         <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(AS) $(AS_FLAGS) -a=$(OBJ_DIR)\%(AssemblyFiles.Filename).txt -o $(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT) %(AssemblyFiles.FullPath)"/>
     </Target>
     
-    <!-- Toppers Assembl Code build -->
-    <!-- $(CC) -c $(CFLAGS) $(KERNEL_CFLAGS) $(KERNEL_ASMOBJS).obj $(KERNEL_ASMOBJS).S -->
+    <!-- Toppers Assemble Code build -->
+    <!-- $(CC) -c $(CFLAGS) $(KERNEL_CFLAGS) $(KERNEL_ASMOBJS).o $(KERNEL_ASMOBJS).S -->
     <Target Name="ArmAssemble2" Condition="'@(AssemblyFiles)'!=''" Inputs="@(AssemblyFiles)" Outputs="@(AssemblyFiles->'$(OBJ_DIR)\%(FileName).$(OBJ_EXT)')">
         <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="del /q  $(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT)" ContinueOnError="true" />
         <!-- <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(CC) $(CTOPPERS_EV3_FLAGS) $(CC_CPP_INCS) -I$(SRCDIR)/kernel -o$(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT) %(AssemblyFiles.FullPath)"/> -->
         <!-- http://researchmap.jp/joak1kvz7-1778110/?lang=japanese -->
         <!-- http://researchmap.jp/jo5arkly7-1778110/#_1778110 -->
         <!-- <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(CC) -c -mcpu=arm926ej-s -g -mlittle-endian -nostartfiles -O2 -Wall -DTOPPERS_LABEL_ASM -I. -I../include -I../arch -I..  -I../target/raspberry_pi_gcc -I../kernel -I../arch/arm_gcc/ -DALLFUNC -fno-strict-aliasing -o$(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT) %(AssemblyFiles.FullPath)"/> -->
-        <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(CC) -c -mcpu=arm926ej-s -g -mlittle-endian -nostartfiles -O2 -Wall -DTOPPERS_LABEL_ASM -D__TARGET_ARCH_ARM=5 $(CC_CPP_INCS) -I$(SRCDIR)/kernel -DALLFUNC -fno-strict-aliasing -o$(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT) %(AssemblyFiles.FullPath)"/>
+        <!-- <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(CC) -c -mcpu=arm926ej-s -g -mlittle-endian -nostartfiles -O2 -Wall -DTOPPERS_LABEL_ASM -D__TARGET_ARCH_ARM=5 $(CC_CPP_INCS) -I$(SRCDIR)/kernel -DALLFUNC -fno-strict-aliasing -o$(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT) %(AssemblyFiles.FullPath)"/> -->
+        <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(CC) -c -mcpu=arm926ej-s -g -mlittle-endian -nostdlib -O2 -Wall -DTOPPERS_LABEL_ASM -D__TARGET_ARCH_ARM=5 $(CC_CPP_INCS) -I$(SRCDIR)/kernel -DALLFUNC -fno-strict-aliasing -o$(OBJ_DIR)\%(AssemblyFiles.Filename).o %(AssemblyFiles.FullPath)"/>
         
         <!-- asm ng -->
         <!-- <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(AS) -DBUILD_EV3_PLATFORM -defsym CONFIG_FB_DEFERRED_IO -defsym __KERNEL__ -defsym gcc -defsym __TARGET_ARCH_ARM=5 $(CC_CPP_INCS) -I$(SRCDIR)/kernel -o$(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT) %(AssemblyFiles.FullPath)"/> -->
         <!-- import core_asm.inc -->
         <!-- <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(AS) -defsym __TARGET_ARCH_ARM=5 $(CC_CPP_INCS) -I$(SRCDIR)/kerne INCLUDE core_asm.inc -o$(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT) %(AssemblyFiles.FullPath)"/> -->
     </Target>
-
+    
     <Target Name="DelBuildLib" Condition="'$(OutputType)'=='Library'" Inputs="@(FastCompileCPPFile);@(CPPFiles);@(FastCompileCFile);@(CFiles);@(AssemblyFiles);@(HFiles)" Outputs="@(TargetLib)">
         <Exec Condition="'@(FilesExist)'!='' " Command="del /q  @(TargetLib)" ContinueOnError="true" />
         <Exec Condition="'@(FilesExist)'!='' " Command="del /q  @(TargetLib->'%(FullPath).manifest', ' ')" ContinueOnError="true" />
     </Target>
-
+    
     <Target Name="ArmBuildLib" Condition="'$(OutputType)'=='Library'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;$(ExtraTargets);" Inputs="@(ObjFiles)" Outputs="@(TargetLib);@(TargetLib->'%(FullPath).manifest')">
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Condition="'@(FilesExist)'!=''" Command="$(AR) $(ARFLAGS) @(TargetLib) @(ObjFiles->'%(FileName)%(Extension)',' ') "/> -->
         <Exec Condition="'@(FilesExist)'!=''" Command="$(AR) $(ARFLAGS) @(TargetLib) @(ObjFiles->'%(FileName)%(Extension)',' ') "/>
     </Target>
-
+    
     <!-- DynamicLoading -->
     <!-- <Target Name="ArmBuildLib2" Condition="'$(OutputType)'=='DynamicLoading'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;$(ExtraTargets);" Inputs="@(ObjFiles)" Outputs="@(TargetModule);@(TargetModule->'%(FullPath).manifest')"> -->
     <Target Name="ArmBuildLib2" Condition="'$(OutputType)'=='DynamicLoading'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;module_cfg1;module_cfg2;$(ExtraTargets);">
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Condition="'@(FilesExist)'!=''" Command="$(AR) $(ARFLAGS) @(TargetModule) @(ObjFiles->'%(FileName)%(Extension)',' ') "/> -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(AR) $(ARFLAGS) @(TargetModule) @(ObjFiles->'%(FileName)%(Extension)',' ') "/> -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(LDFLAGS) -o @(ObjFiles->'%(FileName)%(Extension)',' ') module_cfg.obj -lm -lc -lgcc" /> -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(LDFLAGS) -o app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj module_cfg.obj -lm -lc -lgcc" /> -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(LDFLAGS) -o app.exe module_cfg.obj ..\..\DeviceCode\uItron4API.obj ..\..\DeviceCode\configuration.obj ..\..\DeviceCode\cpu.obj ..\..\DeviceCode\GlobalLock.obj ..\..\DeviceCode\Various_uIron4.obj app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
-        <!-- <Exec Command="$(LINK) $(LDFLAGS) -o app.exe module_cfg.obj ..\..\DeviceCode\uItron4API.obj ..\..\DeviceCode\configuration.obj ..\..\DeviceCode\cpu.obj ..\..\DeviceCode\GlobalLock.obj ..\..\DeviceCode\Various_uIron4.obj app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(LDFLAGS) -o @(ObjFiles->'%(FileName)%(Extension)',' ') module_cfg.o -lm -lc -lgcc" /> -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(LDFLAGS) -o app.o cli_main.o cli_motor.o cli_sensor.o ev3api.o ev3api_battery.o ev3api_brick.o ev3api_cfg.o ev3api_fs.o ev3api_lcd.o ev3api_motor.o ev3api_newlib.o ev3api_sensor.o ev3api_speaker.o strerror.o t_perror.o tlsf.o vasyslog.o module_cfg.o -lm -lc -lgcc" /> -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(LDFLAGS) -o app.exe module_cfg.o ..\..\DeviceCode\uItron4API.o ..\..\DeviceCode\configuration.o ..\..\DeviceCode\cpu.o ..\..\DeviceCode\GlobalLock.o ..\..\DeviceCode\Various_uIron4.o app.o cli_main.o cli_motor.o cli_sensor.o ev3api.o ev3api_battery.o ev3api_brick.o ev3api_cfg.o ev3api_fs.o ev3api_lcd.o ev3api_motor.o ev3api_newlib.o ev3api_sensor.o ev3api_speaker.o strerror.o t_perror.o tlsf.o vasyslog.o $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
+        <!-- <Exec Command="$(LINK) $(LDFLAGS) -o app.exe module_cfg.o ..\..\DeviceCode\uItron4API.o ..\..\DeviceCode\configuration.o ..\..\DeviceCode\cpu.o ..\..\DeviceCode\GlobalLock.o ..\..\DeviceCode\Various_uIron4.o app.o cli_main.o cli_motor.o cli_sensor.o ev3api.o ev3api_battery.o ev3api_brick.o ev3api_cfg.o ev3api_fs.o ev3api_lcd.o ev3api_motor.o ev3api_newlib.o ev3api_sensor.o ev3api_speaker.o strerror.o t_perror.o tlsf.o vasyslog.o $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
         <!-- 
-        ..\..\DeviceCode\uItron4API.obj ..\..\DeviceCode\configuration.obj ..\..\DeviceCode\cpu.obj ..\..\DeviceCode\GlobalLock.obj ..\..\DeviceCode\Various_uIron4.obj 
+        ..\..\DeviceCode\uItron4API.o ..\..\DeviceCode\configuration.o ..\..\DeviceCode\cpu.o ..\..\DeviceCode\GlobalLock.o ..\..\DeviceCode\Various_uIron4.o 
         -->
-        <!-- <Exec Command="$(LINK) $(LDFLAGS) -o app.exe module_cfg.obj app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
+        <!-- <Exec Command="$(LINK) $(LDFLAGS) -o app.exe module_cfg.o app.o cli_main.o cli_motor.o cli_sensor.o ev3api.o ev3api_battery.o ev3api_brick.o ev3api_cfg.o ev3api_fs.o ev3api_lcd.o ev3api_motor.o ev3api_newlib.o ev3api_sensor.o ev3api_speaker.o strerror.o t_perror.o tlsf.o vasyslog.o $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
         <!-- <Exec Command="$(LINK) -o app module_cfg.o app.o cli_main.o cli_motor.o cli_sensor.o ev3api.o ev3api_battery.o ev3api_brick.o ev3api_cfg.o ev3api_fs.o ev3api_lcd.o ev3api_motor.o ev3api_newlib.o ev3api_sensor.o ev3api_speaker.o strerror.o t_perror.o tlsf.o vasyslog.o $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
         <!-- base hello ev3 -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app module_cfg.obj ..\..\DeviceCode\uItron4API.obj ..\..\DeviceCode\configuration.obj ..\..\DeviceCode\cpu.obj ..\..\DeviceCode\GlobalLock.obj ..\..\DeviceCode\Various_uIron4.obj app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app module_cfg.o ..\..\DeviceCode\uItron4API.o ..\..\DeviceCode\configuration.o ..\..\DeviceCode\cpu.o ..\..\DeviceCode\GlobalLock.o ..\..\DeviceCode\Various_uIron4.o app.o cli_main.o cli_motor.o cli_sensor.o ev3api.o ev3api_battery.o ev3api_brick.o ev3api_cfg.o ev3api_fs.o ev3api_lcd.o ev3api_motor.o ev3api_newlib.o ev3api_sensor.o ev3api_speaker.o strerror.o t_perror.o tlsf.o vasyslog.o $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" />
         
-        <!-- module_cfg.obj app.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj -->
+        <!-- module_cfg.o app.o ev3api.o ev3api_battery.o ev3api_brick.o ev3api_cfg.o ev3api_fs.o ev3api_lcd.o ev3api_motor.o ev3api_newlib.o ev3api_sensor.o ev3api_speaker.o strerror.o t_perror.o tlsf.o vasyslog.o -->
         <!-- #arm-none-eabi-strip -K _module_cfg_entry_num -K _module_cfg_tab -K _module_pil_version -strip-all app -->
     </Target>
-
+    
     <Target Name="DelBuildLib2" Condition="'$(OutputType)'=='DynamicLoading'" Inputs="@(FastCompileCPPFile);@(CPPFiles);@(FastCompileCFile);@(CFiles);@(AssemblyFiles);@(HFiles)" Outputs="@(TargetModule)">
         <Exec Condition="'@(FilesExist)'!='' " Command="del /q  @(TargetModule)" ContinueOnError="true" />
         <Exec Condition="'@(FilesExist)'!='' " Command="del /q  @(TargetModule->'%(FullPath).manifest', ' ')" ContinueOnError="true" />
     </Target>
-
+    
     <!-- Kernel -->
-    <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="kernel_cfg1;kernel_cfg2;FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC2;ArmCompileCPP;ArmAssemble2;CreateLibManifest;libkernel;kernel_cfg3;$(ExtraTargets);">
+    <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="kernel_cfg1;ArmAssemble2;kernel_cfg2;FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC2;ArmCompileCPP;CreateLibManifest;libkernel;kernel_cfg3;$(ExtraTargets);">
     <!-- <Target Name="ArmBuildLib3" Condition="'$(OutputType)'=='Kernel'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib2;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;$(ExtraTargets);"> -->
         <!-- base hello ev3 -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app $(KERNELOBJS) $(NETMF_DEVICE_OBJ) app.obj cli_main.obj cli_motor.obj cli_sensor.obj ev3api.obj ev3api_battery.obj ev3api_brick.obj ev3api_cfg.obj ev3api_fs.obj ev3api_lcd.obj ev3api_motor.obj ev3api_newlib.obj ev3api_sensor.obj ev3api_speaker.obj strerror.obj t_perror.obj tlsf.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
         <!-- All -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app analog_dri.obj app.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj kernel_mem.obj kernel_mem2.obj kernel_mem3.obj l2cap.obj l2cap_signaling.obj lcd_dri.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a" /> -->
+        <!-- 
+            $(LINK) $(CFLAGS) $(LDFLAGS) -o $(OBJFILE) $(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG_OBJS) $(ALL_LIBS) $(END_OBJS)
+            $(NM) -n $(OBJFILE) > $(OBJNAME).syms
+            ifdef USE_CFG_PASS3
+                diff cfg3_out.syms $(OBJNAME).syms
+            else
+                diff cfg2_out.syms $(OBJNAME).syms
+            endif
+        -->
         <!-- delete build error file -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o app app.obj analog_dri.obj app.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj kernel_cfg.obj kernel_mem.obj kernel_mem2.obj kernel_mem3.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj  unicode.obj utils.obj vasyslog.obj $(TOPPERS_KERNEL_OBJS) $(TOPPERS_KERNEL_LIBS)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o hrp2 app.o $(TOPPERS_KERNEL_OBJS) $(TOPPERS_KERNEL_LIBS)" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CC) $(CTOPPERS_EV3_FLAGS) -nostdlib $(LDFLAGS) -o hrp2 $(TOPPERS_START_OBJS) app.o $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o $(TOPPERS_KERNEL_OBJS) $(TOPPERS_KERNEL_LIBS) chip_timer.o" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(NM) -n hrp2 > hrp2.syms "/>
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="diff cfg3_out.syms hrp2.syms" />
+        <!-- not use USE_CFG_PASS3 -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="diff cfg2_out.syms hrp2.syms" /> -->
     </Target>
-
+    
     <Target Name="module_cfg1">
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" -->
-        <!-- <Exec Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" /> -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" /> -->
         <Exec Command="@$(CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" />
         
         <!-- warning : cannot find entry symbol _start; -->
         <!-- http://www.embedded.jp/pipermail/linux/2003-December/000018.html -->
-        <!-- <Exec Command="$(ADS_WRAPPER) $(CC) $(CC_FLAGS) -nostartfiles cfg1_out.c -o cfg1_out.o $(CFG1COMPILEINCLUDE)" /> -->
         <!-- <Exec Command="$(ADS_WRAPPER) $(CC) $(CFLAGS) -o$(OBJ_DIR)\cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         <Exec Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" />
     </Target>
-
+    
     <Target Name="kernel_cfg1">
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_KERNEL_TABS) $(APPL_CFG)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_KERNEL_TABS)" />
         
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -nostartfiles -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-Tdata,$(DATA_START_ADDRESS) -Wl,-e,0 -o cfg1_out.obj -c cfg1_out.c $(CFG1COMPILEINCLUDE)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" />
     </Target>
-
+    
     <Target Name="kernel_cfg2">
         <!-- use file build -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o t_perror.obj -c $(SRCDIR)/library/t_perror.c" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o strerror.obj -c $(SRCDIR)/library/strerror.c" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o vasyslog.obj -c $(SRCDIR)/library/vasyslog.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o t_perror.o -c $(SRCDIR)/library/t_perror.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o strerror.o -c $(SRCDIR)/library/strerror.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $() -o vasyslog.o -c $(SRCDIR)/library/vasyslog.c" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o Start.o -c $(SRCDIR)/arch/arm_gcc/common/Start.S" /> -->
         
         <!-- NG other obj file use -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj $(APPL_COBJS)"/> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -nostartfiles -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-Tdata,$(DATA_START_ADDRESS) -Wl,-e,0 -o $(CFG1_OUT) $(START_OBJS) cfg1_out.obj t_perror.obj strerror.obj vasyslog.obj"/>
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(START_OBJS) cfg1_out.o $(APPL_COBJS)"/> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -nostdlib $(CFG1_OUT_LDFLAGS) -o $(CFG1_OUT) $(TOPPERS_START_OBJS) cfg1_out.o t_perror.o strerror.o vasyslog.o $(TOPPERS_BUILD_LIBS)"/>
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(NM) -n $(CFG1_OUT) > cfg1_out.syms "/>
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(FROMELF) -O srec -S $(CFG1_OUT) cfg1_out.srec "/>
@@ -454,8 +466,8 @@
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch -r kernel_cfg.c kernel_cfg.timestamp" />
         
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -nostartfiles -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-Tdata,$(DATA_START_ADDRESS) -o kernel_cfg.obj -c kernel_cfg.c $(CFG1COMPILEINCLUDE)" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -nostartfiles -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-Tdata,$(DATA_START_ADDRESS) -o kernel_mem2.obj -c kernel_mem2.c $(CFG1COMPILEINCLUDE)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_cfg.o -c kernel_cfg.c $(CFG1COMPILEINCLUDE)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem2.o -c kernel_mem2.c $(CFG1COMPILEINCLUDE)" />
     </Target>
 
     <!-- dynamicLoader no use? -->
@@ -473,15 +485,13 @@
         <Exec Command="@$(ADS_WRAPPER) $(CC) -nostartfiles -O2 $(CTOPPERS_EV3_FLAGS) $(CFG1COMPILEINCLUDE) -DBUILD_MODULE -Wl,-Ttext,0x00000000 -Wl,-e,0 -o cfg1_out.o cfg1_out.c" />
         
         <!-- ok -->
-        <Exec Command="@$(ADS_WRAPPER) $(CC) -nostartfiles $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o $(CFG1_OUT) cfg1_out.o" />
+        <Exec Command="@$(ADS_WRAPPER) $(CC) -nostartfiles $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -Wl,-e,0 -o $(CFG1_OUT) cfg1_out.o" />
         <Exec Command="@$(NM) -n $(CFG1_OUT) > cfg1_out.syms" />
         <Exec Command="@$(FROMELF) -O srec -S $(CFG1_OUT) cfg1_out.srec" />
         
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -DBUILD_MODULE -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o app.o -c app.c -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" /> -->
         <!-- $(call print_cmd, "CFG[2]", $@) -->
         <Exec Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=hrp2 --template-file=$(LOADERDIR)/app/common/module.tf $(CFG_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" />
-        
-        <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) -nostartfiles -O2 $(CTOPPERS_EV3_FLAGS) $(CFG1COMPILEINCLUDE) -DBUILD_MODULE -Wl,-Ttext,0x00000000 -Wl,-e,0 -o module_cfg.o module_cfg.c" /> -->
     </Target>
 
     <!-- Use Pass3 -->
@@ -502,69 +512,89 @@
     </Target>
     
     <!-- override target parameters
-    <Target Name="kernel_cfg3" Condition="'$(USE_CFG_PASS3)'==''" DependsOnTargets="kernel_mem_nousePass3;">
+    <Target Name="kernel_cfg3" Condition="'$(USE_CFG_PASS3)'!=''" DependsOnTargets="kernel_mem_nousePass3;">
     </Target>
     -->
     
     <Target Name="kernel_offset">
         <!-- offset.h: $(APPL_CFG) kernel_cfg.timestamp -->
         <!-- $(CFGINCLUDE) module base -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass=3 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg1_out.srec --symbol-table=cfg1_out.syms -T=$(KERNELDIR)/arch/arm_gcc/common/core_offset.tf $(CFG_TABS)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) --pass=3 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg1_out.srec --symbol-table=cfg1_out.syms -T=$(KERNELDIR)/arch/arm_gcc/common/core_offset.tf $(CFG_TABS)" />
     </Target>
     
     <Target Name="kernel_mem_usePass3">
         <!-- Add library (must : libkernel.a) -->
         <!-- https://www.toppers.jp/TOPPERS-USERS/2013-September/003954.html -->
-        <!-- NG -->
-        <!-- use o file -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm *.o" /> -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="ren *.obj *.o" /> -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out kernel_cfg.o kernel_mem2.o cfg1_out.o analog_dri.o banner.o bluetooth_dri.o bluetooth_init_cc2560_2.44.o bluetooth_spp_slave.o brick_dri.o bt_control_cc256x.o btstack_memory.o chip_timer.o console_dri.o console_menu.o cp15.o diskio.o driver_debug.o driver_interface_brick.o driver_interface_filesys.o driver_interface_sound.o edma.o ev3_hacks.o ev3cyclic_dri.o ev3exception.o ev3main.o ev3rt_config.o fatfs_dri.o fatfs_syscall.o ff.o gpio_dri.o hci.o hci_cmds.o hci_dump.o hci_transport_h4_dma.o hires_alarm.o hires_cyclic.o l2cap.o l2cap_signaling.o lcd_font.o lcd_spi.o linked_list.o log_output.o logtask.o memory_pool.o minIni.o mmcsd.o mmcsd_dri.o mmcsd_rw.o mmcsdlib.o motor_dri.o newlib_dri.o pru.o pru_suart.o psc.o remote_device_db_memory.o rfcomm.o run_loop.o run_loop_toppers.o sdp.o sdp_client.o sdp_parser.o sdp_query_rfcomm.o sdp_util.o serial.o serial_mod.o soc_cache.o soc_edma.o sound_dri.o spi.o startup.o strerror.o suart_api.o suart_utils.o syslog.o t_perror.o tl16c550.o tlsf.o uart.o uart_dri.o unicode.o utils.o vasyslog.o mmcsd_proto.o $(TOPPERS_KERNEL_LIBS)" /> -->
-        <!-- NG -->
+        <!-- NG(LINK) -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CTOPPERS_EV3_FLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG2_OUT) $(START_OBJS) $(APPL_OBJS) $(MRUBY_LIB) $(SYSSVC_OBJS) $(CFG2_OBJS) $(ALL_LIBS)  $(END_OBJS)" /> -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bt_control_cc256x.obj btstack_memory.obj chip_timer.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj memory_pool.obj minIni.obj mmcsd.obj mmcsd_dri.obj mmcsd_rw.obj mmcsdlib.obj motor_dri.obj newlib_dri.obj pru.obj pru_suart.obj psc.obj remote_device_db_memory.obj rfcomm.obj run_loop.obj run_loop_toppers.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj mmcsd_proto.obj bluetooth_spp_slave.obj brick_dri.obj cfg1_out.obj kernel_cfg.obj kernel_mem2.obj $(TOPPERS_KERNEL_LIBS)" /> -->
         <!-- $(CFG2_OBJS) -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o $(CFG2_OUT) app.obj $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.obj ev3exception.obj core_config.obj $(TOPPERS_KERNEL_LIBS)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(TOPPERS_KERNEL_LIBS) $(CFG2_OUT_LDFLAGS) -o $(CFG2_OUT) app.o $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o" /> -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CC) $(TOPPERS_KERNEL_LIBS) $(CFG2_OUT_LDFLAGS)  -o $(CFG2_OUT) app.o $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CC) $(CFG2_OUT_LDFLAGS) -nostdlib -o $(CFG2_OUT) app.o $(TOPPERS_START_OBJS) $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o $(TOPPERS_KERNEL_LIBS) chip_timer.o" />
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG2_OUT) > cfg2_out.syms" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(FROMELF) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(CFG3_OUT_LDSCRIPT)" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass=3 --kernel=hrp2 $(INCLUDES) --rom-image=cfg2_out.srec --symbol-table=cfg2_out.syms -T=$(TARGETDIR)/target_opt.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP)" />
         
-        <Exec Command= "if ! [ -f $(CFG3_OUT_LDSCRIPT) ]; then sed s/kernel_mem2\.obj/kernel_mem3\.obj/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT); fi" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) - -pass=2 - -kernel=hrp2 - -template-file=$(TARGETDIR)/target.tf $(CFG_KERNEL_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)"/> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=3 --kernel=hrp2 -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE) --rom-image cfg2_out.srec --symbol-table cfg2_out.syms --template-file=$(TARGETDIR)/target_opt.tf $(CFG_KERNEL_TABS)" />
+        
+        <!-- <Exec Command= "if ! [ -f $(CFG3_OUT_LDSCRIPT) ]; then sed s/kernel_mem2\.o/kernel_mem3\.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT); fi" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem2.o/kernel_mem3.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT)" />
+        
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem3.o -c kernel_mem3.c $(CFG1COMPILEINCLUDE)" />
     </Target>
     
     <Target Name="kernel_mem_usePass4">
         <!-- kernel_mem.c: $(APPL_CFG) kernel_cfg.timestamp $(ALL3_OBJS) $(LIBS_DEP) -->
-        <!-- kernel_cfg.obj kernel_mem3.obj -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CTOPPERS_EV3_FLAGS) $(CFG3_OUT_LDFLAGS) -o $(CFG3_OUT) $(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG3_OBJS) $(ALL_LIBS) -lm $(END_OBJS) "/>
+        <!-- kernel_cfg.o kernel_mem3.o -->
+        <!-- NG(LINK) -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) $(CTOPPERS_EV3_FLAGS) $(CFG3_OUT_LDFLAGS) -o $(CFG3_OUT) $(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG3_OBJS) $(ALL_LIBS) -lm $(END_OBJS) "/> -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CC) $(TOPPERS_KERNEL_LIBS) $(CFG3_OUT_LDFLAGS) -o $(CFG3_OUT) app.o $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CC) $(CFG3_OUT_LDFLAGS) -nostdlib -o $(CFG3_OUT) app.o $(TOPPERS_START_OBJS) $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o $(TOPPERS_KERNEL_LIBS) chip_timer.o" />
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG3_OUT) > cfg3_out.syms" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG3_OUT) cfg3_out.srec" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(FROMELF) -O srec -S $(CFG3_OUT) cfg3_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass=4 --kernel=hrp2 $(INCLUDES) --rom-image=cfg3_out.srec --symbol-table=cfg3_out.syms -T=$(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL3_OBJS) $(LIBS_DEP) "/>
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem3\.obj/kernel_mem\.obj/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT); fi" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=4 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg3_out.srec --symbol-table=cfg3_out.syms --template-file=$(TARGETDIR)/target_mem.tf $(CFG_KERNEL_TABS)" />
         
-        <!-- kernel_mem3.c compile? -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem3\.o/kernel_mem\.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT); fi" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem3.o/kernel_mem.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT)" />
+        <!-- kernel_mem.c compile -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem.o -c kernel_mem.c $(CFG1COMPILEINCLUDE)" />
     </Target>
     
     <Target Name="kernel_mem_nousePass3">
         <!-- kernel_mem.c: $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) -->
         <!-- <Exec Command="$(LINK) $(CTOPPERS_EV3_FLAGS) $(CFG2_OUT_LDFLAGS) -o $(CFG2_OUT) $(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG2_OBJS) $(ALL_LIBS) $(END_OBJS)" /> -->
-        <!-- FLAG -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out kernel_cfg.obj kernel_mem2.obj analog_dri.obj banner.obj bluetooth_dri.obj bluetooth_init_cc2560_2.44.obj bluetooth_spp_slave.obj brick_dri.obj bt_control_cc256x.obj btstack_memory.obj cfg1_out.obj cli_main.obj cli_motor.obj cli_sensor.obj console_dri.obj console_menu.obj cp15.obj diskio.obj driver_debug.obj driver_interface_brick.obj driver_interface_filesys.obj driver_interface_sound.obj edma.obj ev3_hacks.obj ev3cyclic_dri.obj ev3exception.obj ev3main.obj ev3rt_config.obj fatfs_dri.obj fatfs_syscall.obj ff.obj gpio_dri.obj hci.obj hci_cmds.obj hci_dump.obj hci_transport_h4_dma.obj hires_alarm.obj hires_cyclic.obj l2cap.obj l2cap_signaling.obj lcd_font.obj lcd_spi.obj linked_list.obj log_output.obj logtask.obj memory_pool.obj minIni.obj mmcsd.obj mmcsd_dri.obj mmcsd_rw.obj mmcsdlib.obj motor_dri.obj newlib_dri.obj pru.obj pru_suart.obj psc.obj remote_device_db_memory.obj rfcomm.obj run_loop.obj run_loop_toppers.obj sdp.obj sdp_client.obj sdp_parser.obj sdp_query_rfcomm.obj sdp_util.obj serial.obj serial_mod.obj soc_cache.obj soc_edma.obj sound_dri.obj spi.obj startup.obj strerror.obj suart_api.obj suart_utils.obj syslog.obj t_perror.obj tl16c550.obj tlsf.obj uart.obj uart_dri.obj unicode.obj utils.obj vasyslog.obj mmcsd_proto.obj $(TOPPERS_KERNEL_OBJS) $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\ibkernel.a" />
+        <!-- NG(LINK) -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o cfg2_out kernel_cfg.o kernel_mem2.o analog_dri.o banner.o bluetooth_dri.o bluetooth_init_cc2560_2.44.o bluetooth_spp_slave.o brick_dri.o bt_control_cc256x.o btstack_memory.o cfg1_out.o cli_main.o cli_motor.o cli_sensor.o console_dri.o console_menu.o cp15.o diskio.o driver_debug.o driver_interface_brick.o driver_interface_filesys.o driver_interface_sound.o edma.o ev3_hacks.o ev3cyclic_dri.o ev3exception.o ev3main.o ev3rt_config.o fatfs_dri.o fatfs_syscall.o ff.o gpio_dri.o hci.o hci_cmds.o hci_dump.o hci_transport_h4_dma.o hires_alarm.o hires_cyclic.o l2cap.o l2cap_signaling.o lcd_font.o lcd_spi.o linked_list.o log_output.o logtask.o memory_pool.o minIni.o mmcsd.o mmcsd_dri.o mmcsd_rw.o mmcsdlib.o motor_dri.o newlib_dri.o pru.o pru_suart.o psc.o remote_device_db_memory.o rfcomm.o run_loop.o run_loop_toppers.o sdp.o sdp_client.o sdp_parser.o sdp_query_rfcomm.o sdp_util.o serial.o serial_mod.o soc_cache.o soc_edma.o sound_dri.o spi.o startup.o strerror.o suart_api.o suart_utils.o syslog.o t_perror.o tl16c550.o tlsf.o uart.o uart_dri.o unicode.o utils.o vasyslog.o mmcsd_proto.o $(TOPPERS_KERNEL_OBJS) $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libm.a $(GNU_TOOLS_BIN)\..\arm-none-eabi\lib\libc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\libgcc.a $(GNU_TOOLS_BIN)\..\lib\gcc\arm-none-eabi\$(GCC_VER)\ibkernel.a" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CC) $(CFG2_OUT_LDFLAGS) -nostdlib -o $(CFG2_OUT) app.o $(TOPPERS_START_OBJS) $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o $(TOPPERS_KERNEL_LIBS) chip_timer.o" />
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG2_OUT) > cfg2_out.syms" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(OBJCOPY) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(FROMELF) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch cfg3_out.tf" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CFG) --pass=4 --kernel=hrp2 $(INCLUDES) --rom-image=cfg2_out.srec --symbol-table=cfg2_out.syms -T=$(TARGETDIR)/target_mem.tf $(CFG_TABS) $(APPL_CFG) kernel_cfg.timestamp $(ALL2_OBJS) $(LIBS_DEP) "/>
         
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem2\.obj/kernel_mem\.obj/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT); fi" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=4 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg2_out.srec --symbol-table=cfg2_out.syms --template-file=$(TARGETDIR)/target_mem.tf $(CFG_KERNEL_TABS)" />
         
-        <!-- kernel_mem3.c compile? -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem2\.o/kernel_mem\.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT); fi" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem2.o/kernel_mem.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT)" />
+        <!-- kernel_mem.c compile -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem.o -c kernel_mem.c $(CFG1COMPILEINCLUDE)" />
     </Target>
-
+    
+    <!-- Kernel Library File Create -->
+    <!-- <Target Name="libkernel" DependsOnTargets="kernel_offset"> -->
+    <Target Name="libkernel">
+        <!-- libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS) -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f libkernel.a" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)" />
+        <!-- <Exec Command="$(AR) -rcs libkernel.a $(TOPPERS_KERNEL_OBJS)" /> -->
+        
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(RANLIB) libkernel.a" />
+    </Target>
+    
     <!-- $(CFG2_OUT_SRCS): kernel_cfg.timestamp -->
     <Target Name="kernel_cfg_timestamp">
         <!-- $(APPL_CFG) $(START_OBJS) cfg1_out.o $(END_OBJS) $(HIDDEN_OBJS) -->
@@ -573,12 +603,12 @@
         <!-- $(call print_cmd, "NM", cfg1_out.syms) -->
         <Exec Command="@$(NM) cfg1_out.syms -n $(CFG1_OUT) > cfg1_out.syms" />
         <!--$(call print_cmd, "OBJCOPY", cfg1_out.srec) -->
-        <Exec Command="@$(OBJCOPY) cfg1_out.srec -O srec -S $(CFG1_OUT) cfg1_out.srec" />
+        <Exec Command="@$(FROMELF) cfg1_out.srec -O srec -S $(CFG1_OUT) cfg1_out.srec" />
         <!-- $(call print_cmd, "CFG[2]", $@) -->
-        <Exec Command="@$(CFG) --pass=2 --kernel=hrp2 $(CFGINCLUDE) -T $(TARGETDIR)/target.tf $(CFG_TABS)" />
+        <Exec Command="@$(CFG) --pass=2 --kernel=hrp2 $(CFGINCLUDE) -T $(TARGETDIR)/target.tf $(CFG_KERNEL_TABS)" />
         <Exec Command="touch -r kernel_cfg.c kernel_cfg.timestamp" />
     </Target>
-
+    
     <Target Name="BuildAXF" Condition="'$(OutputType)'=='Executable'" DependsOnTargets="ArmCompileCPP;ArmCompileC;ArmAssemble;$(ExtraEXETargets);BuildScatterfile" Inputs="@(EXEInputs);@(InputLibs);@(PlatformIndependentLibs->'$(PLATFORM_INDEPENDENT_RELATIVE_LIB_DIR)\%(FileName)%(Extension)');@(DriverLibs->'$(LIB_DIR)\%(FileName)%(Extension)');@(EXEScatterFile)" Outputs="@(EXEOutput)">
         <Exec WorkingDirectory="$(LIB_DIR)" Condition="'$(COMPILER_TOOL)'=='GCC'"    Command="$(LINK) $(LINK_FLAGS) -u ARM_Vectors -u _start --Map $(EXEName).map --output=@(EXEOutput) --script=@(EXEScatterFile,' ') @(EXEInputs,' ') -( @(PlatformIndependentLibs->'$(PLATFORM_INDEPENDENT_RELATIVE_LIB_DIR)%(FileName)%(Extension)',' ') @(DriverLibs->'%(FileName)%(Extension)',' ')  @(InputLibs,' ') -) -( &#x22;$(GNU_LIB_DIR)\libm.a&#x22; &#x22;$(GNU_LIB_DIR)\$(LIBCGCC)&#x22; &#x22;$(GNU_LIBGCC_DIR)\$(LIBGCC)&#x22; -) -( $(ExtraLibs) -)"/>
         <Exec WorkingDirectory="$(LIB_DIR)" Condition="'$(COMPILER_TOOL)'=='GCCOP'"  Command="$(LINK) $(LINK_FLAGS) -u ARM_Vectors -u _start --Map $(EXEName).map --output=@(EXEOutput) --script=@(EXEScatterFile,' ') @(EXEInputs,' ') -( @(PlatformInd    ependentLibs->'$(PLATFORM_INDEPENDENT_RELATIVE_LIB_DIR)%(FileName)%(Extension)',' ') @(DriverLibs->'%(FileName)%(Extension)',' ')  @(InputLibs,' ') -) -( &#x22;$(GNU_LIBGCC_DIR)\$(LIBGCC)&#x22;  -) -( $(ExtraLibs) -)"/>
@@ -668,20 +698,9 @@
         <Message Text="file selected @(AllSigFiles)"/>
     </Target>
 
-    <!-- Kernel Library File Create -->
-    <!-- <Target Name="libkernel" DependsOnTargets="kernel_offset"> -->
-    <Target Name="libkernel">
-        <!-- libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS) -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f libkernel.a" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)" />
-        <!-- <Exec Command="$(AR) -rcs libkernel.a $(TOPPERS_KERNEL_OBJS)" /> -->
-        
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(RANLIB) libkernel.a" />
-    </Target>
-
     <!-- BinaryFile Create -->
     <Target Name="objnameToBinary" Inputs="$(OBJFILE);$(OBJNAME)">
-        <Exec Command="$(OBJCOPY) -O binary -S $(OBJFILE) $(OBJNAME).bin" />
+        <Exec Command="$(FROMELF) -O binary -S $(OBJFILE) $(OBJNAME).bin" />
     </Target>
 
     <Target Name="uImage" DependsOnTargets="@(OBJNAME).bin">
@@ -693,13 +712,13 @@
     <!-- #  S RecordFile Create -->
     <!-- $(objnameToBinary).srec: $(OBJFILE) -->
     <Target Name="ObjnameToSrec" Inputs="@(OBJFILE);@(OBJNAME)">
-        <Exec Command="$(OBJCOPY) -O srec -S $(OBJFILE) $(OBJNAME).srec" />
+        <Exec Command="$(FROMELF) -O srec -S $(OBJFILE) $(OBJNAME).srec" />
     </Target>
 
     <!-- Compile Result Clear -->
     <Target Name="clean">
         <!-- <Exec Command="rm -f \#* *~ *.o $(CLEAN_FILES)" /> -->
-        <Exec Command="rm -f \#* *~ *.obj $(CLEAN_FILES)" />
+        <Exec Command="rm -f \#* *~ *.o $(CLEAN_FILES)" />
         <Exec Command="rm -f $(OBJFILE) $(OBJNAME).syms $(OBJNAME).srec $(OBJNAME).bin" />
         <Exec Command="rm -f kernel_mem.c $(CFG2_OUT) cfg2_out.tf cfg2_out.syms cfg2_out.srec" />
         <Exec Command="rm -f $(CFG3_OUT) cfg3_out.tf cfg3_out.syms cfg3_out.srec" />

@@ -180,6 +180,7 @@
         
         <!-- ? -->
         <CFiles Include="../../target/ev3_gcc/target_serial.c" />
+        <CFiles Include="../../target/ev3_gcc/target_config.c" />
         <CFiles Include="../../target/ev3_gcc/TLSF-2.4.6/src/tlsf.c" />
         
         <!-- EV3 APIs -->
