@@ -462,12 +462,4 @@
         <Message Text="  help              Display this helpful usage text."/>
         <Message Text=" "/>
     </Target>
-
-    <!--
-    <Target Name="Help2" >
-        <Message Text=" "/>
-        <Message Text="Test"/>
-        <Message Text=" "/>
-    </Target>
-    -->
 </Project>

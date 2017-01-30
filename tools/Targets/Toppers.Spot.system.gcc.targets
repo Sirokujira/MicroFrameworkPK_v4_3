@@ -74,13 +74,13 @@
         <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -g1 -Os</CC_CPP_TARGETTYPE_FLAGS>
         
         <!-- Common Compile Options Define
-        COPTS := $(COPTS) -g 
-        ifndef OMIT_WARNING_ALL
-          COPTS := $(COPTS) -Wall
-        endif
-        ifndef OMIT_OPTIMIZATION
-          COPTS := $(COPTS) -O2
-        endif
+        	COPTS := $(COPTS) -g 
+        	ifndef OMIT_WARNING_ALL
+          		COPTS := $(COPTS) -Wall
+        	endif
+        	ifndef OMIT_OPTIMIZATION
+          		COPTS := $(COPTS) -O2
+        	endif
         -->
         
         <!-- add -->
@@ -93,6 +93,7 @@
         <!-- Toppers Custom -->
         <CTOPPERS_EV3_WARNING_OFF_FLAGS>-Wimplicit-function-declaration</CTOPPERS_EV3_WARNING_OFF_FLAGS>
         <!-- <CTOPPERS_EV3_FLAGS>-std=gnu99 -Dgcc -D__TARGET_ARCH_ARM=5 $(CTOPPERS_EV3_WARNING_OFF_FLAGS)</CTOPPERS_EV3_FLAGS> --> 
+        
         <!-- lcd build -->
         <!-- kernel/task.c build flag : -DALLFUNC -->
         <!-- target_config.c build flag : -DBUILD_EV3_PLATFORM -->
@@ -116,6 +117,7 @@
         
         <!-- <CC_FLAGS>$(CC_FLAGS)-xc </CC_FLAGS> -->
         <!-- <CPP_FLAGS>$(CPP_FLAGS)-xc++ -Wno-invalid-offsetof -fcheck-new </CPP_FLAGS> -->
+        
         <!-- Toppers Add -->
         <CC_FLAGS>$(CC_FLAGS)-xc $(CTOPPERS_EV3_FLAGS)</CC_FLAGS>
         <CPP_FLAGS>$(CPP_FLAGS)-xc++ -Wno-invalid-offsetof -fcheck-new $(CXXTOPPERS_EV3_FLAGS)</CPP_FLAGS>
@@ -131,7 +133,6 @@
     
     <!-- Assembler flags -->
     <PropertyGroup>
-        
         <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"         >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=1</AS_TARGETTYPE_FLAGS>
         <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"     >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0</AS_TARGETTYPE_FLAGS>
         <AS_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"       >$(AS_TARGETTYPE_FLAGS) --defsym BUILD_RTM=0 -g</AS_TARGETTYPE_FLAGS>
@@ -155,7 +156,7 @@
           TargetPlatformName SETS PLATFORM_ARM_$(TARGETPLATFORM)
           CompilerVersion    SETS $(COMPILER_TOOL_VERSION)
           TargetPlatformProcessor SETS PLATFORM_ARM_$(TARGETPROCESSOR)
-         -->
+        -->
         <!-- Used by FirstEntry.s in liu of defining TargetPlatformProcessor & TargetPlatformName -->
         <AS_FLAGS>$(AS_FLAGS) --defsym PLATFORM_ARM_$(TARGETPROCESSOR)=1</AS_FLAGS>
         <AS_FLAGS>$(AS_FLAGS) --defsym PLATFORM_ARM_$(TARGETPLATFORM)=1</AS_FLAGS>
@@ -175,10 +176,10 @@
         <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
         <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -DNDEBUG</CC_CPP_TARGETTYPE_FLAGS>
         <!--
-        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"          >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DBUILD_RTM -finline-functions</CC_CPP_TARGETTYPE_FLAGS>
-        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"        >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
-        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
-        <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DNDEBUG</CC_CPP_TARGETTYPE_FLAGS>
+        	<CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='RTM'"          >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DBUILD_RTM -finline-functions</CC_CPP_TARGETTYPE_FLAGS>
+        	<CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Debug'"        >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
+        	<CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DDEBUG  -D_DEBUG </CC_CPP_TARGETTYPE_FLAGS>
+        	<CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -DBUILD_MODULE -DNDEBUG</CC_CPP_TARGETTYPE_FLAGS>
         -->
         <CPP_FLAGS Condition="'$(FLAVOR)'=='Release'">$(CPP_FLAGS) -fno-default-inline</CPP_FLAGS>
         
@@ -421,7 +422,6 @@
             endif
         -->
         <!-- delete build error file -->
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(LINK) -o hrp2 app.o $(TOPPERS_KERNEL_OBJS) $(TOPPERS_KERNEL_LIBS)" /> -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CC) $(CTOPPERS_EV3_FLAGS) -nostdlib $(LDFLAGS) -o hrp2 $(TOPPERS_START_OBJS) app.o $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o $(TOPPERS_KERNEL_OBJS) $(TOPPERS_KERNEL_LIBS) chip_timer.o" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(NM) -n hrp2 > hrp2.syms "/>
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="diff cfg3_out.syms hrp2.syms" />
@@ -430,14 +430,12 @@
     </Target>
     
     <Target Name="module_cfg1">
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" /> -->
-        <Exec Command="@$(CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" />
+        <Exec Command="@$(CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_MODULE_TABS) $(APPL_CFG)" />
         
         <!-- warning : cannot find entry symbol _start; -->
         <!-- http://www.embedded.jp/pipermail/linux/2003-December/000018.html -->
         <!-- <Exec Command="$(ADS_WRAPPER) $(CC) $(CFLAGS) -o$(OBJ_DIR)\cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         <Exec Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" />
     </Target>
     
@@ -450,9 +448,9 @@
     
     <Target Name="kernel_cfg2">
         <!-- use file build -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o t_perror.o -c $(SRCDIR)/library/t_perror.c" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o strerror.o -c $(SRCDIR)/library/strerror.c" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $() -o vasyslog.o -c $(SRCDIR)/library/vasyslog.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o t_perror.o -c $(SRCDIR)\library\t_perror.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o strerror.o -c $(SRCDIR)\library\strerror.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o vasyslog.o -c $(SRCDIR)\library\vasyslog.c" />
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o Start.o -c $(SRCDIR)/arch/arm_gcc/common/Start.S" /> -->
         
         <!-- NG other obj file use -->
@@ -476,8 +474,7 @@
         <!-- $(CFG_OUT_SRCS): $(MODCFG) -->
         <!-- $(call print_cmd, "CFG[1]", $@) -->
         <!-- ok -->
-        <!-- <Exec WorkingDirectory="$(OBJDIR)" Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" /> -->
-        <!-- <Exec Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_TABS) $(APPL_CFG)" /> -->
+        <!-- <Exec WorkingDirectory="$(OBJDIR)" Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_MODULE_TABS) $(APPL_CFG)" /> -->
         
         <!-- module build -->
         <!-- use -DBUILD_MODULE -->
@@ -491,7 +488,7 @@
         
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -DBUILD_MODULE -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o app.o -c app.c -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" /> -->
         <!-- $(call print_cmd, "CFG[2]", $@) -->
-        <Exec Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=hrp2 --template-file=$(LOADERDIR)/app/common/module.tf $(CFG_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" />
+        <Exec Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=hrp2 --template-file=$(LOADERDIR)/app/common/module.tf $(CFG_MODULE_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" />
     </Target>
 
     <!-- Use Pass3 -->
@@ -519,7 +516,7 @@
     <Target Name="kernel_offset">
         <!-- offset.h: $(APPL_CFG) kernel_cfg.timestamp -->
         <!-- $(CFGINCLUDE) module base -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) --pass=3 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg1_out.srec --symbol-table=cfg1_out.syms -T=$(KERNELDIR)/arch/arm_gcc/common/core_offset.tf $(CFG_TABS)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) --pass=3 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg1_out.srec --symbol-table=cfg1_out.syms -T=$(KERNELDIR)/arch/arm_gcc/common/core_offset.tf $(CFG_KERNEL_TABS)" />
     </Target>
     
     <Target Name="kernel_mem_usePass3">
