@@ -422,7 +422,7 @@
             endif
         -->
         <!-- delete build error file -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(CC) $(CTOPPERS_EV3_FLAGS) -nostdlib $(LDFLAGS) -o hrp2 $(TOPPERS_START_OBJS) app.o $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o $(TOPPERS_KERNEL_OBJS) $(TOPPERS_KERNEL_LIBS) chip_timer.o" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CC) $(CTOPPERS_EV3_FLAGS) -nostdlib $(LDFLAGS) -o hrp2 $(TOPPERS_START_OBJS) app.o $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o $(TOPPERS_KERNEL_OBJS) $(TOPPERS_KERNEL_LIBS) chip_timer.o" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(NM) -n hrp2 > hrp2.syms "/>
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="diff cfg3_out.syms hrp2.syms" />
         <!-- not use USE_CFG_PASS3 -->
@@ -448,9 +448,9 @@
     
     <Target Name="kernel_cfg2">
         <!-- use file build -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o t_perror.o -c $(SRCDIR)\library\t_perror.c" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o strerror.o -c $(SRCDIR)\library\strerror.c" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o vasyslog.o -c $(SRCDIR)\library\vasyslog.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o t_perror.o -c @$(SRCDIR)\library\t_perror.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o strerror.o -c @$(SRCDIR)\library\strerror.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o vasyslog.o -c @$(SRCDIR)\library\vasyslog.c" />
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o Start.o -c $(SRCDIR)/arch/arm_gcc/common/Start.S" /> -->
         
         <!-- NG other obj file use -->
