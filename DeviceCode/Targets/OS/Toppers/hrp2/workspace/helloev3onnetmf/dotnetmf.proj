@@ -73,12 +73,16 @@
         </Link>
     </ItemDefinitionGroup>
     <ItemGroup>
+        <!-- IncludePaths -->
+        <!-- Common(Start) -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2" />
-        <!-- Common -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\include" />
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\arch" />
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\arch\arm_gcc\am1808" />
+        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\kernel" />
+        <!-- Common(End) -->
         
+        <!-- Custom(Start) -->
+        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\arch\arm_gcc\am1808" />
         <!-- App Dir -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\workspace\common" />
         <!-- Kernel Dir -->
@@ -96,20 +100,15 @@
         
         <!-- No such file or directory -->
         <!-- common\module_common.h -->
-        <!-- <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\dmloader\app\common" /> -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\dmloader\app" />
         <!-- mach\irqs.h -->
-        <!-- <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\arch\arm\mach-davinci\include\mach" /> -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\arch\arm\mach-davinci\include" />
         <!-- asm\page.h -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\arch\arm\include" />
         <!-- linux\compiler.h -->
-        <!-- <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\include\linux" /> -->
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\include" />
         <!-- asm-generic\ioctl.h -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\include" />
         <!-- asm-generic\ioctl.h -->
-        <!-- <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\common\virtual-linux-kernel\include\asm-generic" /> -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\common\virtual-linux-kernel\include" />
         <!-- lms2012\lms2012\source\lms2012.h -->
         <!-- <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\lms2012\lms2012\source" /> -->
@@ -127,6 +126,7 @@
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\sensor\include" />
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\soc\include" />
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\sound\include" />
+        
         <!-- armv5\am1808\interrupt.h -->
         <!-- <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\soc\AM1808_StarterWare_1_00_03_03\include\armv5\am1808" /> -->
         <!-- hw_types.h -->
@@ -152,35 +152,56 @@
         
         <!-- linux driver build(lcd) -->
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\include" />
+        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\include\linux" />
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\lcd\linux\drivers" />
         <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\common\virtual-linux-kernel\include" />
+        
+        <!-- kernel mod -->
+        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\kernel_mod\include" />
+        
+        <!-- App Dir -->
+        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\workspace\common" />
+        
+        <!-- HFiles -->
         <HFiles Include="..\..\target\ev3_gcc\drivers\common\virtual-linux-kernel\include\fb.h" />
-        
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\arch\arm_gcc\common" />
         <HFiles Include="..\..\arch\arm_gcc\common\arm.h" />
-        
         <HFiles Include="..\..\omit_svc.h" />
         <HFiles Include="..\..\syssvc\logtask.h" />
         <HFiles Include="..\..\syssvc\syslog.h" />
         <HFiles Include="..\..\arch\logtrace\trace_config.h" />
         <HFiles Include="..\..\arch\arm_gcc\am1808\chip_config.h" />
+        <HFiles Include="..\..\arch\arm_gcc\common\kernel_rename.h" />
+        <HFiles Include="..\..\arch\arm_gcc\common\core_rename.h" />
         <HFiles Include="app.h" />
+        <HFiles Include="..\..\target\ev3_gcc\kernel\time_event.h" />
+        <HFiles Include="..\..\target\ev3_gcc\kernel\kernel_impl.h" />
         
-        <!-- Cファイルより先に読み込ませる? -->
+        <!-- netmf on OS -->
+        <HFiles Include="..\..\DeviceCode\include\tinyhal.h" />
+        <HFiles Include="..\..\DeviceCode\uItron4API.h" />
+        
+        <HFiles Include="..\..\syssvc\banner.h" />
+        <HFiles Include="..\..\syssvc\serial.h" />
+        <HFiles Include="kernel_cfg.h" />
+        
+        <!-- CFiles -->
+        <!-- Toppers library -->
         <CFiles Include="..\..\library\histogram.c" />
         <CFiles Include="..\..\library\log_output.c" />
         <CFiles Include="..\..\library\strerror.c" />
         <CFiles Include="..\..\library\t_perror.c" />
         <CFiles Include="..\..\library\vasyslog.c" />
         
-        <!-- service -->
+        <!-- Toppers syssvc -->
         <CFiles Include="..\..\syssvc\logtask.c" />
         <CFiles Include="..\..\syssvc\syslog.c" />
         <CFiles Include="..\..\syssvc\test_svc.c" />
         
-        <!-- ? -->
+        <!-- target(ev3) -->
+        <!-- common -->
         <CFiles Include="..\..\target\ev3_gcc\target_serial.c" />
         <CFiles Include="..\..\target\ev3_gcc\target_config.c" />
+        <!-- custom -->
         <CFiles Include="..\..\target\ev3_gcc\TLSF-2.4.6\src\tlsf.c" />
         
         <!-- EV3 APIs -->
@@ -195,22 +216,12 @@
         <CFiles Include="..\..\target\ev3_gcc\api\src\ev3api_sensor.c" />
         
         <!-- netmf on OS -->
-        <HFiles Include="..\..\DeviceCode\include\tinyhal.h" />
-        <HFiles Include="..\..\DeviceCode\uItron4API.h" />
         <CFiles Include="..\..\DeviceCode\uIron4API.c" />
         <CPPFiles Include="..\..\DeviceCode\configuration.cpp" />
         <CPPFiles Include="..\..\DeviceCode\cpu.cpp" />
         <CPPFiles Include="..\..\DeviceCode\GlobalLock.cpp" />
         <CPPFiles Include="..\..\DeviceCode\Various_uIron4.cpp" />
         
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2" />
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\include" />
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\kernel" />
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\arch" />
-        
-        <HFiles Include="..\..\arch\arm_gcc\common\kernel_rename.h" />
-        <HFiles Include="..\..\arch\arm_gcc\common\core_rename.h" />
-                
         <!-- kernel用 -->
         <!-- start -->
         <!-- kernel object lists
@@ -317,34 +328,27 @@
         <CFiles Include="..\..\target\ev3_gcc\kernel\svc_table.c" />
         <CFiles Include="..\..\target\ev3_gcc\kernel\sys_manage.c" />
         <!-- use task build defines -->
-        <!-- <HFiles Include="..\..\target\ev3_gcc\kernel\allfunc.h" /> -->
         <CFiles Include="..\..\target\ev3_gcc\kernel\task.c" />
         <CFiles Include="..\..\target\ev3_gcc\kernel\task_except.c" />
         <CFiles Include="..\..\target\ev3_gcc\kernel\task_manage.c" />
         <CFiles Include="..\..\target\ev3_gcc\kernel\task_refer.c" />
         <CFiles Include="..\..\target\ev3_gcc\kernel\task_sync.c" />
         <CFiles Include="..\..\target\ev3_gcc\kernel\time_event.c" />
-        <HFiles Include="..\..\target\ev3_gcc\kernel\time_event.h" />
         <CFiles Include="..\..\target\ev3_gcc\kernel\time_manage.c" />
         <CFiles Include="..\..\target\ev3_gcc\kernel\wait.c" />
-        <HFiles Include="..\..\target\ev3_gcc\kernel\kernel_impl.h" />
         
         <!-- kernel mod -->
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\kernel_mod\include" />
         <CFiles Include="..\..\target\ev3_gcc\kernel_mod\src\serial_mod.c" />
         
         <CFiles Include="..\..\syssvc\serial.c" />
-        <HFiles Include="..\..\syssvc\serial.h" />
         <CFiles Include="..\..\syssvc\banner.c" />
-        <HFiles Include="..\..\syssvc\banner.h" />
         <CFiles Include="..\..\arch\arm_gcc\am1808\tl16c550.c" />
         <CFiles Include="..\..\target\ev3_gcc\drivers\soc\AM1808_StarterWare_1_00_03_03\drivers\uart.c" />
         
         <!-- error -->
         <!-- add header -->
         <!-- __attribute__((noinline))(- -no_inline) -->
-        <!-- G:\MicroFrameworkPK_v4_3\DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\include\linux\compiler.h(233,9)  [SJIS]: #define noinline_for_stack noinline -->
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\include\linux" />
+        <!-- DeviceCode\Targets\OS\Toppers\hrp2\target\ev3_gcc\drivers\linux\include\linux\compiler.h(233,9)  [SJIS]: #define noinline_for_stack noinline -->
         <CFiles Include="..\..\target\ev3_gcc\drivers\sensor\uart\src\uart_dri.c" />
         <CFiles Include="..\..\target\ev3_gcc\drivers\fatfs\ff10b\src\option\src\unicode.c" />
         <CFiles Include="..\..\target\ev3_gcc\drivers\bluetooth\btstack\src\utils.c" />
@@ -362,46 +366,32 @@
         <!-- <CFiles Include="..\..\arch\arm_gcc\common\gic.c" /> -->
         <!-- <AssemblyFiles Include="..\..\arch\arm_gcc\common\gic_support.S" /> -->
         
+        <!-- am1808 -->
+        <CFiles Include="..\..\target\ev3_gcc\am1808\chip_timer.c" />
+        <CFiles Include="..\..\target\ev3_gcc\am1808\chip_config.c" />
+        <!-- platform -->
         <CFiles Include="..\..\target\ev3_gcc\platform\src\ev3main.c" />
         <CFiles Include="..\..\target\ev3_gcc\platform\src\ev3rt_config.c" />
         
-        <!-- Add2 -->
-        <!-- <CFiles Include="..\..\arch\arm_gcc\am1808\chip_timer.c" /> -->
-        <CFiles Include="..\..\target\ev3_gcc\am1808\chip_timer.c" />
-        <CFiles Include="..\..\target\ev3_gcc\am1808\chip_config.c" />
-        <!-- end -->
-        
-        <!-- App Dir -->
-        <IncludePaths Include="DeviceCode\Targets\OS\Toppers\workspace\common" />
-        
+        <!-- cfg -->
+        <!-- common -->
         <CFiles Include="ev3api_cfg.c" />
         
+        <!-- custom -->
         <!-- BUILD_MODULE -->
         <!-- <CFiles Include="module_cfg.c" /> -->
-        <!-- <HFiles Include="module_cfg.h" /> -->        
+        <!-- <HFiles Include="module_cfg.h" /> -->
         <!-- BUILD_Kernel -->
         <CFiles Include="kernel_cfg.c" />
         <!-- <CFiles Include="kernel_mem.c" /> -->
         <CFiles Include="kernel_mem2.c" />
         <CFiles Include="kernel_mem3.c" />
-        <HFiles Include="kernel_cfg.h" />
         
+        <!-- App -->
         <CFiles Include="app.c" />
         <CFiles Include="cli_main.c" />
         <CFiles Include="cli_motor.c" />
         <CFiles Include="cli_sensor.c" />
-        
-        <None Include="..\..\.cproject" />
-        <None Include="..\..\.project" />
-        <None Include="..\..\arch\logtrace\MANIFEST" />
-        <None Include="..\..\configure" />
-        <None Include="..\..\MANIFEST" />
-        <None Include="..\..\README.txt" />
-        <None Include="..\..\syssvc\banner.cfg" />
-        <None Include="..\..\syssvc\logtask.cfg" />
-        <None Include="..\..\syssvc\serial.cfg" />
-        <None Include="..\..\syssvc\syslog.cfg" />
-        <None Include="..\..\syssvc\test_svc.cfg" />
     </ItemGroup>
     
     <Import Project="$(SPOCLIENT)/tools/targets/Toppers.SPOT.System.Targets" />

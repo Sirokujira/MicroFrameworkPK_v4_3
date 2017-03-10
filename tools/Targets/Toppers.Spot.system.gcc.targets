@@ -430,7 +430,7 @@
     </Target>
     
     <Target Name="module_cfg1">
-        <Exec Command="@$(CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_MODULE_TABS) $(APPL_CFG)" />
+        <Exec Command="@$(CFG) --pass=1 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) $(CFG_MODULE_TABS) $(APPL_CFG)" />
         
         <!-- warning : cannot find entry symbol _start; -->
         <!-- http://www.embedded.jp/pipermail/linux/2003-December/000018.html -->
@@ -440,7 +440,7 @@
     </Target>
     
     <Target Name="kernel_cfg1">
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=1 --kernel=hrp2 $(CFGINCLUDE) $(CFG_KERNEL_TABS)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=1 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) $(CFG_KERNEL_TABS)" />
         
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CFLAGS) -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" /> -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o cfg1_out.o -c cfg1_out.c $(CFG1COMPILEINCLUDE)" />
@@ -448,9 +448,9 @@
     
     <Target Name="kernel_cfg2">
         <!-- use file build -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o strerror.o $(SRCDIR)\library\strerror.c" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o t_perror.o $(SRCDIR)\library\t_perror.c" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o vasyslog.o $(SRCDIR)\library\vasyslog.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o strerror.o -c $(SRCDIR)\library\strerror.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o t_perror.o -c $(SRCDIR)\library\t_perror.c" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o vasyslog.o -c $(SRCDIR)\library\vasyslog.c" />
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CC_FLAGS) $(POS_DEPENDENT) -o Start.o $(SRCDIR)/arch/arm_gcc/common/Start.S" /> -->
         
         <!-- NG other obj file use -->
@@ -460,7 +460,7 @@
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(NM) -n $(CFG1_OUT) > cfg1_out.syms "/>
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(FROMELF) -O srec -S $(CFG1_OUT) cfg1_out.srec "/>
         <!-- template-file target.tf to kernel/kernel.tf -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=hrp2 --template-file=$(TARGETDIR)/target.tf $(CFG_KERNEL_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)"/>
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=$(TOPPERS_OSTYPE) --template-file=$(TARGETDIR)/target.tf $(CFG_KERNEL_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)"/>
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch -r kernel_cfg.c kernel_cfg.timestamp" />
         
@@ -474,7 +474,7 @@
         <!-- $(CFG_OUT_SRCS): $(MODCFG) -->
         <!-- $(call print_cmd, "CFG[1]", $@) -->
         <!-- ok -->
-        <!-- <Exec WorkingDirectory="$(OBJDIR)" Command="@$(CFG) -pass=1 -kernel=hrp2 $(CFGINCLUDE) $(CFG_MODULE_TABS) $(APPL_CFG)" /> -->
+        <!-- <Exec WorkingDirectory="$(OBJDIR)" Command="@$(CFG) -pass=1 -kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) $(CFG_MODULE_TABS) $(APPL_CFG)" /> -->
         
         <!-- module build -->
         <!-- use -DBUILD_MODULE -->
@@ -488,7 +488,7 @@
         
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -DBUILD_MODULE -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o app.o -c app.c -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" /> -->
         <!-- $(call print_cmd, "CFG[2]", $@) -->
-        <Exec Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=hrp2 --template-file=$(LOADERDIR)/app/common/module.tf $(CFG_MODULE_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" />
+        <Exec Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=$(TOPPERS_OSTYPE) --template-file=$(LOADERDIR)/app/common/module.tf $(CFG_MODULE_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" />
     </Target>
 
     <!-- Use Pass3 -->
@@ -516,7 +516,7 @@
     <Target Name="kernel_offset">
         <!-- offset.h: $(APPL_CFG) kernel_cfg.timestamp -->
         <!-- $(CFGINCLUDE) module base -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) --pass=3 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg1_out.srec --symbol-table=cfg1_out.syms -T=$(KERNELDIR)/arch/arm_gcc/common/core_offset.tf $(CFG_KERNEL_TABS)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) --pass=3 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) --rom-image=cfg1_out.srec --symbol-table=cfg1_out.syms -T=$(TARGETDIR)/common/core_offset.tf $(CFG_KERNEL_TABS)" />
     </Target>
     
     <Target Name="kernel_mem_usePass3">
@@ -533,8 +533,8 @@
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(FROMELF) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(CFG3_OUT_LDSCRIPT)" />
         
-        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) - -pass=2 - -kernel=hrp2 - -template-file=$(TARGETDIR)/target.tf $(CFG_KERNEL_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)"/> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=3 --kernel=hrp2 -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE) --rom-image cfg2_out.srec --symbol-table cfg2_out.syms --template-file=$(TARGETDIR)/target_opt.tf $(CFG_KERNEL_TABS)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) - -pass=2 - -kernel=$(TOPPERS_OSTYPE) - -template-file=$(TARGETDIR)/target.tf $(CFG_KERNEL_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)"/> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=3 --kernel=$(TOPPERS_OSTYPE) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE) --rom-image cfg2_out.srec --symbol-table cfg2_out.syms --template-file=$(TARGETDIR)/target_opt.tf $(CFG_KERNEL_TABS)" />
         
         <!-- <Exec Command= "if ! [ -f $(CFG3_OUT_LDSCRIPT) ]; then sed s/kernel_mem2\.o/kernel_mem3\.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT); fi" /> -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem2.o/kernel_mem3.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT)" />
@@ -553,7 +553,7 @@
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG3_OUT) > cfg3_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(FROMELF) -O srec -S $(CFG3_OUT) cfg3_out.srec" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=4 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg3_out.srec --symbol-table=cfg3_out.syms --template-file=$(TARGETDIR)/target_mem.tf $(CFG_KERNEL_TABS)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=4 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) --rom-image=cfg3_out.srec --symbol-table=cfg3_out.syms --template-file=$(TARGETDIR)/target_mem.tf $(CFG_KERNEL_TABS)" />
         
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem3\.o/kernel_mem\.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT); fi" /> -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem3.o/kernel_mem.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT)" />
@@ -573,7 +573,7 @@
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch cfg3_out.tf" />
         
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=4 --kernel=hrp2 $(CFGINCLUDE) --rom-image=cfg2_out.srec --symbol-table=cfg2_out.syms --template-file=$(TARGETDIR)/target_mem.tf $(CFG_KERNEL_TABS)" />
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=4 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) --rom-image=cfg2_out.srec --symbol-table=cfg2_out.syms --template-file=$(TARGETDIR)/target_mem.tf $(CFG_KERNEL_TABS)" />
         
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem2\.o/kernel_mem\.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT); fi" /> -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem2.o/kernel_mem.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT)" />
@@ -602,7 +602,7 @@
         <!--$(call print_cmd, "OBJCOPY", cfg1_out.srec) -->
         <Exec Command="@$(FROMELF) cfg1_out.srec -O srec -S $(CFG1_OUT) cfg1_out.srec" />
         <!-- $(call print_cmd, "CFG[2]", $@) -->
-        <Exec Command="@$(CFG) --pass=2 --kernel=hrp2 $(CFGINCLUDE) -T $(TARGETDIR)/target.tf $(CFG_KERNEL_TABS)" />
+        <Exec Command="@$(CFG) --pass=2 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) -T $(TARGETDIR)/target.tf $(CFG_KERNEL_TABS)" />
         <Exec Command="touch -r kernel_cfg.c kernel_cfg.timestamp" />
     </Target>
     
@@ -701,7 +701,7 @@
     </Target>
 
     <Target Name="uImage" DependsOnTargets="@(OBJNAME).bin">
-        <Exec Command="@(MKIMAGE) -A arm -O linux -T kernel -C none -a $(TEXT_START_ADDRESS) -e $(TEXT_START_ADDRESS) -n hrp2 kernel -d hrp2.bin uImage" />
+        <Exec Command="@(MKIMAGE) -A arm -O linux -T kernel -C none -a $(TEXT_START_ADDRESS) -e $(TEXT_START_ADDRESS) -n $(TOPPERS_OSTYPE) kernel -d $(TOPPERS_OSTYPE).bin uImage" />
         <Exec Command="chmod +x uImage" />
         <Exec Command="cp uImage @(SD_DIR)" />
     </Target>

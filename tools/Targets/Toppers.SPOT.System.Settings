@@ -19,17 +19,19 @@
     </PropertyGroup>
     
     <PropertyGroup>
-        <!-- Toppers Depends -->
+        <!-- Toppers Depends Environment Variant -->
+        <TOPPERS_OSTYPE>hrp2</TOPPERS_OSTYPE>
+        <TOPPERS_MODULES>EV3</TOPPERS_MODULES>
+        <!-- <TOPPERS_OSTYPE>fmp</TOPPERS_OSTYPE> -->
+        
         <!-- makefile : http://minus9d.hatenablog.com/entry/20140203/1391436293 -->
         <!-- http://www.ie.u-ryukyu.ac.jp/~e085739/c.makefile.tuts.html -->
-        <!-- ./Configure Check -->
-        <SD_DIR                 Condition="'$(SD_DIR)'==''"                 >$(_SD_DIR)</SD_DIR>
-        <SRCDIR>$(SPOCLIENT)\DeviceCode\Targets\OS\Toppers\hrp2</SRCDIR>
-        <!-- Directory is dotnetmf.proj property -->
+        
+        <!-- ($Directory) is dotnetmf.proj property -->
         <!-- <SRCDIR>$(SPOCLIENT)/$(Directory)</SRCDIR> -->
-        <MRUBY_SRC_DIR          Condition="'$(MRUBY_SRC_DIR)'==''"          >$(SPOCLIENT)/DeviceCode/Targets/OS/Toppers/mruby</MRUBY_SRC_DIR>
-        <!-- <MRUBY_LIB              Condition="'$(MRUBY_LIB)'==''"              >$(_MRUBY_LIB)</MRUBY_LIB> -->
-        <!-- <MRBC                   Condition="'$(MRBC)'==''"                   >$(_MRBC)</MRBC> -->
+        <!-- Common -->
+        <!-- <SRCDIR>$(SPOCLIENT)/DeviceCode/Targets/OS/Toppers/hrp2</SRCDIR> -->
+        <SRCDIR>$(SPOCLIENT)/DeviceCode/Targets/OS/Toppers/$(TOPPERS_OSTYPE)</SRCDIR>
         <EXE                    Condition="'$(EXE)'==''"                    >$(_EXE)</EXE>
         <OBJEXT                 Condition="'$(OBJEXT)'==''"                 ></OBJEXT>
         <DBGENV                 Condition="'$(DBGENV)'==''"                 ></DBGENV>
@@ -39,29 +41,53 @@
         <PERL                   Condition="'$(PERL)'==''"                   >C:/strawberry/perl/bin</PERL>
         <RUBY                   Condition="'$(RUBY)'==''"                   >C:/Ruby200-x64/bin</RUBY>
         <CFG                    Condition="'$(CFG)'==''"                    >$(SRCDIR)/cfg/cfg/cfg.exe</CFG>
-        <KERNELDIR              Condition="'$(KERNELDIR)'==''">$(SRCDIR)</KERNELDIR>
-        <TARGETDIR              Condition="'$(TARGETDIR)'==''">$(KERNELDIR)/target/ev3_gcc</TARGETDIR>
-        <LOADERDIR              Condition="'$(LOADERDIR)'==''">$(KERNELDIR)/target/ev3_gcc/dmloader</LOADERDIR>
-		
-        <OBJDIR                 Condition="'$(OBJDIR)'==''">$(SRCDIR)/workspace/obj</OBJDIR>
-        <LIBKERNELDIR           Condition="'$(LIBKERNELDIR)'==''">$(SRCDIR)</LIBKERNELDIR>
+
+        <!-- Custom -->
+        <SD_DIR Condition="'$(SD_DIR)'==''">$(_SD_DIR)</SD_DIR>
+        
+        <MRUBY_SRC_DIR          Condition="'$(MRUBY_SRC_DIR)'==''"          >$(SPOCLIENT)/DeviceCode/Targets/OS/Toppers/mruby</MRUBY_SRC_DIR>
+        <!-- <MRUBY_LIB              Condition="'$(MRUBY_LIB)'==''"              >$(_MRUBY_LIB)</MRUBY_LIB> -->
+        <!-- <MRBC                   Condition="'$(MRBC)'==''"                   >$(_MRBC)</MRBC> -->
+
+        <!-- EV3 -->
         <TARGETNAME             Condition="'$(TARGETNAME)'==''">ev3_gcc</TARGETNAME>
         <TARGETDIR              Condition="'$(TARGETDIR)'==''">$(SRCDIR)/target/$(TARGETNAME)</TARGETDIR>
+        <KERNELDIR              Condition="'$(KERNELDIR)'==''">$(TARGETDIR)/kernel</KERNELDIR>
+        <LOADERDIR              Condition="'$(LOADERDIR)'==''">$(TARGETDIR)/dmloader</LOADERDIR>
+        <OBJDIR                 Condition="'$(OBJDIR)'==''">$(SRCDIR)/workspace/obj</OBJDIR>
         <APPLNAME               Condition="'$(APPLNAME)'==''">$(SPOCLIENT)/$(Directory)/app</APPLNAME>
-        <CFGINCLUDE             Condition="'$(CFGINCLUDE)'==''">-I$(SRCDIR) -I$(SRCDIR)/arch -I$(SRCDIR)/include -I$(TARGETDIR)/kernel -I$(SRCDIR)/workspace/common -I$(SRCDIR)/arch/arm_gcc/am1808 -I$(SRCDIR)/arch/arm_gcc/common -I$(TARGETDIR) -I$(TARGETDIR)/api -I$(TARGETDIR)/api/include -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/TLSF-2.4.6/include -I$(TARGETDIR)/platform/include -I$(TARGETDIR)/pil/include</CFGINCLUDE>
-        <CFG1COMPILEINCLUDE     Condition="'$(CFG1COMPILEINCLUDE)'==''">-I$(SRCDIR) -I$(SRCDIR)/arch -I$(SRCDIR)/include -I$(TARGETDIR)/kernel -I$(SRCDIR)/workspace/common -I$(SRCDIR)/arch/arm_gcc/am1808 -I$(SRCDIR)/arch/arm_gcc/common -I$(TARGETDIR) -I$(TARGETDIR)/api -I$(TARGETDIR)/api/include -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/TLSF-2.4.6/include -I$(TARGETDIR)/platform/include -I$(TARGETDIR)/pil/include -I$(TARGETDIR)/dmloader/app -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/drivers/platform/include -I$(TARGETDIR)/drivers/linux/arch/arm/mach-davinci/include -I$(TARGETDIR)/drivers/linux/arch/arm/include -I$(TARGETDIR)/drivers/linux/include -I$(TARGETDIR)/drivers/common/virtual-linux-kernel/include -I$(TARGETDIR)/drivers -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/drivers/gpio/include -I$(TARGETDIR)/drivers/brick/include -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/drivers/console/include -I$(TARGETDIR)/drivers/fatfs/include  -I$(TARGETDIR)/drivers/lcd/include -I$(TARGETDIR)/drivers/motor/include -I$(TARGETDIR)/drivers/newlib/include -I$(TARGETDIR)/drivers/sensor/include -I$(TARGETDIR)/drivers/soc/include -I$(TARGETDIR)/drivers/sound/include -I$(TARGETDIR)/drivers/soc/AM1808_StarterWare_1_00_03_03/include -I$(TARGETDIR)/drivers/soc/AM1808_StarterWare_1_00_03_03/include/hw -I$(TARGETDIR)/drivers/soc/AM1808_StarterWare_1_00_03_03/include -I$(TARGETDIR)/drivers/sensor/analog/include -I$(TARGETDIR)/drivers/sensor/uart/include -I$(TARGETDIR)/drivers/bluetooth/include -I$(TARGETDIR)/api -I$(SPOCLIENT)/$(Directory)</CFG1COMPILEINCLUDE>
+        
+        <!-- Zynq -->
+        <!--
+        <TARGETNAME             Condition="'$(TARGETNAME)'==''">zynq_gcc</TARGETNAME>
+        <TARGETDIR              Condition="'$(TARGETDIR)'==''">$(SRCDIR)/target/$(TARGETNAME)</TARGETDIR>
+        <KERNELDIR              Condition="'$(KERNELDIR)'==''">$(SRCDIR)/kernel</KERNELDIR>
+        -->
+        
+        <LIBKERNELDIR           Condition="'$(LIBKERNELDIR)'==''">$(SRCDIR)</LIBKERNELDIR>
+        <APPLNAME               Condition="'$(APPLNAME)'==''">$(SPOCLIENT)/$(Directory)/sample1</APPLNAME>
+        
+        <!-- Toppers HRP2 -->
+        <CFGINCLUDE             Condition="'$(CFGINCLUDE)'==''">-I$(SRCDIR) -I$(SRCDIR)/arch -I$(SRCDIR)/include -I$(KERNELDIR) -I$(SRCDIR)/workspace/common -I$(SRCDIR)/arch/arm_gcc/am1808 -I$(SRCDIR)/arch/arm_gcc/common -I$(TARGETDIR) -I$(TARGETDIR)/api -I$(TARGETDIR)/api/include -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/TLSF-2.4.6/include -I$(TARGETDIR)/platform/include -I$(TARGETDIR)/pil/include</CFGINCLUDE>
+        <CFG1COMPILEINCLUDE     Condition="'$(CFG1COMPILEINCLUDE)'==''">-I$(SRCDIR) -I$(SRCDIR)/arch -I$(SRCDIR)/include -I$(KERNELDIR) -I$(SRCDIR)/workspace/common -I$(SRCDIR)/arch/arm_gcc/am1808 -I$(SRCDIR)/arch/arm_gcc/common -I$(TARGETDIR) -I$(TARGETDIR)/api -I$(TARGETDIR)/api/include -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/TLSF-2.4.6/include -I$(TARGETDIR)/platform/include -I$(TARGETDIR)/pil/include -I$(TARGETDIR)/dmloader/app -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/drivers/platform/include -I$(TARGETDIR)/drivers/linux/arch/arm/mach-davinci/include -I$(TARGETDIR)/drivers/linux/arch/arm/include -I$(TARGETDIR)/drivers/linux/include -I$(TARGETDIR)/drivers/common/virtual-linux-kernel/include -I$(TARGETDIR)/drivers -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/drivers/gpio/include -I$(TARGETDIR)/drivers/brick/include -I$(TARGETDIR)/drivers/common/include -I$(TARGETDIR)/drivers/console/include -I$(TARGETDIR)/drivers/fatfs/include  -I$(TARGETDIR)/drivers/lcd/include -I$(TARGETDIR)/drivers/motor/include -I$(TARGETDIR)/drivers/newlib/include -I$(TARGETDIR)/drivers/sensor/include -I$(TARGETDIR)/drivers/soc/include -I$(TARGETDIR)/drivers/sound/include -I$(TARGETDIR)/drivers/soc/AM1808_StarterWare_1_00_03_03/include -I$(TARGETDIR)/drivers/soc/AM1808_StarterWare_1_00_03_03/include/hw -I$(TARGETDIR)/drivers/soc/AM1808_StarterWare_1_00_03_03/include -I$(TARGETDIR)/drivers/sensor/analog/include -I$(TARGETDIR)/drivers/sensor/uart/include -I$(TARGETDIR)/drivers/bluetooth/include -I$(TARGETDIR)/api -I$(SPOCLIENT)/$(Directory)</CFG1COMPILEINCLUDE>
+        
+        <!-- Toppers FMP -->
+        <!--
+        <CFGINCLUDE             Condition="'$(CFGINCLUDE)'==''">-I$(SRCDIR) -I$(SRCDIR)/arch -I$(SRCDIR)/include -I$(KERNELDIR) -I$(SRCDIR)/arch/arm_gcc/mpcore -I$(SRCDIR)/arch/arm_gcc/common -I$(TARGETDIR)</CFGINCLUDE>
+        <CFG1COMPILEINCLUDE     Condition="'$(CFG1COMPILEINCLUDE)'==''">-I$(SRCDIR) -I$(SRCDIR)/arch -I$(SRCDIR)/include -I$(KERNELDIR) -I$(SRCDIR)/arch/arm_gcc/mpcore -I$(SRCDIR)/arch/arm_gcc/common -I$(TARGETDIR) -I$(SPOCLIENT)/$(Directory)</CFG1COMPILEINCLUDE>
         <PROJDIR>$(SPOCLIENT)/$(Directory)</PROJDIR>
-		
+        -->
+        
         <!-- module Parameters -->
         <MODCFG                 Condition="'$(MODCFG)'==''">$(SRCDIR)/workspace/obj</MODCFG>
         <MODDIR                 Condition="'$(MODDIR)'==''">$(SRCDIR)/workspace/obj</MODDIR>
         <MODOBJS                Condition="'$(MODOBJS)'==''">cli_main.o cli_sensor.o cli_motor.o </MODOBJS>
-		
+        
         <KERNELOBJS             Condition="'$(KERNELOBJS)'==''">kernel_cfg.o kernel_mem2.o</KERNELOBJS>
         <NETMF_DEVICE_OBJ         Condition="'$(NETMF_DEVICE_OBJ)'==''">../../DeviceCode/uItron4API.o ../../DeviceCode/configuration.o ../../DeviceCode/cpu.o ../../DeviceCode/GlobalLock.o ../../DeviceCode/Various_uIron4.o</NETMF_DEVICE_OBJ>
-		
+        
         <ALL_LIBS></ALL_LIBS>
-		
+        
         <!-- defines -->
         <!-- text Segment StartAddress Define -->
         <!-- kernel? -->
@@ -72,17 +98,17 @@
         <OMIT_DEBUG_INFO>1</OMIT_DEBUG_INFO>
         <BUILD_LOADABLE_MODULE>1</BUILD_LOADABLE_MODULE>
         <!-- <BUILD_MODULE>1</BUILD_MODULE> -->
-		
+        
         <!-- Both -->
         <CONFIG_EV3RT_APPLICATION>1</CONFIG_EV3RT_APPLICATION>
         <!-- <LDSCRIPT>$(LOADERDIR)/app/app.ld</LDSCRIPT> -->
-		
+        
         <!-- mkimage Setting -->
         <!-- WINDOWS Case -->
         <MKIMAGE                Condition="'$(MKIMAGE)'==''"  >$(SRCDIR)/../bin/mkimage.exe</MKIMAGE>
         <PRE_TECSGEN_TARGET     Condition="'$(PRE_TECSGEN_TARGET)'==''" ></PRE_TECSGEN_TARGET>
         <POST_TECSGEN_TARGET    Condition="'$(POST_TECSGEN_TARGET)'==''"></POST_TECSGEN_TARGET>
-		
+        
         <!-- Configuration Defines -->
         <!-- module(EV3 only) -->
         <CFG_MODULE_TABS>--api-table=$(LOADERDIR)/app/common/module_api.csv --cfg1-def-table=$(LOADERDIR)/app/common/module_def.csv --api-table=$(TARGETDIR)/api/ev3api.csv</CFG_MODULE_TABS>
@@ -90,9 +116,6 @@
         <CFG_ASMOBJS>$(CFG_ASMOBJS)</CFG_ASMOBJS>
         <CFG_OBJS>$(CFG_ASMOBJS) $(CFG_COBJS)</CFG_OBJS>
         
-        <!-- kernel -->
-        <!-- <CFG_KERNEL_TABS>-api-table=$(TARGETDIR)/kernel/kernel_api.csv -cfg1-def-table=$(TARGETDIR)/kernel/kernel_def.csv</CFG_KERNEL_TABS> -->
-        <CFG_KERNEL_TABS>--api-table=$(TARGETDIR)/kernel/kernel_api.csv --cfg1-def-table=$(TARGETDIR)/kernel/kernel_def.csv --cfg1-def-table=$(TARGETDIR)/am1808/chip_def.csv --cfg1-def-table=$(SRCDIR)/arch/arm_gcc/common/core_def.csv --api-table=$(TARGETDIR)/api/ev3api.csv</CFG_KERNEL_TABS>
         <CFG_KERNEL_COBJS>kernel_cfg.o kernel_mem.o $(CFG_COBJS)</CFG_KERNEL_COBJS>
         
         <CFG_TABS               Condition="'$(CFG_TABS)'==''">$(CFG_MODULE_TABS)</CFG_TABS>
@@ -139,7 +162,7 @@
         <SYSSVC_CFLAGS>$(SYSSVC_CFLAGS) -DTOPPERS_SVC_CALL</SYSSVC_CFLAGS>
         <SYSSVC_LIBS>$(SYSSVC_LIBS)</SYSSVC_LIBS>
         <INCLUDES>$(INCLUDES)</INCLUDES>
-		
+        
         <!-- am1808 -->
         <SYSSVC_COBJS>$(SYSSVC_COBJS) strerror.o tlsf.o vasyslog.o</SYSSVC_COBJS>
         <SYSSVC_COBJS>$(SYSSVC_COBJS) tl16c550.o</SYSSVC_COBJS>
@@ -199,7 +222,7 @@
         <!-- DEF_ASP_ONLY -->
         <!-- LDSCRIPT = $(CHIPDIR)/am1808.ld -->
         <!-- END_ASP_ONLY -->
-		
+        
         <!-- Compiler Various Defines -->
         <!-- KERNEL_LCOBJS -> KERNELOBJS -->
         <!-- <KERNEL_LIB_OBJS>$(KERNEL_ASMOBJS) $(KERNEL_COBJS) $(KERNEL_LCOBJS)</KERNEL_LIB_OBJS> -->
@@ -211,20 +234,20 @@
         <ALL2_OBJS>$(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG2_OBJS) $(END_OBJS) $(HIDDEN_OBJS)</ALL2_OBJS>
         <ALL3_OBJS>$(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG3_OBJS) $(END_OBJS) $(HIDDEN_OBJS)</ALL3_OBJS>
         <ALL_OBJS>$(START_OBJS) $(APPL_OBJS) $(SYSSVC_OBJS) $(CFG_OBJS) $(END_OBJS) $(HIDDEN_OBJS)</ALL_OBJS>
-		
+        
         <!--  omit_svc.h Create Rules -->
         <!-- 
             omit_svc.h:
                 touch omit_svc.h
         -->
-		
+        
         <!-- Special Dependency Defines -->
         <!-- 
             svc_table.o: omit_svc.h
             svc_table.d: omit_svc.h
             banner.o: kernel_cfg.timestamp $(filter-out banner.o,$(ALL2_OBJS)) $(LIBS_DEP)
         -->
-		
+        
         <!-- All Link(mruby) -->
         <!--
             $(OBJFILE): $(APPL_CFG) kernel_cfg.timestamp $(ALL_OBJS) $(LIBS_DEP)
@@ -239,14 +262,14 @@
                     </When>
                 </Choose>
         -->
-		
+        
         <!-- Configurator Rules -->
         <!-- <ALL_CFG_COBJS>$(sort $(CFG_COBJS) $(CFG2_COBJS) $(CFG3_COBJS) cfg1_out.o)</ALL_CFG_COBJS> -->
         <ALL_CFG_COBJS>$(CFG_COBJS) $(CFG2_COBJS) $(CFG3_COBJS) cfg1_out.o</ALL_CFG_COBJS>
         <!-- <ALL_CFG_ASMOBJS>$(sort $(CFG_ASMOBJS) $(CFG2_ASMOBJS) $(CFG3_ASMOBJS))</ALL_CFG_ASMOBJS> -->
         <ALL_CFG_ASMOBJS>$(CFG_ASMOBJS) $(CFG2_ASMOBJS) $(CFG3_ASMOBJS)</ALL_CFG_ASMOBJS>
         <CFG_CFLAGS>$(APPL_CFLAGS) $(SYSSVC_CFLAGS) $(KERNEL_CFLAGS)</CFG_CFLAGS>
-		
+        
         <!--
             $(ALL_CFG_COBJS): %.o: %.c
                 <Exec Command="$(CC) -c $(CFLAGS) $(CFG_CFLAGS) $(ALL_CFG_COBJS).o $(ALL_CFG_COBJS).c "/>
@@ -371,6 +394,42 @@
                 $(CC) -c $(CFLAGS) $
         -->
     </PropertyGroup>
+
+    <!-- use Target module -->
+    <!--
+    <Choose>
+        <When Condition=" '$(TOPPERS_MODULES)'=='EV3' ">
+            <TARGETNAME             Condition="'$(TARGETNAME)'==''">ev3_gcc</TARGETNAME>
+            <TARGETDIR              Condition="'$(TARGETDIR)'==''">$(SRCDIR)/target/$(TARGETNAME)</TARGETDIR>
+            <KERNELDIR              Condition="'$(KERNELDIR)'==''">$(TARGETDIR)/kernel</KERNELDIR>
+            <LOADERDIR              Condition="'$(LOADERDIR)'==''">$(TARGETDIR)/dmloader</LOADERDIR>
+            <OBJDIR                 Condition="'$(OBJDIR)'==''">$(SRCDIR)/workspace/obj</OBJDIR>
+            <APPLNAME               Condition="'$(APPLNAME)'==''">$(SPOCLIENT)/$(Directory)/app</APPLNAME>
+        </When>
+        <When Condition=" '$(TOPPERS_MODULES)'=='Zynq' ">
+            <TARGETNAME             Condition="'$(TARGETNAME)'==''">zynq_gcc</TARGETNAME>
+            <TARGETDIR              Condition="'$(TARGETDIR)'==''">$(SRCDIR)/target/$(TARGETNAME)</TARGETDIR>
+            <KERNELDIR              Condition="'$(KERNELDIR)'==''">$(SRCDIR)/kernel</KERNELDIR>
+        </When>
+    </Choose>
+    -->
+
+    <!-- kernel -->
+    <Choose>
+        <When Condition=" '$(TOPPERS_OSTYPE)'=='hrp2' ">
+            <PropertyGroup>
+                <!-- EV3 -->
+                <CFG_KERNEL_TABS>--api-table=$(KERNELDIR)/kernel_api.csv --cfg1-def-table=$(KERNELDIR)/kernel_def.csv --cfg1-def-table=$(TARGETDIR)/am1808/chip_def.csv --cfg1-def-table=$(SRCDIR)/arch/arm_gcc/common/core_def.csv --api-table=$(TARGETDIR)/api/ev3api.csv</CFG_KERNEL_TABS>
+            </PropertyGroup>
+        </When>
+        <When Condition=" '$(TOPPERS_OSTYPE)'=='fmp' ">
+            <PropertyGroup>
+                <!-- FMP -->
+                <CFG_KERNEL_TABS>--api-table=$(KERNELDIR)/kernel_api.csv --cfg1-def-table=$(KERNELDIR)/kernel_def.csv --cfg1-def-table=$(SRCDIR)/arch/arm_gcc/mpcore/chip_def.csv --cfg1-def-table=$(SRCDIR)/arch/arm_gcc/common/core_def.csv</CFG_KERNEL_TABS>
+                <CFG_KERNEL_TABS>--api-table=$(KERNELDIR)/kernel_api.csv --cfg1-def-table=$(KERNELDIR)/kernel_def.csv --cfg1-def-table=$(SRCDIR)/arch/arm_gcc/common/core_def.csv</CFG_KERNEL_TABS>
+            </PropertyGroup>
+        </When>
+    </Choose>
 
     <!-- tecs -->
     <Choose>

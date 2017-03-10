@@ -1,0 +1,21 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Author>Tooru Oonuma</Author>
+    <Description>TOPPERS FMP on ZYBO solution</Description>
+    <Documentation>
+    </Documentation>
+    <PlatformGuid>{580a712f-aa16-4f7e-95b1-146d019c5959}</PlatformGuid>
+    <TARGETPLATFORM>ToppersFMPonZYBO</TARGETPLATFORM>
+    <PLATFORM>ToppersFMPonZYBO</PLATFORM>
+    <IsSolutionWizardVisible>True</IsSolutionWizardVisible>
+    <ENDIANNESS>le</ENDIANNESS>
+    <DEVICE_TYPE>cortex-a9</DEVICE_TYPE>
+    <OS_PLATFORM>true</OS_PLATFORM>
+    <NO_BOOTLOADER_COMPRESSION>TRUE</NO_BOOTLOADER_COMPRESSION>
+    <!-- cpu -->
+  </PropertyGroup>
+  <ItemGroup>
+    <IncludePaths Include="Solutions\ToppersFMPonZYBO" />
+  </ItemGroup>
+  <Import Project="$(SPOCLIENT)\DeviceCode\Targets\OS\Toppers\FMP\ToppersFMPonZYBO.settings" />
+</Project>
