@@ -13,7 +13,6 @@
     <TARGETCURRENT>$(SPO_BUILD)\$(INSTRUCTION_SET)\$(TARGETLOCATION)\$(OLD_FLAVOR)\$(TARGETPLATFORM)\bin</TARGETCURRENT>
 
     <!-- GNU Tools - Assumes that the Path is already set up to these tools (the default) -->
-
     
     <CC>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</CC>
     <TCC>"$(GNU_TOOLS_BIN)\$(GNU_TARGET)-gcc.exe"</TCC>
@@ -39,25 +38,6 @@
     <RANLIB  Condition="!EXISTS('$(RANLIB)')" >"$(GNU_TOOLS_BIN)\..\$(GNU_TARGET)\bin\ranlib.exe"</RANLIB>
   </PropertyGroup>
 
-
-  <PropertyGroup Condition="'$(COMPILER_TOOL)'=='GCCOP'" >
-    <TARGETCURRENT>$(SPO_BUILD)\$(INSTRUCTION_SET)\$(TARGETLOCATION)\$(OLD_FLAVOR)\$(TARGETPLATFORM)\bin</TARGETCURRENT>
-
-    <!-- GNU Tools - Assumes that the Path is already set up to these tools (the default) -->
-    <CC>"$(GNU_TOOLS_BIN)\gcc.exe"</CC>
-    <TCC>"$(GNU_TOOLS_BIN)\gcc.exe"</TCC>
-    <CPP>"$(GNU_TOOLS_BIN)\gcc.exe"</CPP>
-    <TCPP>"$(GNU_TOOLS_BIN)\gcc.exe"</TCPP>
-    <AS>"$(GNU_TOOLS_BIN)\as.exe"</AS>
-    <LINK>"$(GNU_TOOLS_BIN)\ld.exe"</LINK>
-    <AR>"$(GNU_TOOLS_BIN)\ar.exe"</AR>
-    <NM>"$(GNU_TOOLS_BIN)\nm.exe"</NM>
-    <FROMELF>"$(GNU_TOOLS_BIN)\objcopy.exe"</FROMELF>
-    <OBJDUMP>"$(GNU_TOOLS_BIN)\objdump.exe"</OBJDUMP>
-    <RANLIB>"$(GNU_TOOLS_BIN)\ranlib.exe"</RANLIB>
-    <CREATESYMDEF>$(TOOLS_DIR)\CreateSymdef.exe</CREATESYMDEF>
-    <CREATESYMDEF_ALT>$(SPOCLIENT)\TOOLS\BIN\CreateSymdef.exe</CREATESYMDEF_ALT>
-  </PropertyGroup>
 
   <!-- based on cpu type, setup compiler-->  
   
@@ -92,7 +72,6 @@
     <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Instrumented'" >$(CC_CPP_TARGETTYPE_FLAGS) -g -O0</CC_CPP_TARGETTYPE_FLAGS>
     <CC_CPP_TARGETTYPE_FLAGS Condition="'$(FLAVOR)'=='Release'"      >$(CC_CPP_TARGETTYPE_FLAGS) -g1 -Os</CC_CPP_TARGETTYPE_FLAGS>
 
-    <!-- <CC_FLAGS>$(CC_FLAGS)-xc </CC_FLAGS> -->
     <CC_FLAGS>$(CC_FLAGS)-xc -std=gnu99</CC_FLAGS>
     <CPP_FLAGS>$(CPP_FLAGS)-xc++ -Wno-invalid-offsetof -fcheck-new </CPP_FLAGS>
 
@@ -569,7 +548,7 @@
   
   <Target Name="ArmBuildAXF" Condition="'$(OutputType)'=='Executable'" DependsOnTargets="ArmCompileCPP;ArmCompileC;ArmAssemble;$(ExtraEXETargets);BuildScatterfile" Inputs="@(EXEInputs);@(InputLibs);@(PlatformIndependentLibs->'$(PLATFORM_INDEPENDENT_RELATIVE_LIB_DIR)\%(FileName)%(Extension)');@(DriverLibs->'$(LIB_DIR)\%(FileName)%(Extension)');@(EXEScatterFile)" Outputs="@(EXEOutput)">
     <Exec WorkingDirectory="$(LIB_DIR)" Condition="'$(COMPILER_TOOL)'=='GCC'"    Command="$(LINK) $(LINK_FLAGS) -u ARM_Vectors -u _start --Map $(EXEName).map --output=@(EXEOutput) --script=@(EXEScatterFile,' ') @(EXEInputs,' ') -( @(PlatformIndependentLibs->'$(PLATFORM_INDEPENDENT_RELATIVE_LIB_DIR)%(FileName)%(Extension)',' ') @(DriverLibs->'%(FileName)%(Extension)',' ')  @(InputLibs,' ') -) -( &#x22;$(GNU_LIB_DIR)\libm.a&#x22; &#x22;$(GNU_LIB_DIR)\$(LIBCGCC)&#x22; &#x22;$(GNU_LIBGCC_DIR)\$(LIBGCC)&#x22; -) -( $(ExtraLibs) -)"/>
-    <Exec WorkingDirectory="$(LIB_DIR)" Condition="'$(COMPILER_TOOL)'=='GCCOP'"  Command="$(LINK) $(LINK_FLAGS) -u ARM_Vectors -u _start --Map $(EXEName).map --output=@(EXEOutput) --script=@(EXEScatterFile,' ') @(EXEInputs,' ') -( @(PlatformInd    ependentLibs->'$(PLATFORM_INDEPENDENT_RELATIVE_LIB_DIR)%(FileName)%(Extension)',' ') @(DriverLibs->'%(FileName)%(Extension)',' ')  @(InputLibs,' ') -) -( &#x22;$(GNU_LIBGCC_DIR)\$(LIBGCC)&#x22;  -) -( $(ExtraLibs) -)"/>
+    <Exec WorkingDirectory="$(LIB_DIR)" Condition="'$(COMPILER_TOOL)'=='GCCOP'"  Command="$(LINK) $(LINK_FLAGS) -u ARM_Vectors -u _start --Map $(EXEName).map --output=@(EXEOutput) --script=@(EXEScatterFile,' ') @(EXEInputs,' ') -( @(PlatformIndependentLibs->'$(PLATFORM_INDEPENDENT_RELATIVE_LIB_DIR)%(FileName)%(Extension)',' ') @(DriverLibs->'%(FileName)%(Extension)',' ')  @(InputLibs,' ') -) -( &#x22;$(GNU_LIBGCC_DIR)\$(LIBGCC)&#x22;  -) -( $(ExtraLibs) -)"/>
 
     <Exec Command="$(OBJDUMP) -d -EL @(EXEOutput) > $(EXEName).axfdump" />
 

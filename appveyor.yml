@@ -26,7 +26,7 @@ build_script:
     
 
 artifacts:
-- path: BuildOutput\ARM\GCC4.9\le\FLASH\release\ToppersHRP2onEV3\obj\DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf\app
+- path: BuildOutput\ARM\GCC4.9\le\FLASH\release\ToppersHRP2onEV3\obj\DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf\hrp2
   name: Release
 
 

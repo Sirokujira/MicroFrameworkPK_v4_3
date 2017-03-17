@@ -9,6 +9,7 @@
 
 #ifdef PLATFORM_ARM_TOPPERSHRP2
 #include "tinyclr_application.h"
+// extern TinyClr_Dat_Start
 #include "tinyhal.h"
 #endif
 
@@ -178,11 +179,11 @@ void MFmain()
 	int ReturnValue;
 
 	// uItron4_assembly = (char *) "TINYCLR.DAT";
-	uItron4_assembly = (char *) "TINYCLR.afx";
+	uItron4_assembly = (char *) "TINYCLR.DAT";
 
 	// 引数チェック
 	// タイマ周りの設定
-	uItron4_load_options();
+	// uItron4_load_options();
 	// if (LINUXDBG > 0)
 	// {
 	// 	LINUXDBG_print("debug:%d, CWD:%s, Assembly:%s \r\n", LINUXDBG, getcwd(NULL, 0), uItron4_assembly);
@@ -213,7 +214,7 @@ void MFmain()
 		// LINUXDBG_error("##### MFmain: allocCustomHeap Error ! #####\r\n");
 	}
 
-
+/*
 REBOOT:
     if((ReturnValue = setjmp(guItron4_ResetBuffer)) == 0)
     {
@@ -251,7 +252,7 @@ REBOOT:
 		debug_printf("Unknown terminate by longjmp()...\n");
 	}
 	// LINUXDBG_print("MFmain Terminated.\n");
-
+*/
 	uItron4_freeHeap(guItron4_Heap);
 	uItron4_freeHeap(guItron4_CustomHeap);
 }

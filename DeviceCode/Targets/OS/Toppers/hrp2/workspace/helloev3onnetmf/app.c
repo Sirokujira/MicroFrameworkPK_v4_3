@@ -25,6 +25,12 @@
 #define _debug(x)
 #endif
 
+#ifdef PLATFORM_ARM_TOPPERS
+#include "tinyclr_application.h"
+#include "tinyhal.h"
+#endif
+#include "uItron4API.h"
+
 FILE *fio;
 
 int32_t default_menu_font_width;
@@ -134,8 +140,6 @@ const CliMenuEntry* select_menu_entry(const CliMenu *cm, int offset_x, int offse
 #endif
 }
 
-
-
 void main_task(intptr_t unused) {
 	/**
 	 * TODO: test file operations
@@ -171,7 +175,7 @@ void main_task(intptr_t unused) {
 #endif
 
 	// NETMF ‹N“®
-	// MFmain();
+	MFmain();
 
 	/**
 	 *

@@ -50,9 +50,9 @@
     <CPP_FLAGS>$(CPP_FLAGS) $(POS_DEPENDENT)</CPP_FLAGS>
   </PropertyGroup>
 -->
-  <PropertyGroup Condition="'$(ExtraTargets)'!=''">
-    <TargetRule>$(TargetRule);$(ExtraTargets)</TargetRule>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(ExtraTargets)'!=''">
+        <TargetRule>$(TargetRule);$(ExtraTargets)</TargetRule>
+    </PropertyGroup>
 
   <ItemGroup>
     <PLATFORMS Condition="'@(PLATFORMS)'=='' and '$(PLATFORM)'=='' and '$(PLATFORMS)'!=''" Include="$(PLATFORMS)"/>
