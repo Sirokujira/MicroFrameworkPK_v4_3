@@ -303,7 +303,7 @@
     </Target>
     
     <Target Name="ArmAssemble" Condition="'@(AssemblyFiles)'!=''" Inputs="@(AssemblyFiles)" Outputs="@(AssemblyFiles->'$(OBJ_DIR)\%(FileName).$(OBJ_EXT)')">
-        <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="del /q  $(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT)" ContinueOnError="true" />
+        <Delete Condition="Exists('$(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT)')" Files="$(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT)" ContinueOnError="true" />
         <Exec Condition="Exists('%(AssemblyFiles.FullPath)')" Command="$(AS) $(AS_FLAGS) -a=$(OBJ_DIR)\%(AssemblyFiles.Filename).txt -o $(OBJ_DIR)\%(AssemblyFiles.Filename).$(OBJ_EXT) %(AssemblyFiles.FullPath)"/>
     </Target>
     
@@ -325,8 +325,8 @@
     </Target>
     
     <Target Name="DelBuildLib" Condition="'$(OutputType)'=='Library'" Inputs="@(FastCompileCPPFile);@(CPPFiles);@(FastCompileCFile);@(CFiles);@(AssemblyFiles);@(HFiles)" Outputs="@(TargetLib)">
-        <Exec Condition="'@(FilesExist)'!='' " Command="del /q  @(TargetLib)" ContinueOnError="true" />
-        <Exec Condition="'@(FilesExist)'!='' " Command="del /q  @(TargetLib->'%(FullPath).manifest', ' ')" ContinueOnError="true" />
+        <Delete Condition="EXISTS(@(TargetLib->'%(FullPath)', ' '))" Files="@(TargetLib->'%(FullPath)', ' ')" ContinueOnError="true" />
+        <Delete Condition="EXISTS(@(TargetLib->'%(FullPath).manifest', ' '))" Files="@(TargetLib->'%(FullPath).manifest', ' ')" ContinueOnError="true" />
     </Target>
     
     <Target Name="ArmBuildLib" Condition="'$(OutputType)'=='Library'" DependsOnTargets="FindCompileFilesExistence;FindFastCompileFilesExistence;DelBuildLib;ArmCompileC;ArmCompileCPP;ArmAssemble;CreateLibManifest;$(ExtraTargets);" Inputs="@(ObjFiles)" Outputs="@(TargetLib);@(TargetLib->'%(FullPath).manifest')">
@@ -366,9 +366,15 @@
         <!-- delete build error file -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CC) $(CTOPPERS_EV3_FLAGS) -nostdlib $(LDFLAGS) -o hrp2 $(TOPPERS_START_OBJS) app.o $(TOPPERS_APPL_OBJS) $(TOPPERS_DRIVER_OBJS) $(SYSSVC_OBJS) lcd_dri.o ev3exception.o core_config.o $(TOPPERS_KERNEL_OBJS) $(TOPPERS_KERNEL_LIBS) chip_timer.o" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(NM) -n hrp2 > hrp2.syms "/>
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="diff cfg3_out.syms hrp2.syms" />
+        
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="diff cfg3_out.syms hrp2.syms" /> -->
+        <!-- use PowerShell(Error) -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;Compare-Object $(cat cfg3_out.syms) $(cat hrp2.syms)&quot;"/> -->
+        
         <!-- not use USE_CFG_PASS3 -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="diff cfg2_out.syms hrp2.syms" /> -->
+        <!-- use PowerShell(Error) -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;Compare-Object $(cat cfg2_out.syms) $(cat hrp2.syms)&quot;"/> -->
     </Target>
     
     <Target Name="module_cfg1">
@@ -404,7 +410,7 @@
         <!-- template-file target.tf to kernel/kernel.tf -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=$(TOPPERS_OSTYPE) --template-file=$(TARGETDIR)/target.tf $(CFG_KERNEL_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)"/>
         
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch -r kernel_cfg.c kernel_cfg.timestamp" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch -r kernel_cfg.c kernel_cfg.timestamp" /> -->
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_cfg.o -c kernel_cfg.c $(CFG1COMPILEINCLUDE)" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem2.o -c kernel_mem2.c $(CFG1COMPILEINCLUDE)" />
@@ -421,7 +427,8 @@
         <Exec Command="@$(ADS_WRAPPER) $(CC) -nostartfiles $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -Wl,-e,0 -o $(CFG1_OUT) cfg1_out.o" />
         <Exec Command="@$(NM) -n $(CFG1_OUT) > cfg1_out.syms" />
         <Exec Command="@$(FROMELF) -O srec -S $(CFG1_OUT) cfg1_out.srec" />
-        
+
+        
         <!-- <Exec Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) -DBUILD_MODULE -Wl,-Ttext,$(TEXT_START_ADDRESS) -Wl,-e,0 -o app.o -c app.c -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" /> -->
         <!-- $(call print_cmd, "CFG[2]", $@) -->
         <Exec Command="@$(CFG) $(APPL_CFG) --pass=2 --kernel=$(TOPPERS_OSTYPE) --template-file=$(LOADERDIR)/app/common/module.tf $(CFG_MODULE_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)" />
@@ -447,13 +454,17 @@
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG2_OUT) > cfg2_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(FROMELF) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(CFG3_OUT_LDSCRIPT)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(CFG3_OUT_LDSCRIPT)" /> -->
+        <Delete Condition="Exists('$(OBJ_DIR)\$(CFG3_OUT_LDSCRIPT)')" Files="$(OBJ_DIR)\$(CFG3_OUT_LDSCRIPT)" ContinueOnError="true" />
         
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) - -pass=2 - -kernel=$(TOPPERS_OSTYPE) - -template-file=$(TARGETDIR)/target.tf $(CFG_KERNEL_TABS) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE)"/> -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=3 --kernel=$(TOPPERS_OSTYPE) -I$(TARGETDIR)/api -I$(LOADERDIR)/app/common $(CFGINCLUDE) --rom-image cfg2_out.srec --symbol-table cfg2_out.syms --template-file=$(TARGETDIR)/target_opt.tf $(CFG_KERNEL_TABS)" />
         
         <!-- <Exec Command= "if ! [ -f $(CFG3_OUT_LDSCRIPT) ]; then sed s/kernel_mem2\.o/kernel_mem3\.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT); fi" /> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem2.o/kernel_mem3.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem2.o/kernel_mem3.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(CFG3_OUT_LDSCRIPT)" /> -->
+        <!-- use PowerShell -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;(Get-content $(CFG2_OUT_LDSCRIPT)) | Foreach-Object {$_ -replace &quot;kernel_mem2.o&quot;, &quot;kernel_mem3.o&quot;} | Set-Content $(CFG3_OUT_LDSCRIPT)&quot;"/> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;Get-content $(CFG2_OUT_LDSCRIPT) | Foreach-Object { $_ -replace \&quot;kernel_mem2.o\&quot;, \&quot;kernel_mem3.o\&quot;} | Set-Content $(CFG3_OUT_LDSCRIPT)&quot;"/>
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem3.o -c kernel_mem3.c $(CFG1COMPILEINCLUDE)" />
     </Target>
@@ -468,11 +479,17 @@
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG3_OUT) > cfg3_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(FROMELF) -O srec -S $(CFG3_OUT) cfg3_out.srec" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" /> -->
+        <Delete Condition="Exists('$(OBJ_DIR)\$(LDSCRIPT)')" Files="$(OBJ_DIR)\$(LDSCRIPT)" ContinueOnError="true" />
+        
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=4 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) --rom-image=cfg3_out.srec --symbol-table=cfg3_out.syms --template-file=$(TARGETDIR)/target_mem.tf $(CFG_KERNEL_TABS)" />
         
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem3\.o/kernel_mem\.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT); fi" /> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem3.o/kernel_mem.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem3.o/kernel_mem.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT)" /> -->
+        <!-- use PowerShell -->
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;(Get-content $(CFG3_OUT_LDSCRIPT)) | Foreach-Object {$_ -replace &quot;kernel_mem2.o&quot;, &quot;kernel_mem.o&quot;} | Set-Content $(LDSCRIPT)&quot;"/> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;Get-content $(CFG3_OUT_LDSCRIPT) | Foreach-Object {$_ -replace \&quot;kernel_mem2.o\&quot;, \&quot;kernel_mem.o\&quot;} | Set-Content $(LDSCRIPT)&quot;"/>
+        
         <!-- kernel_mem.c compile -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem.o -c kernel_mem.c $(CFG1COMPILEINCLUDE)" />
     </Target>
@@ -486,13 +503,16 @@
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(NM) -n $(CFG2_OUT) > cfg2_out.syms" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(FROMELF) -O srec -S $(CFG2_OUT) cfg2_out.srec" />
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f $(LDSCRIPT)" /> -->
+        <Delete Condition="Exists('$(OBJ_DIR)\$(LDSCRIPT)')" Files="$(OBJ_DIR)\$(LDSCRIPT)" ContinueOnError="true" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="touch cfg3_out.tf" />
         
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(CFG) $(APPL_CFG) --pass=4 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) --rom-image=cfg2_out.srec --symbol-table=cfg2_out.syms --template-file=$(TARGETDIR)/target_mem.tf $(CFG_KERNEL_TABS)" />
         
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="if ! [ -f $(LDSCRIPT) ]; then sed s/kernel_mem2\.o/kernel_mem\.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT); fi" /> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem2.o/kernel_mem.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT)" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem2.o/kernel_mem.o/g &lt; $(CFG2_OUT_LDSCRIPT) > $(LDSCRIPT)" /> -->
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;Get-content $(CFG2_OUT_LDSCRIPT) | Foreach-Object {$_ -replace \&quot;kernel_mem2.o\&quot;, \&quot;kernel_mem.o\&quot;} | Set-Content $(LDSCRIPT)&quot;"/>
+        
         <!-- kernel_mem.c compile -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem.o -c kernel_mem.c $(CFG1COMPILEINCLUDE)" />
     </Target>
@@ -501,7 +521,8 @@
     <!-- <Target Name="libkernel" DependsOnTargets="kernel_offset"> -->
     <Target Name="libkernel">
         <!-- libkernel.a: $(OFFSET_H) $(KERNEL_LIB_OBJS) -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f libkernel.a" />
+        <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="rm -f libkernel.a" /> -->
+        <Delete Condition="Exists('$(OBJ_DIR)\libkernel.a')" Files="$(OBJ_DIR)\libkernel.a" ContinueOnError="true" />
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(AR) -rcs libkernel.a $(KERNEL_LIB_OBJS)" />
         <!-- <Exec Command="$(AR) -rcs libkernel.a $(TOPPERS_KERNEL_OBJS)" /> -->
         
@@ -519,7 +540,7 @@
         <Exec Command="@$(FROMELF) cfg1_out.srec -O srec -S $(CFG1_OUT) cfg1_out.srec" />
         <!-- $(call print_cmd, "CFG[2]", $@) -->
         <Exec Command="@$(CFG) --pass=2 --kernel=$(TOPPERS_OSTYPE) $(CFGINCLUDE) -T $(TARGETDIR)/target.tf $(CFG_KERNEL_TABS)" />
-        <Exec Command="touch -r kernel_cfg.c kernel_cfg.timestamp" />
+        <!-- <Exec Command="touch -r kernel_cfg.c kernel_cfg.timestamp" /> -->
     </Target>
     
     <Target Name="BuildAXF" Condition="'$(OutputType)'=='Executable'" DependsOnTargets="ArmCompileCPP;ArmCompileC;ArmAssemble;$(ExtraEXETargets);BuildScatterfile" Inputs="@(EXEInputs);@(InputLibs);@(PlatformIndependentLibs->'$(PLATFORM_INDEPENDENT_RELATIVE_LIB_DIR)\%(FileName)%(Extension)');@(DriverLibs->'$(LIB_DIR)\%(FileName)%(Extension)');@(EXEScatterFile)" Outputs="@(EXEOutput)">
@@ -613,7 +634,8 @@
     <!-- BinaryFile Create -->
     <Target Name="objnameToBinary" Inputs="$(OBJFILE);$(OBJNAME)">
         <Exec Command="$(FROMELF) -O binary -S $(OBJFILE) $(OBJNAME).bin" />
-    </Target>
+
+    </Target>
 	
     <Target Name="uImage" DependsOnTargets="@(OBJNAME).bin">
         <Exec Command="@(MKIMAGE) -A arm -O linux -T kernel -C none -a $(TEXT_START_ADDRESS) -e $(TEXT_START_ADDRESS) -n $(TOPPERS_OSTYPE) kernel -d $(TOPPERS_OSTYPE).bin uImage" />
@@ -625,7 +647,8 @@
     <!-- $(objnameToBinary).srec: $(OBJFILE) -->
     <Target Name="ObjnameToSrec" Inputs="@(OBJFILE);@(OBJNAME)">
         <Exec Command="$(FROMELF) -O srec -S $(OBJFILE) $(OBJNAME).srec" />
-    </Target>
+
+    </Target>
 	
     <!-- Compile Result Clear -->
     <Target Name="clean">
