@@ -25,12 +25,6 @@
 #define _debug(x)
 #endif
 
-#ifdef PLATFORM_ARM_TOPPERS
-#include "tinyclr_application.h"
-#include "tinyhal.h"
-#endif
-#include "uItron4API.h"
-
 FILE *fio;
 
 int32_t default_menu_font_width;
@@ -173,9 +167,6 @@ void main_task(intptr_t unused) {
 	fwrite("Hello, world!\n", strlen("Hello, world!\n"), 1, fout);
 	fclose(fout);
 #endif
-
-	// NETMF ‹N“®
-	MFmain();
 
 	/**
 	 *
