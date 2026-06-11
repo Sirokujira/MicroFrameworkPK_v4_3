@@ -488,7 +488,7 @@
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="sed s/kernel_mem3.o/kernel_mem.o/g &lt; $(CFG3_OUT_LDSCRIPT) > $(LDSCRIPT)" /> -->
         <!-- use PowerShell -->
         <!-- <Exec WorkingDirectory="$(OBJ_DIR)" Command="$(PowerShellExe) -NonInteractive -executionpolicy Unrestricted -command &quot;(Get-content $(CFG3_OUT_LDSCRIPT)) | Foreach-Object {$_ -replace &quot;kernel_mem2.o&quot;, &quot;kernel_mem.o&quot;} | Set-Content $(LDSCRIPT)&quot;"/> -->
-        <Exec WorkingDirectory="$(OBJ_DIR)" Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;Get-content $(CFG3_OUT_LDSCRIPT) | Foreach-Object {$_ -replace \&quot;kernel_mem2.o\&quot;, \&quot;kernel_mem.o\&quot;} | Set-Content $(LDSCRIPT)&quot;"/>
+        <Exec WorkingDirectory="$(OBJ_DIR)" Command="powershell -NonInteractive -executionpolicy Unrestricted -command &quot;Get-content $(CFG3_OUT_LDSCRIPT) | Foreach-Object {$_ -replace \&quot;kernel_mem3.o\&quot;, \&quot;kernel_mem.o\&quot;} | Set-Content $(LDSCRIPT)&quot;"/>
         
         <!-- kernel_mem.c compile -->
         <Exec WorkingDirectory="$(OBJ_DIR)" Command="@$(ADS_WRAPPER) $(CC) $(CTOPPERS_EV3_FLAGS) $(CFG1_OUT_LDFLAGS) -o kernel_mem.o -c kernel_mem.c $(CFG1COMPILEINCLUDE)" />
