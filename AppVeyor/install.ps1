@@ -43,8 +43,11 @@ function InstallGCCCompiler()
     
     # $archivePath = "C:\\projects\\gcc-arm-none-eabi-5_2"
     $archivePath = "C:\\projects\\gcc-arm-none-eabi-4_9"
-    # $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
-    $zipFilePath = "C:\\projects\\MicroFrameworkPK-v4-3\\gcc-arm-none-eabi-4_9-2014q4-20141203-win32.zip"
+    # Start-FileDownload saves the zip into the build (clone) folder, not a hardcoded project slug path
+    $buildFolder = $env:APPVEYOR_BUILD_FOLDER
+    if (-not $buildFolder) { $buildFolder = (Get-Location).Path }
+    # $zipFilePath = Join-Path $buildFolder "gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
+    $zipFilePath = Join-Path $buildFolder "gcc-arm-none-eabi-4_9-2014q4-20141203-win32.zip"
     New-ZipExtract -source $zipFilePath -destination $archivePath -force -verbose
 }
 
