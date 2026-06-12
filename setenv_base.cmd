@@ -78,31 +78,47 @@ set CURRENTCD=
 rem @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 rem set tool-chains variables 
 
-IF /I NOT "%COMPILER_TOOL%" == "VS" (
-    IF NOT "%VS140COMNTOOLS%" == "" (
-        CALL "%VS140COMNTOOLS%vsvars32.bat"
-    ) ELSE (
-    IF NOT "%VS120COMNTOOLS%" == "" (
-        CALL "%VS120COMNTOOLS%vsvars32.bat"
-    ) ELSE (
-        IF NOT "%VS110COMNTOOLS%" == "" (
-            CALL "%VS110COMNTOOLS%vsvars32.bat"
-        ) ELSE (
-            IF NOT "%VS100COMNTOOLS%" == "" (
-            CALL "%VS100COMNTOOLS%vsvars32.bat"
-            ) ELSE (
-                IF NOT "%VS90COMNTOOLS%" == "" (
-                    CALL "%VS90COMNTOOLS%vsvars32.bat"
-                ) ELSE (
-                    @ECHO WARNING: Could not find vsvars32.bat.
-                    @ECHO WARNING: VISUAL C++ DOES NOT APPEAR TO BE INSTALLED ON THIS MACHINE
-                    GOTO :EOF
-                )
-            )
-        )
-    )
-    )
+IF /I "%COMPILER_TOOL%" == "VS" GOTO :VSVARS_DONE
+
+rem Visual Studio 2017 and later no longer set VSxxxCOMNTOOLS globally;
+rem locate the newest installation via vswhere and call VsDevCmd.bat.
+SET VSINSTALLPATH=
+SET "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+IF NOT EXIST "%VSWHERE%" SET "VSWHERE=%ProgramFiles%\Microsoft Visual Studio\Installer\vswhere.exe"
+IF EXIST "%VSWHERE%" FOR /F "usebackq tokens=*" %%i IN (`"%VSWHERE%" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) DO SET "VSINSTALLPATH=%%i"
+
+IF NOT "%VSINSTALLPATH%" == "" (
+    CALL "%VSINSTALLPATH%\Common7\Tools\VsDevCmd.bat" -arch=x86 -no_logo
+    GOTO :VSVARS_DONE
 )
+
+rem Visual Studio 2015 and older
+IF NOT "%VS140COMNTOOLS%" == "" (
+    CALL "%VS140COMNTOOLS%vsvars32.bat"
+    GOTO :VSVARS_DONE
+)
+IF NOT "%VS120COMNTOOLS%" == "" (
+    CALL "%VS120COMNTOOLS%vsvars32.bat"
+    GOTO :VSVARS_DONE
+)
+IF NOT "%VS110COMNTOOLS%" == "" (
+    CALL "%VS110COMNTOOLS%vsvars32.bat"
+    GOTO :VSVARS_DONE
+)
+IF NOT "%VS100COMNTOOLS%" == "" (
+    CALL "%VS100COMNTOOLS%vsvars32.bat"
+    GOTO :VSVARS_DONE
+)
+IF NOT "%VS90COMNTOOLS%" == "" (
+    CALL "%VS90COMNTOOLS%vsvars32.bat"
+    GOTO :VSVARS_DONE
+)
+
+@ECHO WARNING: Could not find vsvars32.bat or VsDevCmd.bat.
+@ECHO WARNING: VISUAL C++ DOES NOT APPEAR TO BE INSTALLED ON THIS MACHINE
+GOTO :EOF
+
+:VSVARS_DONE
 
 set TINYCLR_USE_MSBUILD=1   
 
