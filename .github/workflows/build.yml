@@ -1,0 +1,97 @@
+name: Build ToppersHRP2onEV3
+
+on:
+  push:
+    branches: [ master, main, "claude/**" ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ------------------------------------------------------------------
+      # GCC ARM Embedded Toolchain 4.9.3 (2014q4)
+      # Cached by the exact zip filename so the 60 MB download is skipped
+      # on subsequent runs.
+      # ------------------------------------------------------------------
+      - name: Cache GCC ARM toolchain
+        id: cache-gcc
+        uses: actions/cache@v4
+        with:
+          path: C:\tools\gcc-arm
+          key: gcc-arm-none-eabi-4_9-2014q4-20141203-win32
+
+      - name: Download GCC ARM toolchain
+        if: steps.cache-gcc.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          $url = "https://launchpadlibrarian.net/192228054/gcc-arm-none-eabi-4_9-2014q4-20141203-win32.zip"
+          $zip = "$env:TEMP\gcc-arm-none-eabi-4_9.zip"
+          Write-Host "Downloading gcc-arm-none-eabi 4.9 toolchain..."
+          Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing
+          New-Item -ItemType Directory -Force -Path "C:\tools\gcc-arm" | Out-Null
+          Expand-Archive -Path $zip -DestinationPath "C:\tools\gcc-arm" -Force
+
+      # Determine the actual GCC root (the zip contains one top-level
+      # subfolder named after the release, e.g. gcc-arm-none-eabi-4_9-...).
+      - name: Locate GCC root and export GCC_DIR
+        shell: pwsh
+        run: |
+          $gcc = Get-ChildItem -Path "C:\tools\gcc-arm" -Filter "arm-none-eabi-gcc.exe" -Recurse -ErrorAction SilentlyContinue |
+                 Select-Object -First 1
+          if (-not $gcc) { throw "arm-none-eabi-gcc.exe not found under C:\tools\gcc-arm" }
+          $gccRoot = Split-Path $gcc.DirectoryName -Parent  # parent of bin\
+          Write-Host "GCC root: $gccRoot"
+          "GCC_DIR=$gccRoot" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Verify GCC toolchain
+        shell: cmd
+        run: '"%GCC_DIR%\bin\arm-none-eabi-gcc.exe" --version'
+
+      # ------------------------------------------------------------------
+      # Build step: mirrors appveyor.yml build_script exactly.
+      # setenv_gcc.cmd sets CLRROOT / SPOCLIENT / GNU_TOOLS_BIN / etc. for
+      # the rest of this cmd session.
+      # ------------------------------------------------------------------
+      - name: Build Solutions\ToppersHRP2onEV3 and helloev3onnetmf
+        shell: cmd
+        run: |
+          call setenv_gcc.cmd 4.9.3 "%GCC_DIR%"
+          if errorlevel 1 (
+            echo ERROR: setenv_gcc failed
+            exit /b 1
+          )
+
+          echo.
+          echo === Building Solutions\ToppersHRP2onEV3 ===
+          cd Solutions\ToppersHRP2onEV3
+          MSBuild dotnetmf.proj /t:rebuild /p:flavor=release;memory=flash /nologo /v:minimal
+          if errorlevel 1 (
+            echo ERROR: Solutions\ToppersHRP2onEV3 build failed
+            exit /b 1
+          )
+          cd ..\..
+
+          echo.
+          echo === Building DeviceCode\...\helloev3onnetmf ===
+          cd DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf
+          MSBuild dotnetmf.proj /t:rebuild /p:flavor=release;memory=flash /nologo /v:minimal
+          if errorlevel 1 (
+            echo ERROR: helloev3onnetmf build failed
+            exit /b 1
+          )
+
+      # ------------------------------------------------------------------
+      # Upload the hrp2 ELF image produced by the kernel/CLR build
+      # ------------------------------------------------------------------
+      - name: Upload hrp2 ELF artifact
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: hrp2-release
+          path: BuildOutput\ARM\GCC4.9\le\FLASH\release\ToppersHRP2onEV3\obj\DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf\hrp2
+          if-no-files-found: warn

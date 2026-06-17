@@ -1,32 +1,41 @@
 version: 1.0.{build}
 image: Visual Studio 2022
+
 install:
 - ps: >-
-    # Start-FileDownload "https://launchpad.net/gcc-arm-embedded/5.0/5-2015-q4-major/+download/gcc-arm-none-eabi-5_2-2015q4-20151219-win32.zip"
-    
     Start-FileDownload "https://launchpad.net/gcc-arm-embedded/4.9/4.9-2014-q4-major/+download/gcc-arm-none-eabi-4_9-2014q4-20141203-win32.zip"
-    
-    Import-Module ".\appveyor\PS-Zip\PS-Zip.psm1" -Force
-    
-    .\appveyor\install.ps1
-    
+
+    Import-Module ".\AppVeyor\PS-Zip\PS-Zip.psm1" -Force
+
+    .\AppVeyor\install.ps1
+
+# Determine the actual GCC root inside the extracted folder and expose it
+# as an AppVeyor environment variable for the build_script step.
+- ps: >-
+    $gcc = Get-ChildItem -Path "C:\projects\gcc-arm-none-eabi-4_9" -Filter "arm-none-eabi-gcc.exe" -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+
+    if (-not $gcc) { throw "arm-none-eabi-gcc.exe not found" }
+
+    $gccRoot = Split-Path $gcc.DirectoryName -Parent
+
+    Write-Host "GCC_DIR=$gccRoot"
+
+    Set-AppveyorBuildVariable -Name GCC_DIR -Value $gccRoot
+
 build_script:
 - cmd: >-
-    setenv_gcc 4.9.3 C:\projects\gcc-arm-none-eabi-4_9
-    
+    call setenv_gcc.cmd 4.9.3 "%GCC_DIR%"
+
     cd Solutions\ToppersHRP2onEV3
-    
-    MSbuild dotnetmf.proj /t:rebuild /p:flavor=release;memory=flash
-    
+
+    MSBuild dotnetmf.proj /t:rebuild /p:flavor=release;memory=flash /nologo /v:minimal
+
     cd ..\..
-    
+
     cd DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf
-    
-    MSbuild dotnetmf.proj /t:rebuild /p:flavor=release;memory=flash
-    
+
+    MSBuild dotnetmf.proj /t:rebuild /p:flavor=release;memory=flash /nologo /v:minimal
 
 artifacts:
 - path: BuildOutput\ARM\GCC4.9\le\FLASH\release\ToppersHRP2onEV3\obj\DeviceCode\Targets\OS\Toppers\hrp2\workspace\helloev3onnetmf\hrp2
   name: Release
-
-
